@@ -1,18 +1,27 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Home</h1>
+    <div>Welcome to the snake arcade game!</div>
+    <div>Server capacity: {{ capacity * 100 }}%</div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapGetters } from 'vuex'
+import store from '@/store'
+import { FETCH_CAPACITY } from '@/store/actions.type'
 
 export default {
   name: 'home',
-  components: {
-    HelloWorld
+  computed: {
+    ...mapGetters(['capacity'])
+  },
+  beforeRouteEnter (to, from, next) {
+    Promise.all([
+      store.dispatch(FETCH_CAPACITY)
+    ]).then(() => {
+      next()
+    })
   }
 }
 </script>

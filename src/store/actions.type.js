@@ -1,0 +1,5 @@
+export const FETCH_GAMES = 'fetchGames'
+export const FETCH_GAME = 'fetchGame'
+export const FETCH_INFO = 'fetchInfo'
+export const FETCH_CAPACITY = 'fetchCapacity'
+export const FETCH_PING = 'fetchPing'

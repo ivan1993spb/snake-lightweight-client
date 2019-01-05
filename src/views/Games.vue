@@ -32,7 +32,7 @@
 import { mapGetters } from 'vuex'
 import store from '@/store'
 import GameItem from '@/components/GameItem'
-import { FETCH_GAMES } from '@/store/actions.type'
+import { FETCH_GAMES, UPDATE_GAMES } from '@/store/actions.type'
 
 export default {
   name: 'games',
@@ -42,12 +42,25 @@ export default {
   computed: {
     ...mapGetters(['games', 'count', 'limit', 'isLoadingGames'])
   },
+  methods: {
+    updateGames () {
+      store.dispatch(UPDATE_GAMES)
+    }
+  },
   beforeRouteEnter (to, from, next) {
     Promise.all([
       store.dispatch(FETCH_GAMES)
     ]).then(() => {
       next()
     })
+  },
+  mounted () {
+    this.gamesUpdateInterval = setInterval(() => {
+      this.updateGames()
+    }, 10000)
+  },
+  beforeDestroy () {
+    clearInterval(this.gamesUpdateInterval)
   }
 }
 </script>

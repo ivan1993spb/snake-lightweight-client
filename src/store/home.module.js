@@ -44,7 +44,7 @@ const actions = {
 
 const mutations = {
   [SET_CAPACITY] (state, capacity) {
-    state.capacity = capacity
+    state.capacity = capacity * 100
   },
   [SET_PING] (state, pong) {
     state.ping = pong

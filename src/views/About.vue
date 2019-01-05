@@ -3,10 +3,10 @@
     <h1>About</h1>
     <div v-if="isLoadingInfo">Loading</div>
     <div v-else>
-      <div>Server version {{ info.version }}</div>
-      <div>Server build {{ info.build }}</div>
-      <div>License {{ info.license }}</div>
-      <div>Author {{ info.author }}</div>
+      <div>Server version: {{ info.version }}</div>
+      <div>Server build: {{ info.build }}</div>
+      <div>License: {{ info.license }}</div>
+      <div>Author: {{ info.author }}</div>
     </div>
   </div>
 </template>

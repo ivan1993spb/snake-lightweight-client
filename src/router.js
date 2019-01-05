@@ -24,6 +24,11 @@ export default new Router({
       path: '/games/:id',
       name: 'game',
       component: () => import('@/views/Game')
+    },
+    {
+      path: '/new',
+      name: 'new',
+      component: () => import('@/views/New')
     }
   ]
 })

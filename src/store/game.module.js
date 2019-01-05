@@ -2,9 +2,11 @@ import Vue from 'vue'
 import {
   GamesService
 } from '@/common/api.service'
+import router from '@/router'
 import {
   FETCH_GAME,
-  UPDATE_GAME
+  UPDATE_GAME,
+  CREATE_GAME
 } from './actions.type'
 import {
   RESET_STATE,
@@ -38,6 +40,18 @@ export const actions = {
   async [UPDATE_GAME] (context, id) {
     const { data } = await GamesService.get(id)
     context.commit(SET_GAME, data)
+    return data
+  },
+  async [CREATE_GAME] (context, params) {
+    const { data } = await GamesService.create(params)
+
+    router.push({
+      name: 'game',
+      params: {
+        id: data.id
+      }
+    })
+
     return data
   }
 }

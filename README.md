@@ -40,7 +40,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 * Use `NODE_ENV=production`
 * Handle all errors
 * Make pretty output for errors messages
-* Create form to add games
 * Create pretty design
+* Create mocks
 * Create game client
 * Create unit tests
+* Create 404 page

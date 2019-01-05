@@ -6,7 +6,9 @@
     <div v-else>
       <div>Games count: {{ count }}/{{ limit }}</div>
 
-      <div v-if="count < limit">create game</div>
+      <div v-if="count < limit">
+        <router-link to="/new">create game</router-link>
+      </div>
 
       <div v-if="count > 0">
         <div

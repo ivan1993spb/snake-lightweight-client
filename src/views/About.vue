@@ -3,6 +3,8 @@
     <h1>About</h1>
     <div v-if="isLoadingInfo">Loading</div>
     <div v-else>
+      <div>Server source code: https://github.com/ivan1993spb/snake-server</div>
+      <div>Client source code: https://github.com/ivan1993spb/snake-lightweight-client</div>
       <div>Server version: {{ info.version }}</div>
       <div>Server build: {{ info.build }}</div>
       <div>License: {{ info.license }}</div>

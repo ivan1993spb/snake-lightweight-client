@@ -1,5 +1,7 @@
 # snake-lightweight-client
 
+Server source code: https://github.com/ivan1993spb/snake-server
+
 ## Project setup
 ```
 yarn install
@@ -36,3 +38,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## TODO
 
 * Use `NODE_ENV=production`
+* Handle all errors
+* Make pretty output for errors messages
+* Create form to add games
+* Create pretty design
+* Create game client
+* Create unit tests

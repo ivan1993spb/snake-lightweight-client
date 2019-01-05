@@ -3,7 +3,8 @@ import {
   GamesService
 } from '@/common/api.service'
 import {
-  FETCH_GAME
+  FETCH_GAME,
+  UPDATE_GAME
 } from './actions.type'
 import {
   RESET_STATE,
@@ -31,6 +32,11 @@ export const actions = {
     context.commit(FETCH_START)
     const { data } = await GamesService.get(id)
     context.commit(FETCH_END)
+    context.commit(SET_GAME, data)
+    return data
+  },
+  async [UPDATE_GAME] (context, id) {
+    const { data } = await GamesService.get(id)
     context.commit(SET_GAME, data)
     return data
   }

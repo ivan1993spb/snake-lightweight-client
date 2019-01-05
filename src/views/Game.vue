@@ -14,12 +14,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import store from '@/store'
-import { FETCH_GAME } from '@/store/actions.type'
+import { FETCH_GAME, UPDATE_GAME } from '@/store/actions.type'
 
 export default {
   name: 'game',
   computed: {
     ...mapGetters(['game', 'isLoadingGame'])
+  },
+  methods: {
+    updateGame () {
+      store.dispatch(UPDATE_GAME, this.game.id)
+    }
   },
   beforeRouteEnter (to, from, next) {
     Promise.all([
@@ -27,6 +32,14 @@ export default {
     ]).then(() => {
       next()
     })
+  },
+  mounted () {
+    this.gameUpdateInterval = setInterval(() => {
+      this.updateGame()
+    }, 10000)
+  },
+  beforeDestroy () {
+    clearInterval(this.gameUpdateInterval)
   }
 }
 </script>

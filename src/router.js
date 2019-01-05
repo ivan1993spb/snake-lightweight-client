@@ -34,6 +34,14 @@ export default new Router({
       path: '/games/:id/play',
       name: 'play',
       component: () => import('@/views/Play')
+    },
+    {
+      path: '/404',
+      component: () => import('@/views/NotFound')
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ]
 })

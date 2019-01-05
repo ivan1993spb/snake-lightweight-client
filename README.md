@@ -44,4 +44,3 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 * Create mocks
 * Create game client
 * Create unit tests
-* Create 404 page

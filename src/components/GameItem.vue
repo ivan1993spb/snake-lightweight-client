@@ -10,7 +10,7 @@
       <b>Players: {{ count }}/{{ limit }}</b>
     </span>
     <span>rate: {{ rate }}</span>
-    <span v-if="count===0">
+    <span v-if="count===0" @click="deleteGame">
       <i>delete</i>
     </span>
     <span v-else>
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { DELETE_GAME } from '@/store/actions.type'
+
 export default {
   name: 'GameItem',
   props: {
@@ -46,6 +48,11 @@ export default {
     rate: {
       type: Number,
       required: true
+    }
+  },
+  methods: {
+    deleteGame () {
+      this.$store.dispatch(DELETE_GAME, this.id)
     }
   }
 }

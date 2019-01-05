@@ -4,13 +4,15 @@ import {
   GamesService
 } from '@/common/api.service'
 import {
-  FETCH_GAMES
+  FETCH_GAMES,
+  DELETE_GAME
 } from './actions.type'
 import {
   RESET_STATE,
   SET_GAMES,
   FETCH_START,
-  FETCH_END
+  FETCH_END,
+  EXCLUDE_GAME
 } from './mutations.type'
 
 const initialState = {
@@ -29,6 +31,11 @@ export const actions = {
     context.commit(FETCH_END)
     context.commit(SET_GAMES, data)
     return data
+  },
+  async [DELETE_GAME] (context, id) {
+    const { data } = await GamesService.delete(id)
+    context.commit(EXCLUDE_GAME, data.id)
+    return data
   }
 }
 
@@ -38,6 +45,9 @@ export const mutations = {
   },
   [FETCH_END] (state) {
     state.isLoading = false
+  },
+  [EXCLUDE_GAME] (state, id) {
+    state.games = _.filter(state.games, game => game.id !== id)
   },
   [SET_GAMES] (state, data) {
     const relevantGames = []

@@ -2,7 +2,10 @@
   <div class="home">
     <h1>Home</h1>
     <div>Welcome to the snake arcade game!</div>
-    <div>Server capacity: {{ capacity > 1 ? capacity.toFixed(0) : capacity.toFixed(2) }}%</div>
+    <div>
+      <i>Server capacity: </i>
+      <b>{{ capacity > 1 ? capacity.toFixed(0) : capacity.toFixed(2) }}%</b>
+    </div>
   </div>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>Game {{ game.id }}</h1>
-    <div v-if='!isLoadingGame'>
+    <div v-if="!isLoadingGame">
       <div>Game ID: {{ game.id }}</div>
       <div>Map size: {{ game.width }}x{{ game.height }}</div>
       <div>Players: {{ game.count }}/{{ game.limit }}</div>
       <div>Messages: {{ game.rate }} per sec</div>
-      <div v-if='game.count === 0' @click='deleteGame'>delete</div>
+      <div v-if="game.count === 0" @click="deleteGame">delete</div>
     </div>
     <div v-else>Loading</div>
   </div>

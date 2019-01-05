@@ -6,6 +6,8 @@
     <div v-else>
       <div>Games count: {{ count }}/{{ limit }}</div>
 
+      <div v-if="count < limit">create game</div>
+
       <div v-if="count > 0">
         <div
           v-for="({id, width, height, limit, count, rate}, index) in games"

@@ -9,7 +9,7 @@
       <div v-if="count > 0">
         <div
           v-for="({id, width, height, limit, count, rate}, index) in games"
-          v-bind:key="index">
+          v-bind:key="'game'+index">
           <GameItem
             :id="id"
             :width="width"

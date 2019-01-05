@@ -6,6 +6,7 @@
       <div>Map size: {{ game.width }}x{{ game.height }}</div>
       <div>Players: {{ game.count }}/{{ game.limit }}</div>
       <div>Messages: {{ game.rate }} per sec</div>
+      <div v-if='game.count === 0' @click='deleteGame'>delete</div>
     </div>
     <div v-else>Loading</div>
   </div>
@@ -14,7 +15,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import store from '@/store'
-import { FETCH_GAME, UPDATE_GAME } from '@/store/actions.type'
+import router from '@/router'
+
+import {
+  FETCH_GAME,
+  UPDATE_GAME,
+  DELETE_GAME
+} from '@/store/actions.type'
 
 export default {
   name: 'game',
@@ -24,6 +31,10 @@ export default {
   methods: {
     updateGame () {
       store.dispatch(UPDATE_GAME, this.game.id)
+    },
+    deleteGame () {
+      store.dispatch(DELETE_GAME, this.game.id)
+      router.push('/games')
     }
   },
   beforeRouteEnter (to, from, next) {

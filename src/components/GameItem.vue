@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import store from '@/store'
 import { DELETE_GAME } from '@/store/actions.type'
 
 export default {
@@ -52,7 +53,7 @@ export default {
   },
   methods: {
     deleteGame () {
-      this.$store.dispatch(DELETE_GAME, this.id)
+      store.dispatch(DELETE_GAME, this.id)
     }
   }
 }

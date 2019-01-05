@@ -29,6 +29,11 @@ export default new Router({
       path: '/new',
       name: 'new',
       component: () => import('@/views/New')
+    },
+    {
+      path: '/games/:id/play',
+      name: 'play',
+      component: () => import('@/views/Play')
     }
   ]
 })

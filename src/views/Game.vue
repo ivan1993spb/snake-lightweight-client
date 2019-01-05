@@ -7,6 +7,9 @@
       <div>Players: {{ game.count }}/{{ game.limit }}</div>
       <div>Messages: {{ game.rate }} per sec</div>
       <div v-if="game.count === 0" @click="deleteGame">delete</div>
+      <div v-if="game.limit > game.count">
+        <router-link :to="{ name: 'play', params: { id: game.id }}">Play</router-link>
+      </div>
     </div>
     <div v-else>Loading</div>
   </div>

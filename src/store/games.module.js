@@ -40,10 +40,43 @@ export const mutations = {
     state.isLoading = false
   },
   [SET_GAMES] (state, data) {
-    state.games = _.sortBy(data.games, [
+    const relevantGames = []
+    const emptyGames = []
+    const fullGames = []
+
+    _.forEach(data.games, game => {
+      if (game.count === 0) {
+        emptyGames.push(game)
+      } else if (game.limit === game.count) {
+        fullGames.push(game)
+      } else {
+        relevantGames.push(game)
+      }
+    })
+
+    state.games = []
+
+    _.sortBy(relevantGames, [
       'rate',
       'id'
-    ])
+    ]).forEach(game => {
+      state.games.push(game)
+    })
+
+    _.sortBy(emptyGames, [
+      'limit',
+      'id'
+    ]).forEach(game => {
+      state.games.push(game)
+    })
+
+    _.sortBy(fullGames, [
+      'count',
+      'id'
+    ]).forEach(game => {
+      state.games.push(game)
+    })
+
     state.count = data.count
     state.limit = data.limit
   },

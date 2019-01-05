@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import _ from 'lodash'
 
 import { API_URL, SNAKE_CLIENT_NAME } from '@/common/config'
 
@@ -31,7 +32,12 @@ const ApiService = {
   },
 
   post (resource, params) {
-    return Vue.axios.post(`${resource}`, params).catch(error => {
+    const data = new FormData()
+    _.forOwn(params, (value, key) => {
+      data.append(key, value)
+    })
+
+    return Vue.axios.post(`${resource}`, data).catch(error => {
       throw new Error(`ApiService ${error}`)
     })
   },
@@ -65,7 +71,7 @@ export const GamesService = {
   },
 
   all () {
-    return ApiService.get('games/')
+    return ApiService.get('games')
   },
 
   objects (id) {

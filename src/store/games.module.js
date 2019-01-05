@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import _ from 'lodash'
 import {
   GamesService
 } from '@/common/api.service'
@@ -39,7 +40,10 @@ export const mutations = {
     state.isLoading = false
   },
   [SET_GAMES] (state, data) {
-    state.games = data.games
+    state.games = _.sortBy(data.games, [
+      'rate',
+      'id'
+    ])
     state.count = data.count
     state.limit = data.limit
   },

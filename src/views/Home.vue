@@ -16,12 +16,25 @@ export default {
   computed: {
     ...mapGetters(['capacity'])
   },
+  methods: {
+    updateCapacity () {
+      store.dispatch(FETCH_CAPACITY)
+    }
+  },
   beforeRouteEnter (to, from, next) {
     Promise.all([
       store.dispatch(FETCH_CAPACITY)
     ]).then(() => {
       next()
     })
+  },
+  mounted () {
+    this.capacityUpdateInterval = setInterval(() => {
+      this.updateCapacity()
+    }, 10000)
+  },
+  beforeDestroy () {
+    clearInterval(this.capacityUpdateInterval)
   }
 }
 </script>

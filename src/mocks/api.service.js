@@ -49,7 +49,15 @@ class GamesAPIMock {
     return game
   }
 
+  isFullServer () {
+    return this.count === this.limit
+  }
+
   create (params) {
+    if (this.count === this.limit) {
+      return
+    }
+
     let id = 0
 
     do {
@@ -126,11 +134,21 @@ function mockGameAPI (mock, gamesAPIMock) {
   mock.onGet(/games\/\d+/).reply(config => {
     logRequest(config)
     const data = gamesAPIMock.get(getId(config.url))
-    return data === undefined ? [404] : [200, data]
+    return data === undefined ? [404, {
+      code: 404,
+      text: 'group not found'
+    }] : [200, data]
   })
 
   mock.onPost('games').reply(config => {
     logRequest(config)
+
+    if (gamesAPIMock.isFullServer()) {
+      return [503, {
+        code: 503,
+        text: 'server is full'
+      }]
+    }
 
     const params = {
       width: 0,

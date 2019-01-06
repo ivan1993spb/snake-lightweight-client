@@ -3,13 +3,16 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import _ from 'lodash'
 
-import { API_URL, SNAKE_CLIENT_NAME } from '@/common/config'
+import { API_URL, SNAKE_CLIENT_NAME, MOCK_API } from '@/common/config'
+import mockApi from '@/mocks/api.service'
 
 const HEADER_SNAKE_CLIENT_NAME = 'X-Snake-Client'
 
 const ApiService = {
   init () {
-    // TODO: Create API mocks.
+    if (MOCK_API) {
+      mockApi(axios)
+    }
     Vue.use(VueAxios, axios)
     Vue.axios.defaults.baseURL = API_URL
   },

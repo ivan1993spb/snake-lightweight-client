@@ -18,12 +18,12 @@ import {
 const initialState = {
   isLoading: false,
   game: {
-    'id': 0,
-    'limit': 0,
-    'count': 0,
-    'width': 0,
-    'height': 0,
-    'rate': 0
+    id: 0,
+    limit: 0,
+    count: 0,
+    width: 0,
+    height: 0,
+    rate: 0
   }
 }
 

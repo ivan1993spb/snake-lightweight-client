@@ -87,10 +87,16 @@ class GamesAPIMock {
   }
 
   all () {
+    const games = clone(this.games)
+    _.forEach(games, game => {
+      game.rate = randomInt(MIN_GAME_RATE, MAX_GAME_RATE)
+      game.count = randomInt(0, game.limit)
+    })
+
     return {
       count: this.count,
       limit: this.limit,
-      games: clone(this.games)
+      games: games
     }
   }
 

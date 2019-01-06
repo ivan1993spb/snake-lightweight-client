@@ -3,6 +3,31 @@ import clone from 'clone'
 import _ from 'lodash'
 
 const DEFAULT_GAMES_LIMIT = 100
+const MIN_GAME_RATE = 0
+const MAX_GAME_RATE = 100
+
+function randomInt (from, to) {
+  return Math.floor(Math.random() * to) + from
+}
+
+function logRequest (config) {
+  if (config.data) {
+    console.log(config.method.toUpperCase(), config.url, config.headers, config.data)
+  } else {
+    console.log(config.method.toUpperCase(), config.url, config.headers)
+  }
+}
+
+function getId (url) {
+  const result = /\/(\d+)/.exec(url)
+  if (result instanceof Array) {
+    if (result.length > 1) {
+      const id = parseInt(result[1])
+      return isNaN(id) ? 0 : id
+    }
+  }
+  return 0
+}
 
 class GamesAPIMock {
   constructor (limit) {
@@ -12,8 +37,16 @@ class GamesAPIMock {
   }
 
   get (id) {
-    const game = _.find(this.games, ['id', id])
-    return clone(game)
+    let game = _.find(this.games, ['id', id])
+    if (game === undefined) {
+      return undefined
+    }
+
+    game = clone(game)
+    game.rate = randomInt(MIN_GAME_RATE, MAX_GAME_RATE)
+    game.count = randomInt(0, game.limit)
+
+    return game
   }
 
   create (params) {
@@ -89,30 +122,11 @@ class ServerAPIMock {
   }
 }
 
-function logRequest (config) {
-  if (config.data) {
-    console.log(config.method.toUpperCase(), config.url, config.headers, config.data)
-  } else {
-    console.log(config.method.toUpperCase(), config.url, config.headers)
-  }
-}
-
-function getId (url) {
-  const result = /\/(\d+)/.exec(url)
-  if (result instanceof Array) {
-    if (result.length > 1) {
-      const id = parseInt(result[1])
-      return isNaN(id) ? 0 : id
-    }
-  }
-  return 0
-}
-
 function mockGameAPI (mock, gamesAPIMock) {
   mock.onGet(/games\/\d+/).reply(config => {
     logRequest(config)
     const data = gamesAPIMock.get(getId(config.url))
-    return [200, data]
+    return data === undefined ? [404] : [200, data]
   })
 
   mock.onPost('games').reply(config => {
@@ -125,9 +139,12 @@ function mockGameAPI (mock, gamesAPIMock) {
     }
 
     if (config.data instanceof FormData) {
-      params.width = parseInt(config.data.get('width'))
-      params.height = parseInt(config.data.get('height'))
-      params.limit = parseInt(config.data.get('limit'))
+      const width = parseInt(config.data.get('width'))
+      params.width = isNaN(width) ? 0 : width
+      const height = parseInt(config.data.get('height'))
+      params.height = isNaN(height) ? 0 : height
+      const limit = parseInt(config.data.get('limit'))
+      params.limit = isNaN(limit) ? 0 : limit
     }
 
     const data = gamesAPIMock.create(params)

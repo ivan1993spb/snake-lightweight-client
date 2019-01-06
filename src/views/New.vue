@@ -18,7 +18,6 @@
       <input id="limit-range" type="range" min="1" max="100" step="1" v-model="limit">
       <input id="limit-number" type="number" v-model="limit"/>
     </div>
-    <hr/>
     <div>
       <button @click="create">Create</button>
     </div>

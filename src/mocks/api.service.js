@@ -101,7 +101,8 @@ function getId (url) {
   const result = /\/(\d+)/.exec(url)
   if (result instanceof Array) {
     if (result.length > 1) {
-      return parseInt(result[1])
+      const id = parseInt(result[1])
+      return isNaN(id) ? 0 : id
     }
   }
   return 0

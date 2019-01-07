@@ -31,10 +31,6 @@ export class Game {
     this._height = height
   }
 
-  handleGameEvent (type, payload) {
-    this._handleGameMessageGameObjectManipulation(type, payload)
-  }
-
   loadObjects (objects) {
     if (objects instanceof Array) {
       objects.forEach(object => {
@@ -42,6 +38,26 @@ export class Game {
         this._drawObject(object)
       })
     }
+  }
+
+  handleGameEvent (type, payload) {
+    log.debug('MONIPULATION', type, payload)
+    if (type === 'update') {
+      this._storeUpdateObject(payload)
+      return
+    }
+    if (type === 'delete') {
+      if (!this._storeDeleteObject(payload)) {
+        log.warn('object to delete not found in local store', payload)
+      }
+      return
+    }
+    if (type === 'create') {
+      this._storeSetObject(payload)
+      return
+    }
+
+    log.warn('invalid object manipulation type', type)
   }
 
   _storeSetObject (object) {
@@ -135,26 +151,6 @@ export class Game {
   _drawObject (object) {
     // Initial draw object
     log.debug('DEBUG', 'object to draw', object)
-  }
-
-  _handleGameMessageGameObjectManipulation (action, object) {
-    log.debug('MONIPULATION', action, object)
-    if (action === 'update') {
-      this._storeUpdateObject(object)
-      return
-    }
-    if (action === 'delete') {
-      if (!this._storeDeleteObject(object)) {
-        log.warn('object to delete not found in local store', object)
-      }
-      return
-    }
-    if (action === 'create') {
-      this._storeSetObject(object)
-      return
-    }
-
-    log.warn('invalid object manipulation type', action)
   }
 
   _initStores () {

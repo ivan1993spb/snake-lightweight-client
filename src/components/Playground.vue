@@ -1,12 +1,27 @@
 <template>
-  <div>
-    <canvas ref="canvas-snakes" width="200" height="200"></canvas>
-    <canvas ref="canvas-food" width="200" height="200"></canvas>
-    <canvas ref="canvas-walls" width="200" height="200"></canvas>
+  <div class="game-container">
+    <canvas
+      ref="canvas-snakes"
+      class="game-canvas game-canvas-snakes"
+    />
+    <canvas
+      ref="canvas-food"
+      class="game-canvas game-canvas-food"
+    />
+    <canvas
+      ref="canvas-walls"
+      class="game-canvas game-canvas-walls"
+    />
+    <canvas
+      ref="canvas-grid"
+      class="game-canvas game-canvas-grid"
+    />
   </div>
 </template>
 
 <script>
+import Game from '@/game/Game'
+
 export default {
   name: 'Playground',
 
@@ -26,12 +41,47 @@ export default {
   },
 
   mounted () {
-    // TODO: Use different canvases for different objects.
-    const contextSnakes = this.$refs['canvas-snakes'].getContext('2d', { alpha: false })
-    // const contextFood = this.$refs['canvas-food'].getContext('2d', { alpha: false })
-    // const contextWalls = this.$refs['canvas-walls'].getContext('2d', { alpha: true })
-    console.log(contextSnakes)
-    console.log(this.id, this.width, this.height)
+    this.game = new Game(
+      this.$refs['canvas-snakes'],
+      this.$refs['canvas-food'],
+      this.$refs['canvas-walls'],
+      this.$refs['canvas-grid'],
+      this.id,
+      this.width,
+      this.height
+    )
+
+    this.game.start()
+  },
+
+  beforeDestroy () {
+    this.game.stop()
   }
 }
 </script>
+
+<style lang="scss">
+
+.game-container {
+  .game-canvas {
+    position: absolute;
+
+    &-snakes {
+      z-index: 1;
+    }
+
+    &-food {
+      z-index: 2;
+    }
+
+    &-walls {
+      z-index: 3;
+    }
+
+    &-grid {
+      z-index: 4;
+    }
+  }
+}
+
+</style>

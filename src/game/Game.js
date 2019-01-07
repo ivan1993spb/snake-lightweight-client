@@ -40,15 +40,19 @@ export class Game {
     if (message.hasOwnProperty('type') && message.hasOwnProperty('payload')) {
       switch (message.type) {
         case 'size':
+          this._playground.setSize(message.payload.width, message.payload.height)
           break
         case 'snake':
           this._playground.setPlayerSnake(message.payload)
           break
         case 'notice':
+          log.info('PLAYER NOTICE', message.payload)
           break
         case 'error':
+          log.error('PLAYER ERROR', message.payload)
           break
         case 'countdown':
+          log.info('PLAYER COUNTDOWN', message.payload, 'seconds')
           break
         case 'objects':
           this._playground.loadObjects(message.payload)
@@ -72,7 +76,7 @@ export class Game {
   }
 
   _handleServerMessageGameError (error) {
-    log.info('GAME ERROR', error)
+    log.error('GAME ERROR', error)
   }
 
   _connect () {
@@ -87,15 +91,15 @@ export class Game {
     }
 
     this._ws.onclose = (event) => {
-      log.info('onclose', event)
+      log.info('WS ONCLOSE')
     }
 
     this._ws.onerror = (event) => {
-      log.info('onerror', event)
+      log.error('WS ONERROR', event)
     }
 
     this._ws.onopen = (event) => {
-      log.info('onopen', event)
+      log.info('WS ONOPEN')
     }
   }
 

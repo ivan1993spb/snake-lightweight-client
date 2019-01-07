@@ -20,6 +20,7 @@ export const WS_URL =
   '/ws'
 
 export const MOCK_API = process.env.NODE_ENV === 'development'
+export const MOCK_WS = process.env.NODE_ENV === 'development'
 
 // TODO: Creat client version and build
 export const SNAKE_CLIENT_NAME = 'SnakeLightweightClient'

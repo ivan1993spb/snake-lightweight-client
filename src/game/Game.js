@@ -114,14 +114,19 @@ export class Game {
     }
   }
 
+  _dotComparator (firstDot, secondDot) {
+    return (
+      firstDot instanceof Array && secondDot instanceof Array &&
+      firstDot.length === 2 && secondDot.length === 2 &&
+      firstDot[0] === secondDot[0] && firstDot[1] === secondDot[1]
+    )
+  }
+
   _dotListsDifference (firstDots, secondDots) {
-    return _.differenceWith(firstDots, secondDots, (firstDot, secondDot) => {
-      return (
-        firstDot instanceof Array && secondDot instanceof Array &&
-        firstDot.length === 2 && secondDot.length === 2 &&
-        firstDot[0] === secondDot[0] && firstDot[1] === secondDot[1]
-      )
-    })
+    return {
+      clear: _.differenceWith(firstDots, secondDots, this._dotComparator),
+      draw: _.differenceWith(secondDots, firstDots, this._dotComparator)
+    }
   }
 
   _storeUpdateObject (object) {
@@ -130,8 +135,9 @@ export class Game {
       case 'snake':
         const snake = this.storeSnakes.get(object.uuid)
         if (snake) {
-          console.log('DOT CLEAR', this._dotListsDifference(object.dots, snake.dots))
-          console.log('DOT DRAW', this._dotListsDifference(snake.dots, object.dots))
+          const { clear, draw } = this._dotListsDifference(object.dots, snake.dots)
+          console.log('DOT CLEAR', clear)
+          console.log('DOT DRAW', draw)
           this.storeSnakes.set(object.uuid, object)
         } else {
           console.warn('snake to update not found')
@@ -143,8 +149,9 @@ export class Game {
       case 'corpse':
         const corpse = this.storeFood.get(object.uuid)
         if (corpse) {
-          console.log('DOT CLEAR', this._dotListsDifference(object.dots, corpse.dots))
-          console.log('DOT DRAW', this._dotListsDifference(corpse.dots, object.dots))
+          const { clear, draw } = this._dotListsDifference(object.dots, corpse.dots)
+          console.log('DOT CLEAR', clear)
+          console.log('DOT DRAW', draw)
           this.storeFood.set(object.uuid, object)
         } else {
           console.warn('corpse to update not found')
@@ -153,8 +160,9 @@ export class Game {
       case 'watermelon':
         const watermelon = this.storeFood.get(object.uuid)
         if (watermelon) {
-          console.log('DOT CLEAR', this._dotListsDifference(object.dots, watermelon.dots))
-          console.log('DOT DRAW', this._dotListsDifference(watermelon.dots, object.dots))
+          const { clear, draw } = this._dotListsDifference(object.dots, watermelon.dots)
+          console.log('DOT CLEAR', clear)
+          console.log('DOT DRAW', draw)
           this.storeFood.set(object.uuid, object)
         } else {
           console.warn('watermelon to update not found')

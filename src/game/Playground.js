@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import log from 'loglevel'
 
-export class Game {
+export class Playground {
   constructor (canvasSnakes, canvasFood, canvasWalls, canvasGrid, width, height) {
     this._canvasSnakes = canvasSnakes
     this._canvasFood = canvasFood
@@ -173,4 +173,4 @@ export class Game {
   }
 }
 
-export default Game
+export default Playground

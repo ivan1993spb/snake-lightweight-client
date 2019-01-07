@@ -1,5 +1,6 @@
 
 import urljoin from 'url-join'
+import log from 'loglevel'
 import Playground from './Playground'
 import WebSocketMock from '@/mocks/ws.game'
 import { WS_URL, MOCK_WS } from '@/common/config'
@@ -30,7 +31,7 @@ export class Game {
       } else if (m.type === 'broadcast') {
         this._handleServerMessageBroadcast(m.payload)
       } else {
-        console.warn('invalid server message type', m.type)
+        log.warn('invalid server message type', m.type)
       }
     }
   }
@@ -57,7 +58,7 @@ export class Game {
   }
 
   _handleServerMessageBroadcast (message) {
-    console.log('BROADCAST', message)
+    log.info('BROADCAST', message)
   }
 
   _handleServerMessageGame (message) {
@@ -71,7 +72,7 @@ export class Game {
   }
 
   _handleServerMessageGameError (error) {
-    console.log('GAME ERROR', error)
+    log.info('GAME ERROR', error)
   }
 
   _connect () {
@@ -86,15 +87,15 @@ export class Game {
     }
 
     this._ws.onclose = (event) => {
-      console.log('onclose', event)
+      log.info('onclose', event)
     }
 
     this._ws.onerror = (event) => {
-      console.log('onerror', event)
+      log.info('onerror', event)
     }
 
     this._ws.onopen = (event) => {
-      console.log('onopen', event)
+      log.info('onopen', event)
     }
   }
 

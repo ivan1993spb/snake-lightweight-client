@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import log from 'loglevel'
 
 export class Game {
   constructor (canvasSnakes, canvasFood, canvasWalls, canvasGrid, width, height) {
@@ -79,11 +80,11 @@ export class Game {
         const snake = this.storeSnakes.get(object.uuid)
         if (snake) {
           const { clear, draw } = this._dotListsDifference(object.dots, snake.dots)
-          console.log('DOT CLEAR', clear)
-          console.log('DOT DRAW', draw)
+          log.debug('DOT CLEAR', clear)
+          log.debug('DOT DRAW', draw)
           this.storeSnakes.set(object.uuid, object)
         } else {
-          console.warn('snake to update not found')
+          log.warn('snake to update not found')
         }
         break
       case 'apple':
@@ -93,22 +94,22 @@ export class Game {
         const corpse = this.storeFood.get(object.uuid)
         if (corpse) {
           const { clear, draw } = this._dotListsDifference(object.dots, corpse.dots)
-          console.log('DOT CLEAR', clear)
-          console.log('DOT DRAW', draw)
+          log.debug('DOT CLEAR', clear)
+          log.debug('DOT DRAW', draw)
           this.storeFood.set(object.uuid, object)
         } else {
-          console.warn('corpse to update not found')
+          log.warn('corpse to update not found')
         }
         break
       case 'watermelon':
         const watermelon = this.storeFood.get(object.uuid)
         if (watermelon) {
           const { clear, draw } = this._dotListsDifference(object.dots, watermelon.dots)
-          console.log('DOT CLEAR', clear)
-          console.log('DOT DRAW', draw)
+          log.debug('DOT CLEAR', clear)
+          log.debug('DOT DRAW', draw)
           this.storeFood.set(object.uuid, object)
         } else {
-          console.warn('watermelon to update not found')
+          log.warn('watermelon to update not found')
         }
         break
       case 'wall':
@@ -133,18 +134,18 @@ export class Game {
 
   _drawObject (object) {
     // Initial draw object
-    console.log('DEBUG', 'object to draw', object)
+    log.debug('DEBUG', 'object to draw', object)
   }
 
   _handleGameMessageGameObjectManipulation (action, object) {
-    console.log('MONIPULATION', action, object)
+    log.debug('MONIPULATION', action, object)
     if (action === 'update') {
       this._storeUpdateObject(object)
       return
     }
     if (action === 'delete') {
       if (!this._storeDeleteObject(object)) {
-        console.warn('object to delete not found in local store', object)
+        log.warn('object to delete not found in local store', object)
       }
       return
     }
@@ -153,7 +154,7 @@ export class Game {
       return
     }
 
-    console.warn('invalid object manipulation type', action)
+    log.warn('invalid object manipulation type', action)
   }
 
   _initStores () {

@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter'
 import clone from 'clone'
 import _ from 'lodash'
+import log from 'loglevel'
 
 const DEFAULT_GAMES_LIMIT = 100
 const MIN_GAME_RATE = 0
@@ -12,9 +13,9 @@ function randomInt (from, to) {
 
 function logRequest (config) {
   if (config.data) {
-    console.log(config.method.toUpperCase(), config.url, config.headers, config.data)
+    log.info(config.method.toUpperCase(), config.url, config.headers, config.data)
   } else {
-    console.log(config.method.toUpperCase(), config.url, config.headers)
+    log.info(config.method.toUpperCase(), config.url, config.headers)
   }
 }
 

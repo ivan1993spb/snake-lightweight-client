@@ -107,6 +107,9 @@ export class WebSocketMock {
   close () {
     this._stop()
   }
+
+  send (data) {
+  }
 }
 
 export default WebSocketMock

@@ -1,4 +1,8 @@
 
+const ENV_DEV = process.env.NODE_ENV === 'development'
+
+export const LOG_LEVEL = ENV_DEV ? 'trace' : 'error'
+
 export const SNAKE_SERVER_HOST = process.env.SNAKE_SERVER_HOST || 'localhost'
 export const SNAKE_SERVER_PORT = process.env.SNAKE_SERVER_PORT || '8080'
 export const SNAKE_SERVER_WEB_SCHEME = process.env.SNAKE_SERVER_WEB_SCHEME || 'http'
@@ -19,8 +23,8 @@ export const WS_URL =
   (skipPort ? '' : ':' + SNAKE_SERVER_PORT) +
   '/ws'
 
-export const MOCK_API = process.env.NODE_ENV === 'development'
-export const MOCK_WS = process.env.NODE_ENV === 'development'
+export const MOCK_API = ENV_DEV
+export const MOCK_WS = ENV_DEV
 
 // TODO: Creat client version and build
 export const SNAKE_CLIENT_NAME = 'SnakeLightweightClient'

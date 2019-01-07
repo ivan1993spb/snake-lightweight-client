@@ -1,11 +1,16 @@
 import Vue from 'vue'
-import App from './App.vue'
+import log from 'loglevel'
+
 import router from './router'
 import store from './store'
+import { LOG_LEVEL } from './common/config'
 
+import App from './App.vue'
 import ApiService from './common/api.service'
 import DateFilter from './common/date.filter'
 import ErrorFilter from './common/error.filter'
+
+log.setLevel(LOG_LEVEL)
 
 Vue.config.productionTip = false
 Vue.filter('date', DateFilter)

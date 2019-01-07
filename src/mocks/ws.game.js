@@ -1,5 +1,5 @@
 
-const SNAKE_LOOP_START = 16
+const SNAKE_LOOP_START = 18
 
 const serverMessages = [
   { 'type': 'player', 'payload': { 'type': 'notice', 'payload': 'welcome to snake-server!' } },
@@ -14,6 +14,10 @@ const serverMessages = [
         { 'uuid': '1363eb18-b7d5-415b-bef2-fae9f7c3c8c1', 'dot': [6, 6], 'type': 'apple' },
         { 'uuid': 'b2d9ed75-9615-45af-b1ec-8b80b2ddb82a', 'dot': [3, 8], 'type': 'apple' }
       ] } },
+
+  // Sample player error
+  { 'type': 'player', 'payload': { 'type': 'error', 'payload': 'sample player error' } },
+
   { 'type': 'player', 'payload': { 'type': 'countdown', 'payload': 5 } },
   { 'type': 'broadcast', 'payload': 'user joined your game group' },
   { 'type': 'player', 'payload': { 'type': 'notice', 'payload': 'start' } },
@@ -25,10 +29,14 @@ const serverMessages = [
   { 'type': 'game', 'payload': { 'type': 'update', 'payload': { 'uuid': 'd1861021-871c-4b80-99da-7b7279275243', 'dots': [[4, 6], [3, 6], [2, 6]], 'type': 'snake' } } },
   { 'type': 'game', 'payload': { 'type': 'update', 'payload': { 'uuid': 'd1861021-871c-4b80-99da-7b7279275243', 'dots': [[5, 6], [4, 6], [3, 6]], 'type': 'snake' } } },
   { 'type': 'game', 'payload': { 'type': 'delete', 'payload': { 'uuid': '1363eb18-b7d5-415b-bef2-fae9f7c3c8c1', 'dot': [6, 6], 'type': 'apple' } } },
+
+  // Sample game error
+  { 'type': 'game', 'payload': { 'type': 'error', 'payload': 'sample game error' } },
+
   { 'type': 'game', 'payload': { 'type': 'update', 'payload': { 'uuid': 'd1861021-871c-4b80-99da-7b7279275243', 'dots': [[6, 6], [5, 6], [4, 6], [3, 6]], 'type': 'snake' } } },
   { 'type': 'game', 'payload': { 'type': 'create', 'payload': { 'uuid': '0f3140e5-efff-49d0-80f6-e80afb72ece7', 'dot': [3, 3], 'type': 'apple' } } },
 
-  // SNAKE_LOOP_START
+  // Snake movement loop: SNAKE_LOOP_START
   { 'type': 'game', 'payload': { 'type': 'update', 'payload': { 'uuid': 'd1861021-871c-4b80-99da-7b7279275243', 'dots': [[7, 6], [6, 6], [5, 6], [4, 6]], 'type': 'snake' } } },
   { 'type': 'game', 'payload': { 'type': 'update', 'payload': { 'uuid': 'd1861021-871c-4b80-99da-7b7279275243', 'dots': [[8, 6], [7, 6], [6, 6], [5, 6]], 'type': 'snake' } } },
   { 'type': 'game', 'payload': { 'type': 'update', 'payload': { 'uuid': 'd1861021-871c-4b80-99da-7b7279275243', 'dots': [[9, 6], [8, 6], [7, 6], [6, 6]], 'type': 'snake' } } },

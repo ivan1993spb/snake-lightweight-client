@@ -3,7 +3,7 @@ import log from 'loglevel'
 
 import {
   Canvas,
-  // OBJECT_PLAYER,
+  OBJECT_PLAYER,
   OBJECT_SNAKE,
   OBJECT_APPLE,
   OBJECT_CORPSE,
@@ -78,8 +78,11 @@ export class Playground {
   _createObject (object) {
     switch (object.type) {
       case 'snake':
-        // TODO: Handle player's snake.
-        this._canvas.draw(OBJECT_SNAKE, object.dots)
+        if (this._snake === object.uuid) {
+          this._canvas.draw(OBJECT_PLAYER, object.dots)
+        } else {
+          this._canvas.draw(OBJECT_SNAKE, object.dots)
+        }
         this._storeSnakes.set(object.uuid, object)
         break
       case 'apple':
@@ -108,10 +111,14 @@ export class Playground {
       case 'snake':
         const snake = this._storeSnakes.get(object.uuid)
         if (snake) {
-          // TODO: Handle player's snake.
           const { clear, draw } = dotListsDifference(object.dots, snake.dots)
-          this._canvas.draw(OBJECT_SNAKE, draw)
-          this._canvas.clear(OBJECT_SNAKE, clear)
+          if (this._snake === object.uuid) {
+            this._canvas.draw(OBJECT_PLAYER, draw)
+            this._canvas.clear(OBJECT_PLAYER, clear)
+          } else {
+            this._canvas.draw(OBJECT_SNAKE, draw)
+            this._canvas.clear(OBJECT_SNAKE, clear)
+          }
           this._storeSnakes.set(object.uuid, object)
         } else {
           log.error('snake to update not found')

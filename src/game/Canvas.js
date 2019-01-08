@@ -13,7 +13,6 @@ const Y = 1
 
 const DOT_SIZE = 15
 
-// eslint-disable-next-line
 const COLOR_PLAYER = '#900'
 const COLOR_SNAKE = '#f44'
 const COLOR_APPLE = '#0f0'

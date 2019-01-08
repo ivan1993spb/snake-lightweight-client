@@ -2,6 +2,7 @@
 import urljoin from 'url-join'
 import log from 'loglevel'
 import Playground from './Playground'
+import Controll from './Controll'
 import WebSocketMock from '@/mocks/ws.game'
 import { WS_URL, MOCK_WS } from '@/common/config'
 
@@ -18,6 +19,8 @@ export class Game {
       width,
       height
     )
+
+    this._controll = new Controll()
   }
 
   _handleServerMessage (message) {
@@ -101,6 +104,18 @@ export class Game {
     this._ws.onopen = (event) => {
       log.info('WS ONOPEN')
     }
+
+    this._controll.oncommand = (command) => {
+      if (typeof command === 'string') {
+        try {
+          this._ws.send(command)
+        } catch (e) {
+          log.error('cannot send controll command:', e)
+        }
+      } else {
+        log.error('invalid game controll command')
+      }
+    }
   }
 
   _disconnect () {
@@ -110,11 +125,13 @@ export class Game {
 
   start () {
     this._connect()
+    this._controll.start()
   }
 
   stop () {
     this._disconnect()
     this._playground.stop()
+    this._controll.stop()
   }
 }
 

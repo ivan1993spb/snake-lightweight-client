@@ -10,7 +10,7 @@
       <p>If a snake hits a wall, that snake will die, and the player will start again with new small snake.</p>
       <p>Once a snake has grown it may eat the smallest snakes.</p>
       <h3>Control</h3>
-      <p>Use arrows, WASD or HJKL</p>
+      <p>Use arrows, WASD, HJKL or mouse</p>
     </div>
     <div>
       <i>Server capacity: </i>

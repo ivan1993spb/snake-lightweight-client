@@ -9,6 +9,7 @@
     <div>
       <Playground :width="game.width" :height="game.height" :id="game.id"/>
     </div>
+    <div>Use arrows, WASD, HJKL or mouse</div>
   </div>
 </template>
 

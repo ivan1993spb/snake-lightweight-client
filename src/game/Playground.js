@@ -161,10 +161,13 @@ export class Playground {
         // Nothing to do here.
         log.error('cannot update wall')
         break
+      default:
+        log.error('error cannot update object of invalid type:', object.type)
     }
   }
 
   _deleteObject (object) {
+    // Objects to be deleted might be without any location.
     switch (object.type) {
       case 'snake':
         this._canvas.clear(OBJECT_SNAKE, object.dots)
@@ -173,19 +176,28 @@ export class Playground {
         this._canvas.clear(OBJECT_APPLE, [object.dot])
         return this._storeFood.delete(object.uuid)
       case 'corpse':
-        // TODO: Make a research:
-        // Why does server flush corpse's dots before delete it from map?
         const corpse = this._storeFood.get(object.uuid)
         if (corpse) {
           this._canvas.clear(OBJECT_CORPSE, corpse.dots)
+          return this._storeFood.delete(object.uuid)
         }
-        return this._storeFood.delete(object.uuid)
+        return false
       case 'watermelon':
-        this._canvas.clear(OBJECT_WATERMELON, object.dots)
-        return this._storeFood.delete(object.uuid)
+        const watermelon = this._storeFood.get(object.uuid)
+        if (watermelon) {
+          this._canvas.clear(OBJECT_WATERMELON, watermelon.dots)
+          return this._storeFood.delete(object.uuid)
+        }
+        return false
       case 'wall':
-        this._canvas.clear(OBJECT_WALL, object.dots)
-        return this._storeWalls.delete(object.uuid)
+        const wall = this._storeWalls.get(object.uuid)
+        if (wall) {
+          this._canvas.clear(OBJECT_WALL, wall.dots)
+          return this._storeWalls.delete(object.uuid)
+        }
+        return false
+      default:
+        log.error('error cannot delete object of invalid type:', object.type)
     }
   }
 

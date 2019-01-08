@@ -14,8 +14,8 @@ const Y = 1
 const DOT_SIZE = 15
 
 // eslint-disable-next-line
-const COLOR_PLAYER = '#0ff'
-const COLOR_SNAKE = '#f00'
+const COLOR_PLAYER = '#900'
+const COLOR_SNAKE = '#f44'
 const COLOR_APPLE = '#0f0'
 const COLOR_CORPSE = '#00f'
 const COLOR_WATERMELON = '#ff0'
@@ -57,15 +57,13 @@ export class Canvas {
     switch (type) {
       case OBJECT_PLAYER:
       case OBJECT_SNAKE:
+        // That is the same: deleting a snake or delete the snake of a player.
         this._clear(this._contextSnakes, dots)
         break
       case OBJECT_APPLE:
-        this._clear(this._contextFood, dots)
-        break
       case OBJECT_CORPSE:
-        this._clear(this._contextFood, dots)
-        break
       case OBJECT_WATERMELON:
+        // Deleting of any food is same operation.
         this._clear(this._contextFood, dots)
         break
       case OBJECT_WALL:
@@ -85,8 +83,8 @@ export class Canvas {
   draw (type, dots) {
     switch (type) {
       case OBJECT_PLAYER:
-        // TODO: Add color for player.
-        // eslint-disable-next-line
+        this._draw(this._contextSnakes, COLOR_PLAYER, dots)
+        break
       case OBJECT_SNAKE:
         this._draw(this._contextSnakes, COLOR_SNAKE, dots)
         break

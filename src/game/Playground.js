@@ -11,7 +11,7 @@ import {
   OBJECT_WALL
 } from './Canvas'
 
-function dotComparator (firstDot, secondDot) {
+function dotsEqual (firstDot, secondDot) {
   return (
     firstDot instanceof Array && secondDot instanceof Array &&
       firstDot.length === 2 && secondDot.length === 2 &&
@@ -21,14 +21,21 @@ function dotComparator (firstDot, secondDot) {
 
 function dotListsDifference (firstDots, secondDots) {
   return {
-    clear: _.differenceWith(firstDots, secondDots, dotComparator),
-    draw: _.differenceWith(secondDots, firstDots, dotComparator)
+    draw: _.differenceWith(firstDots, secondDots, dotsEqual),
+    clear: _.differenceWith(secondDots, firstDots, dotsEqual)
   }
 }
 
 export class Playground {
   constructor (canvasSnakes, canvasFood, canvasWalls, canvasGrid, width, height) {
-    this._canvas = new Canvas(canvasSnakes, canvasFood, canvasWalls, canvasGrid)
+    this._canvas = new Canvas(
+      canvasSnakes,
+      canvasFood,
+      canvasWalls,
+      canvasGrid,
+      width,
+      height
+    )
 
     this._width = width
     this._height = height
@@ -166,7 +173,12 @@ export class Playground {
         this._canvas.clear(OBJECT_APPLE, [object.dot])
         return this._storeFood.delete(object.uuid)
       case 'corpse':
-        this._canvas.clear(OBJECT_CORPSE, object.dots)
+        // TODO: Make a research:
+        // Why does server flush corpse's dots before delete it from map?
+        const corpse = this._storeFood.get(object.uuid)
+        if (corpse) {
+          this._canvas.clear(OBJECT_CORPSE, corpse.dots)
+        }
         return this._storeFood.delete(object.uuid)
       case 'watermelon':
         this._canvas.clear(OBJECT_WATERMELON, object.dots)

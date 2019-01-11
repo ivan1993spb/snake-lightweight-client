@@ -64,17 +64,21 @@ export class Playground {
 
   handleGameEvent (type, payload) {
     if (type === 'update') {
-      this._updateObject(payload)
+      if (!this._updateObject(payload)) {
+        log.error('cannot update object', payload)
+      }
       return
     }
     if (type === 'delete') {
       if (!this._deleteObject(payload)) {
-        log.error('object to delete not found', payload)
+        log.error('cannot delete object', payload)
       }
       return
     }
     if (type === 'create') {
-      this._createObject(payload)
+      if (!this._createObject(payload)) {
+        log.error('cannot create object', payload)
+      }
       return
     }
 
@@ -109,7 +113,10 @@ export class Playground {
         break
       default:
         log.error('error cannot create object of invalid type:', object.type)
+        return false
     }
+
+    return true
   }
 
   _updateObject (object) {
@@ -126,6 +133,7 @@ export class Playground {
             this._canvas.clear(OBJECT_SNAKE, clear)
           }
           this._storeSnakes.set(object.uuid, object)
+          return true
         } else {
           log.error('snake to update not found')
         }
@@ -141,6 +149,7 @@ export class Playground {
           this._canvas.draw(OBJECT_CORPSE, draw)
           this._canvas.clear(OBJECT_CORPSE, clear)
           this._storeFood.set(object.uuid, object)
+          return true
         } else {
           log.error('corpse to update not found')
         }
@@ -152,6 +161,7 @@ export class Playground {
           this._canvas.draw(OBJECT_WATERMELON, draw)
           this._canvas.clear(OBJECT_WATERMELON, clear)
           this._storeFood.set(object.uuid, object)
+          return true
         } else {
           log.error('watermelon to update not found')
         }
@@ -163,6 +173,8 @@ export class Playground {
       default:
         log.error('error cannot update object of invalid type:', object.type)
     }
+
+    return false
   }
 
   _deleteObject (object) {

@@ -1,7 +1,7 @@
 <template>
   <div class="capacity">
     <div>Server capacity</div>
-    <div>{{ capacity > 1 ? capacity.toFixed(0) : capacity.toFixed(2) }}</div>
+    <div>{{ capacityStr }}</div>
     <div>%</div>
   </div>
 </template>
@@ -13,6 +13,12 @@ export default {
     capacity: {
       type: Number,
       required: true
+    }
+  },
+  computed: {
+    capacityStr: function () {
+      const capacity = this.capacity * 100
+      return capacity.toFixed(capacity > 0 && capacity < 1 ? 2 : 0)
     }
   }
 }

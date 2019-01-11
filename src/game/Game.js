@@ -4,7 +4,11 @@ import log from 'loglevel'
 import Playground from './Playground'
 import Controll from './Controll'
 import WebSocketMock from '@/mocks/ws.game'
-import { WS_URL, MOCK_WS } from '@/common/config'
+import {
+  WS_URL, MOCK_WS, SERVER_MESSAGES_COUNTER_PERIOD_SEC
+} from '@/common/config'
+
+const ENABLE_MESSAGE_COUNT_LOGGING = log.getLevel() <= log.levels.DEBUG
 
 export class Game {
   constructor (canvasSnakes, canvasFood, canvasWalls, canvasGrid, id, width, height) {
@@ -21,10 +25,17 @@ export class Game {
     )
 
     this._controll = new Controll()
+
+    this.messagesCount = 0
+    this.messagesCountInterval = 0
   }
 
   _handleServerMessage (message) {
     const m = JSON.parse(message)
+
+    if (ENABLE_MESSAGE_COUNT_LOGGING) {
+      this.messagesCount++
+    }
 
     if (m.hasOwnProperty('type') && m.hasOwnProperty('payload')) {
       if (m.type === 'game') {
@@ -125,13 +136,26 @@ export class Game {
 
   start () {
     this._connect()
+    this._playground.start()
     this._controll.start()
+
+    if (ENABLE_MESSAGE_COUNT_LOGGING) {
+      this.messagesCountInterval = setInterval(() => {
+        const meanMessagesPerSec = this.messagesCount / SERVER_MESSAGES_COUNTER_PERIOD_SEC
+        log.debug('messages count per second:', meanMessagesPerSec.toFixed(2))
+        this.messagesCount = 0
+      }, SERVER_MESSAGES_COUNTER_PERIOD_SEC * 1000)
+    }
   }
 
   stop () {
     this._disconnect()
     this._playground.stop()
     this._controll.stop()
+
+    if (ENABLE_MESSAGE_COUNT_LOGGING) {
+      clearInterval(this.messagesCountInterval)
+    }
   }
 }
 

@@ -37,7 +37,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## TODO
 
-* Handle all errors
 * Make pretty output for errors messages
 * Create pretty design
 * Create game client

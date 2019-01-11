@@ -70,7 +70,7 @@ export class Playground {
     }
     if (type === 'delete') {
       if (!this._deleteObject(payload)) {
-        log.warn('object to delete not found', payload)
+        log.error('object to delete not found', payload)
       }
       return
     }

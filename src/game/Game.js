@@ -28,6 +28,10 @@ export class Game {
 
     this.messagesCount = 0
     this.messagesCountInterval = 0
+
+    // To prevent the case on map initialization when server sends objects message
+    // after an object update message
+    this.objectsLoaded = false
   }
 
   _handleServerMessage (message) {
@@ -70,6 +74,7 @@ export class Game {
           break
         case 'objects':
           this._playground.loadObjects(message.payload)
+          this.objectsLoaded = true
           break
       }
     }
@@ -80,6 +85,11 @@ export class Game {
   }
 
   _handleServerMessageGame (message) {
+    if (!this.objectsLoaded) {
+      log.warn('game message received before objects loading')
+      return
+    }
+
     if (message.hasOwnProperty('type') && message.hasOwnProperty('payload')) {
       if (message.type !== 'error') {
         this._playground.handleGameEvent(message.type, message.payload)

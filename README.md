@@ -39,5 +39,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 * Make pretty output for errors messages
 * Create pretty design
-* Create game client
 * Create unit tests

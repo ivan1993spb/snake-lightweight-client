@@ -6,7 +6,10 @@
       <span>Players: {{ game.count }}/{{ game.limit }}</span>
       <span>Messages: {{ game.rate }} per sec</span>
     </div>
-    <div>
+    <div v-if="isLoadingGame">
+      <div>Loading</div>
+    </div>
+    <div v-else>
       <Playground :width="game.width" :height="game.height" :id="game.id"/>
     </div>
     <div>Use arrows, WASD, IJKL or mouse</div>
@@ -17,13 +20,13 @@
 
 import { mapGetters } from 'vuex'
 import Playground from '@/components/Playground'
-import { UPDATE_GAME } from '@/store/actions.type'
+import { UPDATE_GAME, FETCH_GAME } from '@/store/actions.type'
 import store from '@/store'
 
 export default {
   name: 'play',
   computed: {
-    ...mapGetters(['game'])
+    ...mapGetters(['game', 'isLoadingGame'])
   },
   components: {
     Playground
@@ -35,7 +38,7 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     Promise.all([
-      store.dispatch(UPDATE_GAME, to.params.id)
+      store.dispatch(FETCH_GAME, to.params.id)
     ]).then(() => {
       next()
     })

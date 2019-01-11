@@ -13,8 +13,7 @@
       <p>Use arrows, WASD, IJKL or mouse</p>
     </div>
     <div>
-      <i>Server capacity: </i>
-      <b>{{ capacity > 1 ? capacity.toFixed(0) : capacity.toFixed(2) }}%</b>
+      <Capacity :capacity="capacity"/>
     </div>
   </div>
 </template>
@@ -22,10 +21,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import store from '@/store'
+import Capacity from '@/components/Capacity'
 import { FETCH_CAPACITY } from '@/store/actions.type'
 
 export default {
   name: 'home',
+  components: {
+    Capacity
+  },
   computed: {
     ...mapGetters(['capacity'])
   },

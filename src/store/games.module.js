@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import log from 'loglevel'
 import _ from 'lodash'
 import {
   GamesService
@@ -26,22 +27,34 @@ const initialState = {
 export const state = { ...initialState }
 
 export const actions = {
-  async [FETCH_GAMES] (context) {
+  [FETCH_GAMES] (context) {
     context.commit(FETCH_START)
-    const { data } = await GamesService.all()
+    GamesService.all()
+      .then(({ data }) => {
+        context.commit(SET_GAMES, data)
+      })
+      .catch(error => {
+        log.error(error)
+      })
     context.commit(FETCH_END)
-    context.commit(SET_GAMES, data)
-    return data
   },
-  async [UPDATE_GAMES] (context) {
-    const { data } = await GamesService.all()
-    context.commit(SET_GAMES, data)
-    return data
+  [UPDATE_GAMES] (context) {
+    GamesService.all()
+      .then(({ data }) => {
+        context.commit(SET_GAMES, data)
+      })
+      .catch(error => {
+        log.error(error)
+      })
   },
-  async [DELETE_GAME] (context, id) {
-    const { data } = await GamesService.delete(id)
-    context.commit(EXCLUDE_GAME, data.id)
-    return data
+  [DELETE_GAME] (context, id) {
+    GamesService.delete(id)
+      .then(({ data }) => {
+        context.commit(EXCLUDE_GAME, data.id)
+      })
+      .catch(error => {
+        log.error(error)
+      })
   }
 }
 

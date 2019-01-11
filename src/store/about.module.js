@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import log from 'loglevel'
 import {
   ServerService
 } from '@/common/api.service'
@@ -26,12 +27,18 @@ const initialState = {
 export const state = { ...initialState }
 
 export const actions = {
-  async [FETCH_INFO] (context, gameId) {
+  [FETCH_INFO] (context, gameId) {
     context.commit(FETCH_START)
-    const { data } = await ServerService.info()
+
+    ServerService.info()
+      .then(({ data }) => {
+        context.commit(SET_INFO, data)
+      })
+      .catch(error => {
+        log.error(error)
+      })
+
     context.commit(FETCH_END)
-    context.commit(SET_INFO, data)
-    return data
   }
 }
 

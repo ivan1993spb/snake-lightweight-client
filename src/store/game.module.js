@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import log from 'loglevel'
 import {
   GamesService
 } from '@/common/api.service'
@@ -30,29 +31,48 @@ const initialState = {
 export const state = { ...initialState }
 
 export const actions = {
-  async [FETCH_GAME] (context, id) {
+  [FETCH_GAME] (context, id) {
     context.commit(FETCH_START)
-    const { data } = await GamesService.get(id)
+
+    GamesService.get(id)
+      .then(response => {
+        log.info(response)
+        context.commit(SET_GAME, response.data)
+      })
+      .catch(error => {
+        if (error.response.status === 404) {
+          router.push({
+            path: '/404'
+          })
+        } else {
+          log.error(error)
+        }
+      })
+
     context.commit(FETCH_END)
-    context.commit(SET_GAME, data)
-    return data
   },
-  async [UPDATE_GAME] (context, id) {
-    const { data } = await GamesService.get(id)
-    context.commit(SET_GAME, data)
-    return data
+  [UPDATE_GAME] (context, id) {
+    GamesService.get(id)
+      .then(({ data }) => {
+        context.commit(SET_GAME, data)
+      })
+      .catch(error => {
+        log.error(error)
+      })
   },
-  async [CREATE_GAME] (context, params) {
-    const { data } = await GamesService.create(params)
-
-    router.push({
-      name: 'game',
-      params: {
-        id: data.id
-      }
-    })
-
-    return data
+  [CREATE_GAME] (context, params) {
+    GamesService.create(params)
+      .then(({ data }) => {
+        router.push({
+          name: 'game',
+          params: {
+            id: data.id
+          }
+        })
+      })
+      .catch(error => {
+        log.error(error)
+      })
   }
 }
 

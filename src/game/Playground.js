@@ -11,12 +11,11 @@ import {
   OBJECT_WALL
 } from './Canvas'
 
-function dotsEqual (firstDot, secondDot) {
-  return (
-    firstDot instanceof Array && secondDot instanceof Array &&
-      firstDot.length === 2 && secondDot.length === 2 &&
-      firstDot[0] === secondDot[0] && firstDot[1] === secondDot[1]
-  )
+const X = 0
+const Y = 1
+
+function dotsEqual (first, second) {
+  return first[X] === second[X] && first[Y] === second[Y]
 }
 
 function dotListsDifference (firstDots, secondDots) {

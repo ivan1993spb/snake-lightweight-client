@@ -3,6 +3,10 @@ const LISTEN_TO_EVENT = 'keydown'
 
 // Keys
 const KEY_SPACE = 32
+const KEY_PAGE_UP = 33
+const KEY_PAGE_DOWN = 34
+const KEY_END = 35
+const KEY_HOME = 36
 const KEY_W = 87
 const KEY_A = 65
 const KEY_S = 83
@@ -29,6 +33,10 @@ const KEYS_WEST = [KEY_A, KEY_J, KEY_ARROW_LEFT, KEY_NUMPAD_4]
 // Keys to disable default behaviour
 const KEYS_DISABLE_DEFAULT_BEHAVIOUR = [
   KEY_SPACE,
+  KEY_PAGE_UP,
+  KEY_PAGE_DOWN,
+  KEY_END,
+  KEY_HOME,
   KEY_ARROW_UP,
   KEY_ARROW_LEFT,
   KEY_ARROW_DOWN,

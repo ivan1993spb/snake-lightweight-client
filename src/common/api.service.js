@@ -23,15 +23,11 @@ const ApiService = {
   },
 
   query (resource, params) {
-    return Vue.axios.get(`${resource}`, params).catch(error => {
-      throw new Error(`ApiService ${error}`)
-    })
+    return Vue.axios.get(`${resource}`, params)
   },
 
   get (resource) {
-    return Vue.axios.get(`${resource}`).catch(error => {
-      throw new Error(`ApiService ${error}`)
-    })
+    return Vue.axios.get(`${resource}`)
   },
 
   post (resource, params) {
@@ -40,21 +36,15 @@ const ApiService = {
       data.append(key, value)
     })
 
-    return Vue.axios.post(`${resource}`, data).catch(error => {
-      throw new Error(`ApiService ${error}`)
-    })
+    return Vue.axios.post(`${resource}`, data)
   },
 
   put (resource, params) {
-    return Vue.axios.put(`${resource}`, params).catch(error => {
-      throw new Error(`ApiService ${error}`)
-    })
+    return Vue.axios.put(`${resource}`, params)
   },
 
   delete (resource) {
-    return Vue.axios.delete(`${resource}`).catch(error => {
-      throw new Error(`ApiService ${error}`)
-    })
+    return Vue.axios.delete(`${resource}`)
   }
 }
 

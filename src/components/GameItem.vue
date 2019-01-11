@@ -1,21 +1,21 @@
 <template>
-  <div>
-    <span>
+  <div class="game-item">
+    <div>
       <router-link :to="{ name: 'game', params: { id } }">Game {{ id }}</router-link>
-    </span>
-    <span>
-      <b>Map: {{ width }}x{{ height }}</b>
-    </span>
-    <span>
-      <b>Players: {{ count }}/{{ limit }}</b>
-    </span>
-    <span>rate: {{ rate }}</span>
-    <span v-if="count===0" @click="deleteGame">
+    </div>
+    <div>
+      <b>map: {{ width }}x{{ height }}</b>
+    </div>
+    <div>
+      <b>players: {{ count }}/{{ limit }}</b>
+    </div>
+    <div>rate: {{ rate }}</div>
+    <div v-if="count===0" @click="deleteGame">
       <i>delete</i>
-    </span>
-    <span v-else>
+    </div>
+    <div v-else>
       <s>delete</s>
-    </span>
+    </div>
   </div>
 </template>
 
@@ -60,7 +60,10 @@ export default {
 </script>
 
 <style lang="scss">
-span {
-  margin: 20px;
+.game-item {
+  div {
+    display: inline-block;
+    margin: 10px;
+  }
 }
 </style>

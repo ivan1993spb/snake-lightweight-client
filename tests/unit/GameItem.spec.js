@@ -13,6 +13,6 @@ describe('GameItem', () => {
         rate: 10
       }
     })
-    expect(wrapper.text()).toBe("Game 1 Map: 10x10 Players: 10/10 rate: 10 delete")
+    expect(wrapper.text()).toBe("Game 1 map: 10x10 players: 10/10 rate: 10 delete")
   })
 })

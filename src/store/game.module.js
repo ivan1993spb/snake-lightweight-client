@@ -36,7 +36,6 @@ export const actions = {
 
     GamesService.get(id)
       .then(response => {
-        log.info(response)
         context.commit(SET_GAME, response.data)
       })
       .catch(error => {
@@ -48,8 +47,9 @@ export const actions = {
           log.error(error)
         }
       })
-
-    context.commit(FETCH_END)
+      .then(() => {
+        context.commit(FETCH_END)
+      })
   },
   [UPDATE_GAME] (context, id) {
     GamesService.get(id)

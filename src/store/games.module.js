@@ -36,7 +36,9 @@ export const actions = {
       .catch(error => {
         log.error(error)
       })
-    context.commit(FETCH_END)
+      .then(() => {
+        context.commit(FETCH_END)
+      })
   },
   [UPDATE_GAMES] (context) {
     GamesService.all()

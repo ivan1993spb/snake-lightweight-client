@@ -1,17 +1,18 @@
 <template>
-  <div>
+  <div class="games">
     <h1>Games</h1>
 
     <div v-if="isLoadingGames">Loading</div>
     <div v-else>
-      <div>Games count: {{ count }}/{{ limit }}</div>
+      <div class="games-page-block">Games count: {{ count }}/{{ limit }}</div>
 
-      <div v-if="count < limit">
+      <div class="games-page-block" v-if="count < limit">
         <router-link to="/new">create game</router-link>
       </div>
 
-      <div v-if="count > 0">
+      <div class="games-page-block" v-if="count > 0">
         <div
+          class=""
           v-for="({id, width, height, limit, count, rate}, index) in games"
           v-bind:key="'game'+index">
           <GameItem
@@ -68,3 +69,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.games-page-block {
+  margin: 10px;
+}
+</style>

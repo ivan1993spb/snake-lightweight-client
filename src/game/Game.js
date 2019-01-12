@@ -32,6 +32,7 @@ export class Game {
     // To prevent the case on map initialization when server sends objects message
     // after an object update message
     this.objectsLoaded = false
+    this.objectsDeleteMessages = []
   }
 
   _handleServerMessage (message) {
@@ -73,10 +74,23 @@ export class Game {
           log.info('PLAYER COUNTDOWN', message.payload, 'seconds')
           break
         case 'objects':
-          this._playground.loadObjects(message.payload)
-          this.objectsLoaded = true
+          log.info('received objects to load')
+          this._handleServerMessagePlayerObjects(message)
           break
       }
+    }
+  }
+
+  _handleServerMessagePlayerObjects (message) {
+    this._playground.loadObjects(message.payload)
+    this.objectsLoaded = true
+    log.info('objects have loaded')
+    if (this.objectsDeleteMessages.length > 0) {
+      this.objectsDeleteMessages.forEach(message => {
+        this._playground.handleGameEvent(message.type, message.payload)
+      })
+      log.info('outdated objects deleted:', this.objectsDeleteMessages.length)
+      this.objectsDeleteMessages = []
     }
   }
 
@@ -85,12 +99,22 @@ export class Game {
   }
 
   _handleServerMessageGame (message) {
-    if (!this.objectsLoaded) {
-      log.warn('game message received before objects loading')
-      return
-    }
-
     if (message.hasOwnProperty('type') && message.hasOwnProperty('payload')) {
+      if (!this.objectsLoaded) {
+        log.warn('game message received before objects loading:', message.type)
+
+        // While objects have not loaded:
+        // Message type 'delete' - to cache
+        // Message type 'create' - to pass
+        // Message type 'update' - to ignore
+        if (message.type === 'delete') {
+          this.objectsDeleteMessages.push(message)
+          return
+        } else if (message.type === 'update') {
+          return
+        }
+      }
+
       if (message.type !== 'error') {
         this._playground.handleGameEvent(message.type, message.payload)
       } else {

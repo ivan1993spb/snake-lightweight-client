@@ -57,7 +57,11 @@ export class Playground {
   loadObjects (objects) {
     if (objects instanceof Array) {
       objects.forEach(object => {
-        this._createObject(object)
+        try {
+          this._createObject(object)
+        } catch (error) {
+          log.error('loading object error:', error, object)
+        }
       })
     }
   }

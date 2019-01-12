@@ -1,7 +1,7 @@
 
 const envDev = process.env.NODE_ENV === 'development'
 
-export const LOG_LEVEL = envDev ? 'trace' : 'error'
+export const LOG_LEVEL = envDev ? 'trace' : 'silent'
 
 export const SNAKE_SERVER_HOST = process.env.SNAKE_SERVER_HOST || 'localhost'
 export const SNAKE_SERVER_PORT = process.env.SNAKE_SERVER_PORT || '8080'

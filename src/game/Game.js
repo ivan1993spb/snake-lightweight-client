@@ -77,14 +77,22 @@ export class Game {
           log.info('received objects to load')
           this._handleServerMessagePlayerObjects(message)
           break
+        default:
+          log.error('invalid server message player type:', message.type)
       }
     }
   }
 
   _handleServerMessagePlayerObjects (message) {
+    if (this.objectsLoaded) {
+      log.error('objects have already loaded')
+      return
+    }
+
     this._playground.loadObjects(message.payload)
     this.objectsLoaded = true
     log.info('objects have loaded')
+
     if (this.objectsDeleteMessages.length > 0) {
       this.objectsDeleteMessages.forEach(message => {
         this._playground.handleGameEvent(message.type, message.payload)

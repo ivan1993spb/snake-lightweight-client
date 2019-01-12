@@ -1,6 +1,9 @@
 
 const envDev = process.env.NODE_ENV === 'development'
 
+export const VERSION = process.env.VERSION
+export const BUILD = process.env.BUILD
+
 export const LOG_LEVEL = envDev ? 'trace' : 'silent'
 
 export const SNAKE_SERVER_HOST = process.env.SNAKE_SERVER_HOST || 'localhost'

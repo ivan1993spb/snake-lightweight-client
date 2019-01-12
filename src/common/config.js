@@ -29,7 +29,6 @@ export const WS_URL =
 export const MOCK_API = envDev
 export const MOCK_WS = envDev
 
-// TODO: Creat client version and build
 export const SNAKE_CLIENT_NAME = 'SnakeLightweightClient'
 
 export const SERVER_MESSAGES_COUNTER_PERIOD_SEC = 60

@@ -110,6 +110,17 @@ export class Canvas {
       context.fillRect(dot[X] * DOT_SIZE, dot[Y] * DOT_SIZE, DOT_SIZE, DOT_SIZE)
     })
   }
+
+  clearAll () {
+    this._contextSnakes.clearRect(0, 0, this.canvasSnakes.width,
+      this.canvasSnakes.height)
+    this._contextFood.clearRect(0, 0, this.canvasFood.width,
+      this.canvasFood.height)
+    this._contextWalls.clearRect(0, 0, this.canvasWalls.width,
+      this.canvasWalls.height)
+    this._contextGrid.clearRect(0, 0, this.canvasGrid.width,
+      this.canvasGrid.height)
+  }
 }
 
 export default Canvas

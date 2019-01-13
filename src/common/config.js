@@ -3,6 +3,8 @@ const envDev = process.env.NODE_ENV === 'development'
 
 export const VERSION = process.env.VERSION
 export const BUILD = process.env.BUILD
+export const LICENSE = process.env.LICENSE
+export const AUTHOR = process.env.AUTHOR
 
 export const LOG_LEVEL = envDev ? 'trace' : 'silent'
 

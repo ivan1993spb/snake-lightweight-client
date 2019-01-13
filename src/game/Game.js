@@ -176,17 +176,25 @@ export class Game {
     this._ws.close(1000, 'Normal Closure')
   }
 
+  _startMessageCountLogging () {
+    this.messagesCountInterval = setInterval(() => {
+      const meanMessagesPerSec = this.messagesCount / SERVER_MESSAGES_COUNTER_PERIOD_SEC
+      log.debug('messages count per second:', meanMessagesPerSec.toFixed(2))
+      this.messagesCount = 0
+    }, SERVER_MESSAGES_COUNTER_PERIOD_SEC * 1000)
+  }
+
+  _stopMessageCountLogging () {
+    clearInterval(this.messagesCountInterval)
+  }
+
   start () {
     this._connect()
     this._playground.start()
     this._controll.start()
 
     if (ENABLE_MESSAGE_COUNT_LOGGING) {
-      this.messagesCountInterval = setInterval(() => {
-        const meanMessagesPerSec = this.messagesCount / SERVER_MESSAGES_COUNTER_PERIOD_SEC
-        log.debug('messages count per second:', meanMessagesPerSec.toFixed(2))
-        this.messagesCount = 0
-      }, SERVER_MESSAGES_COUNTER_PERIOD_SEC * 1000)
+      this._startMessageCountLogging()
     }
   }
 
@@ -196,7 +204,7 @@ export class Game {
     this._controll.stop()
 
     if (ENABLE_MESSAGE_COUNT_LOGGING) {
-      clearInterval(this.messagesCountInterval)
+      this._stopMessageCountLogging()
     }
   }
 }

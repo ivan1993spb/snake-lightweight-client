@@ -26,7 +26,9 @@ export default {
 
 <style lang="scss">
 .capacity {
-  margin: 10px;
+  margin-top: 30px;
+  text-align:center;
+  font-size: 2rem;
 
   div {
     display: inline-block;

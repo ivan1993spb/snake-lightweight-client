@@ -1,4 +1,4 @@
-# snake-lightweight-client [![Build Status](https://travis-ci.org/ivan1993spb/snake-lightweight-client.svg?branch=master)](https://travis-ci.org/ivan1993spb/snake-lightweight-client) [![GitHub release](https://img.shields.io/github/release/ivan1993spb/snake-lightweight-client/all.svg)](https://github.com/ivan1993spb/snake-lightweight-client/releases/latest) [![license](https://img.shields.io/github/license/ivan1993spb/snake-lightweight-client.svg)](LICENSE)
+# Snake-Lightweight-Client [![Build Status](https://travis-ci.org/ivan1993spb/snake-lightweight-client.svg?branch=master)](https://travis-ci.org/ivan1993spb/snake-lightweight-client) [![GitHub release](https://img.shields.io/github/release/ivan1993spb/snake-lightweight-client/all.svg)](https://github.com/ivan1993spb/snake-lightweight-client/releases/latest) [![license](https://img.shields.io/github/license/ivan1993spb/snake-lightweight-client.svg)](LICENSE)
 
 Server source code: https://github.com/ivan1993spb/snake-server
 

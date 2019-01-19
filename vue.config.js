@@ -12,7 +12,7 @@ const environmentPlugin = new webpack.EnvironmentPlugin({
   BUILD: gitRevisionPlugin.commithash(),
   LICENSE: packageJson['license'],
   AUTHOR: packageJson['author']['name']
-});
+})
 
 module.exports = {
   productionSourceMap: false,

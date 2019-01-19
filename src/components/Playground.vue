@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Game from '@/game/Game'
+import Game from '@/game'
 
 export default {
   name: 'Playground',
@@ -41,15 +41,25 @@ export default {
   },
 
   mounted () {
-    this.game = new Game(
-      this.$refs['canvas-snakes'],
-      this.$refs['canvas-food'],
-      this.$refs['canvas-walls'],
-      this.$refs['canvas-grid'],
-      this.id,
-      this.width,
-      this.height
-    )
+    const id = this.id
+
+    const canvasSnakes = this.$refs['canvas-snakes']
+    const canvasFood = this.$refs['canvas-food']
+    const canvasWalls = this.$refs['canvas-walls']
+    const canvasGrid = this.$refs['canvas-grid']
+
+    const width = this.width
+    const height = this.height
+
+    this.game = new Game({
+      canvasSnakes,
+      canvasFood,
+      canvasWalls,
+      canvasGrid,
+      id,
+      width,
+      height
+    })
 
     this.game.start()
   },

@@ -1,33 +1,9 @@
 
-import urljoin from 'url-join'
 import log from 'loglevel'
-import Playground from './Playground'
-import Controll from './Controll'
-import WebSocketMock from '@/mocks/ws.game'
-import {
-  WS_URL, MOCK_WS, SERVER_MESSAGES_COUNTER_PERIOD_SEC
-} from '@/common/config'
-
-const ENABLE_MESSAGE_COUNT_LOGGING = log.getLevel() <= log.levels.DEBUG
 
 export class Game {
-  constructor (canvasSnakes, canvasFood, canvasWalls, canvasGrid, id, width, height) {
-    this._id = id
-    this._socketURL = urljoin(WS_URL, 'games', this._id.toString())
-
-    this._playground = new Playground(
-      canvasSnakes,
-      canvasFood,
-      canvasWalls,
-      canvasGrid,
-      width,
-      height
-    )
-
-    this._controll = new Controll()
-
-    this.messagesCount = 0
-    this.messagesCountInterval = 0
+  constructor (playground) {
+    this._playground = playground
 
     // To prevent the case on map initialization when server sends objects message
     // after an object update message
@@ -35,12 +11,8 @@ export class Game {
     this.objectsDeleteMessages = []
   }
 
-  _handleServerMessage (message) {
+  handleServerMessage (message) {
     const m = JSON.parse(message)
-
-    if (ENABLE_MESSAGE_COUNT_LOGGING) {
-      this.messagesCount++
-    }
 
     if (m.hasOwnProperty('type') && m.hasOwnProperty('payload')) {
       if (m.type === 'game') {
@@ -135,77 +107,12 @@ export class Game {
     log.error('GAME ERROR', error)
   }
 
-  _connect () {
-    if (MOCK_WS) {
-      this._ws = new WebSocketMock(this._socketURL)
-    } else {
-      this._ws = new WebSocket(this._socketURL)
-    }
-
-    this._ws.onmessage = (event) => {
-      this._handleServerMessage(event.data)
-    }
-
-    this._ws.onclose = (event) => {
-      log.info('WS ONCLOSE')
-    }
-
-    this._ws.onerror = (event) => {
-      log.error('WS ONERROR', event)
-    }
-
-    this._ws.onopen = (event) => {
-      log.info('WS ONOPEN')
-    }
-
-    this._controll.oncommand = (command) => {
-      if (typeof command === 'string') {
-        try {
-          this._ws.send(command)
-        } catch (e) {
-          log.error('cannot send controll command:', e)
-        }
-      } else {
-        log.error('invalid game controll command')
-      }
-    }
-  }
-
-  _disconnect () {
-    // Normal Closure
-    this._ws.close(1000, 'Normal Closure')
-  }
-
-  _startMessageCountLogging () {
-    this.messagesCountInterval = setInterval(() => {
-      const meanMessagesPerSec = this.messagesCount / SERVER_MESSAGES_COUNTER_PERIOD_SEC
-      log.debug('messages count per second:', meanMessagesPerSec.toFixed(2))
-      this.messagesCount = 0
-    }, SERVER_MESSAGES_COUNTER_PERIOD_SEC * 1000)
-  }
-
-  _stopMessageCountLogging () {
-    clearInterval(this.messagesCountInterval)
-  }
-
   start () {
-    this._connect()
     this._playground.start()
-    this._controll.start()
-
-    if (ENABLE_MESSAGE_COUNT_LOGGING) {
-      this._startMessageCountLogging()
-    }
   }
 
   stop () {
-    this._disconnect()
     this._playground.stop()
-    this._controll.stop()
-
-    if (ENABLE_MESSAGE_COUNT_LOGGING) {
-      this._stopMessageCountLogging()
-    }
   }
 }
 

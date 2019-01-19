@@ -1,4 +1,11 @@
 
+import {
+  COMMAND_NORTH,
+  COMMAND_EAST,
+  COMMAND_SOUTH,
+  COMMAND_WEST
+} from './commands'
+
 const LISTEN_TO_EVENT = 'keydown'
 
 // Keys
@@ -24,7 +31,7 @@ const KEY_NUMPAD_4 = 100
 const KEY_NUMPAD_2 = 98
 const KEY_NUMPAD_6 = 102
 
-// Kays to controll
+// Kays to control game
 const KEYS_NORTH = [KEY_W, KEY_I, KEY_ARROW_UP, KEY_NUMPAD_8]
 const KEYS_EAST = [KEY_D, KEY_L, KEY_ARROW_RIGHT, KEY_NUMPAD_6]
 const KEYS_SOUTH = [KEY_S, KEY_K, KEY_ARROW_DOWN, KEY_NUMPAD_2]
@@ -43,29 +50,7 @@ const KEYS_DISABLE_DEFAULT_BEHAVIOUR = [
   KEY_ARROW_RIGHT
 ]
 
-// Commands to send:
-// Command north sets snake direction to the north
-const COMMAND_NORTH = JSON.stringify({
-  type: 'snake',
-  payload: 'north'
-})
-// Command east sets snake direction to the east
-const COMMAND_EAST = JSON.stringify({
-  type: 'snake',
-  payload: 'east'
-})
-// Command south sets snake direction to the south
-const COMMAND_SOUTH = JSON.stringify({
-  type: 'snake',
-  payload: 'south'
-})
-// Command west sets snake direction to the west
-const COMMAND_WEST = JSON.stringify({
-  type: 'snake',
-  payload: 'west'
-})
-
-export class Controll {
+export class KeyboardController {
   constructor () {
     this.oncommand = command => {}
 
@@ -95,4 +80,4 @@ export class Controll {
   }
 }
 
-export default Controll
+export default KeyboardController

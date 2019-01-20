@@ -19,11 +19,6 @@
   font-style: normal;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background: #000;
-}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

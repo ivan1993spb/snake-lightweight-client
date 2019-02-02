@@ -82,6 +82,8 @@ export class SocketController {
     if (this._srvMsgCounterEnable) {
       this._startMessageCountLogging()
     }
+
+    this._connect()
   }
 
   stop () {

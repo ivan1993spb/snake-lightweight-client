@@ -9,11 +9,11 @@ import {
 const LISTEN_TO_EVENT = 'mousedown'
 const MOUSE_BUTTON = 1
 
-const DIRECTION_INVALID = -1
-const DIRECTION_NORTH = 0
-const DIRECTION_EAST = 1
-const DIRECTION_WEST = 2
-const DIRECTION_SOUTH = 3
+export const DIRECTION_INVALID = -1
+export const DIRECTION_NORTH = 0
+export const DIRECTION_EAST = 1
+export const DIRECTION_WEST = 2
+export const DIRECTION_SOUTH = 3
 
 export class MouseController {
   constructor (settings) {
@@ -45,10 +45,10 @@ export class MouseController {
   }
 
   setScreen ({ x, y, width, height }) {
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
+    this._x = x
+    this._y = y
+    this._width = width
+    this._height = height
   }
 
   _calc (x, y) {
@@ -59,28 +59,28 @@ export class MouseController {
         }
 
         return DIRECTION_EAST
-      } else {
-        if (x < this._calcXbyY(y)) {
-          return DIRECTION_WEST
-        }
-
-        return DIRECTION_SOUTH
       }
+
+      if (x < this._calcXbyY(y)) {
+        return DIRECTION_WEST
+      }
+
+      return DIRECTION_SOUTH
     }
 
     return DIRECTION_INVALID
   }
 
   _inArea (x, y) {
-    return x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height
+    return x >= this._x && y >= this._y && x < this._x + this._width && y < this._y + this._height
   }
 
   _calcYbyX (x) {
-    return this.height / this.width * (x - this.x) + this.y
+    return this._height / this._width * (x - this._x) + this._y
   }
 
   _calcXbyY (y) {
-    return -this.width / this.height * (y - this.y - this.height) + this.x
+    return -this._width / this._height * (y - this._y - this._height) + this._x
   }
 
   start () {

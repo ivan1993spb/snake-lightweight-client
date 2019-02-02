@@ -52,13 +52,17 @@ export default {
     const height = this.height
 
     this.game = new Game({
-      canvasSnakes,
-      canvasFood,
-      canvasWalls,
-      canvasGrid,
-      id,
-      width,
-      height
+      canvases: {
+        canvasSnakes,
+        canvasFood,
+        canvasWalls,
+        canvasGrid
+      },
+      map: {
+        width,
+        height
+      },
+      id
     })
 
     this.game.start()

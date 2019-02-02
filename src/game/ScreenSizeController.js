@@ -2,18 +2,18 @@
 import _ from 'lodash'
 
 const LISTEN_TO_EVENT = 'resize'
-const DEBOUNCE_WAIT = 300
+const THROTTLE_WAIT = 300
 
 const DEFAULT_CLIENT_WIDTH = 1200
 const DEFAULT_CLIENT_HEIGHT = 800
 
-const DOT_SIZE_MIN = 10
-const DOT_SIZE_MAX = 100
+// const DOT_SIZE_MIN = 10
+// const DOT_SIZE_MAX = 100
 
-const GRID_SIZE_MIN = 0
-const GRID_SIZE_MAX = 10
+// const GRID_SIZE_MIN = 0
+// const GRID_SIZE_MAX = 10
 
-function clientSizePixel () {
+function clientSizePx () {
   return {
     width: window.innerWidth ||
       document.documentElement.clientWidth ||
@@ -31,7 +31,7 @@ export class ScreenSizeController {
     this._mapWidthDots = mapWidthDots
     this._mapHeightDots = mapHeightDots
 
-    const { width, height } = clientSizePixel()
+    const { width, height } = clientSizePx()
     this._clientWidthPixel = width
     this._clientHeightPixel = height
 
@@ -39,27 +39,47 @@ export class ScreenSizeController {
       throw new Error('method to be triggered is not specified: update')
     }
 
-    this._listener = _.debounce(() => {
+    this._listener = _.throttle(() => {
       this._clientResize()
-    }, DEBOUNCE_WAIT)
+    }, THROTTLE_WAIT)
+  }
+
+  grid () {
+    // TODO: Implement grid method to initialize Canvas
+    return {
+      dot: 10,
+      line: 0,
+      width: this._mapWidthDots,
+      height: this._mapHeightDots
+    }
+  }
+
+  mouse () {
+    // TODO: Implement grid method to initialize MouseController
+    return {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0
+    }
   }
 
   _handleResize () {
-    const mapWidthPixel = (this._mapWidthDots * dotSize) + ((this._mapWidthDots + 1) * gridSize)
-    const mapHeightPixel = (this._mapHeightDots * dotSize) + ((this._mapHeightDots + 1) * gridSize)
-
     // canvas size px - width and height
+    // const mapWidthPixel = (this._mapWidthDots * dotSize) + ((this._mapWidthDots + 1) * gridSize)
+    // const mapHeightPixel = (this._mapHeightDots * dotSize) + ((this._mapHeightDots + 1) * gridSize)
+
     // canvas x and y
     // dot size - px
     // grid size - px
 
-    this.update()
+    this.update(this.grid())
     // update invocation to resize canvases, to redraw all staff,
     // to replace map on screen
   }
 
   _clientResize () {
-    const { width, height } = clientSizePixel()
+    const { width, height } = clientSizePx()
     let flagResize = false
 
     if (this._clientWidthPixel !== width) {

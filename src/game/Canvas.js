@@ -28,7 +28,7 @@ const Y = 1
 export class Canvas {
   constructor ({ contexts, grid }) {
     this._setupGrid(grid)
-    this._setupContext(contexts)
+    this._setupContexts(contexts)
   }
 
   _setupGrid ({ dot, line, width, height }) {
@@ -103,7 +103,7 @@ export class Canvas {
 
   _clear (context, dots) {
     dots.forEach(dot => {
-      context.clearRect(this._getPxX(dot[X]), this._getPxY(dot[Y]), this._dotSize, this._dotSize)
+      context.clearRect(this._getPxX(dot[X]), this._getPxY(dot[Y]), this._dot, this._dot)
     })
   }
 
@@ -143,7 +143,7 @@ export class Canvas {
   _draw (context, color, dots) {
     context.fillStyle = color
     dots.forEach(dot => {
-      context.fillRect(this._getPxX(dot[X]), this._getPxX(dot[Y]), this._dotSize, this._dotSize)
+      context.fillRect(this._getPxX(dot[X]), this._getPxX(dot[Y]), this._dot, this._dot)
     })
   }
 

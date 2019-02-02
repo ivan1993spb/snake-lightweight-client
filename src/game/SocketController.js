@@ -15,10 +15,18 @@ export class SocketController {
     this.messagesCount = 0
     this.messagesCountInterval = 0
 
-    this.onmessage = () => {}
-    this.onclose = () => {}
-    this.onerror = () => {}
-    this.onopen = () => {}
+    this.onmessage = () => {
+      throw new Error('method to be triggered is not specified: onmessage')
+    }
+    this.onclose = () => {
+      throw new Error('method to be triggered is not specified: onclose')
+    }
+    this.onerror = () => {
+      throw new Error('method to be triggered is not specified: onerror')
+    }
+    this.onopen = () => {
+      throw new Error('method to be triggered is not specified: onopen')
+    }
   }
 
   _connect () {

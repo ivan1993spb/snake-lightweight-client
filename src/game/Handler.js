@@ -1,6 +1,22 @@
 
 import log from 'loglevel'
 
+const SERVER_MESSAGE_TYPE_GAME = 'game'
+const SERVER_MESSAGE_TYPE_PLAYER = 'player'
+const SERVER_MESSAGE_TYPE_BROADCAST = 'broadcast'
+
+const SERVER_MESSAGE_PLAYER_TYPE_SIZE = 'size'
+const SERVER_MESSAGE_PLAYER_TYPE_SNAKE = 'snake'
+const SERVER_MESSAGE_PLAYER_TYPE_NOTICE = 'notice'
+const SERVER_MESSAGE_PLAYER_TYPE_ERROR = 'error'
+const SERVER_MESSAGE_PLAYER_TYPE_COUNTDOWN = 'countdown'
+const SERVER_MESSAGE_PLAYER_TYPE_OBJECTS = 'objects'
+
+const SERVER_MESSAGE_GAME_TYPE_DELETE = 'delete'
+const SERVER_MESSAGE_GAME_TYPE_CREATE = 'create'
+const SERVER_MESSAGE_GAME_TYPE_UPDATE = 'update'
+const SERVER_MESSAGE_GAME_TYPE_ERROR = 'error'
+
 export class Handler {
   constructor (playground) {
     this._playground = playground
@@ -15,11 +31,11 @@ export class Handler {
     const m = JSON.parse(message)
 
     if (m.hasOwnProperty('type') && m.hasOwnProperty('payload')) {
-      if (m.type === 'game') {
+      if (m.type === SERVER_MESSAGE_TYPE_GAME) {
         this._handleServerMessageGame(m.payload)
-      } else if (m.type === 'player') {
+      } else if (m.type === SERVER_MESSAGE_TYPE_PLAYER) {
         this._handleServerMessagePlayer(m.payload)
-      } else if (m.type === 'broadcast') {
+      } else if (m.type === SERVER_MESSAGE_TYPE_BROADCAST) {
         this._handleServerMessageBroadcast(m.payload)
       } else {
         log.warn('invalid server message type', m.type)
@@ -30,22 +46,22 @@ export class Handler {
   _handleServerMessagePlayer (message) {
     if (message.hasOwnProperty('type') && message.hasOwnProperty('payload')) {
       switch (message.type) {
-        case 'size':
+        case SERVER_MESSAGE_PLAYER_TYPE_SIZE:
           this._playground.setSize(message.payload.width, message.payload.height)
           break
-        case 'snake':
+        case SERVER_MESSAGE_PLAYER_TYPE_SNAKE:
           this._playground.setPlayerSnake(message.payload)
           break
-        case 'notice':
+        case SERVER_MESSAGE_PLAYER_TYPE_NOTICE:
           log.info('PLAYER NOTICE', message.payload)
           break
-        case 'error':
+        case SERVER_MESSAGE_PLAYER_TYPE_ERROR:
           log.error('PLAYER ERROR', message.payload)
           break
-        case 'countdown':
+        case SERVER_MESSAGE_PLAYER_TYPE_COUNTDOWN:
           log.info('PLAYER COUNTDOWN', message.payload, 'seconds')
           break
-        case 'objects':
+        case SERVER_MESSAGE_PLAYER_TYPE_OBJECTS:
           log.info('received objects to load')
           this._handleServerMessagePlayerObjects(message)
           break
@@ -84,18 +100,19 @@ export class Handler {
         log.warn('game message received before objects loading:', message.type)
 
         // While objects have not loaded:
-        // Message type 'delete' - to cache
-        // Message type 'create' - to pass
-        // Message type 'update' - to ignore
-        if (message.type === 'delete') {
+        if (message.type === SERVER_MESSAGE_GAME_TYPE_DELETE) {
+          // Cache deleting
           this.objectsDeleteMessages.push(message)
           return
-        } else if (message.type === 'update') {
+        } else if (message.type === SERVER_MESSAGE_GAME_TYPE_UPDATE) {
+          // Ignore updating
           return
+        } else if (message.type === SERVER_MESSAGE_GAME_TYPE_CREATE) {
+          // Pass creating
         }
       }
 
-      if (message.type !== 'error') {
+      if (message.type !== SERVER_MESSAGE_GAME_TYPE_ERROR) {
         this._playground.handleGameEvent(message.type, message.payload)
       } else {
         this._handleServerMessageGameError(message.payload)

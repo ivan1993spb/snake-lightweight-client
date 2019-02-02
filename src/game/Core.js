@@ -1,4 +1,5 @@
 
+import log from 'loglevel'
 import CanvasFactory from './CanvasFactory'
 import SocketControllerFactory from './SocketControllerFactory'
 import KeyboardController from './KeyboardController'
@@ -15,9 +16,9 @@ export class Core {
     this._socketController = socketControllerFactory.create()
     this._screenSizeController = new ScreenSizeController(map.width, map.height)
     this._keyboardController = new KeyboardController()
-    this._mouseController = new MouseController(this._screenSizeController.mouse())
+    this._mouseController = new MouseController(this._screenSizeController.mapProperties())
 
-    this._canvas = canvasFactory.create(this._screenSizeController.grid())
+    this._canvas = canvasFactory.create(this._screenSizeController.gridProperties())
     this._playground = new Playground(this._canvas)
     this._handler = new Handler(this._playground)
 
@@ -33,25 +34,37 @@ export class Core {
     }
     this._socketController.onclose = () => {
       // TODO: Implement handler.
+      log.info('%$ ONCLOSE')
     }
     this._socketController.onerror = () => {
       // TODO: Implement handler.
+      log.info('%$ ONERROR')
     }
     this._socketController.onopen = () => {
       // TODO: Implement handler.
+      log.info('%$ ONOPEN')
     }
   }
 
   _initScreenSizeController () {
-    // TODO: Implement method.
+    this._screenSizeController.onresize = () => {
+      // TODO: Implement handler.
+      log.info('%$ ONRESIZE')
+    }
   }
 
   _initKeyboardController () {
-    // TODO: Implement method.
+    this._keyboardController.oncommand = () => {
+      // TODO: Implement handler.
+      log.info('%$ ONCOMMAND KEYBOARD')
+    }
   }
 
   _initMouseController () {
-    // TODO: Implement method.
+    this._mouseController.oncommand = () => {
+      // TODO: Implement handler.
+      log.info('%$ ONCOMMAND MOUSE')
+    }
   }
 
   start () {

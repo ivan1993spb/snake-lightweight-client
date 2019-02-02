@@ -35,8 +35,8 @@ export class ScreenSizeController {
     this._clientWidthPixel = width
     this._clientHeightPixel = height
 
-    this.update = () => {
-      throw new Error('method to be triggered is not specified: update')
+    this.onresize = () => {
+      throw new Error('method to be triggered is not specified: onresize')
     }
 
     this._listener = _.throttle(() => {
@@ -44,7 +44,7 @@ export class ScreenSizeController {
     }, THROTTLE_WAIT)
   }
 
-  grid () {
+  gridProperties () {
     // TODO: Implement grid method to initialize Canvas
     return {
       dot: 10,
@@ -54,7 +54,7 @@ export class ScreenSizeController {
     }
   }
 
-  mouse () {
+  mapProperties () {
     // TODO: Implement grid method to initialize MouseController
     return {
       x: 0,
@@ -73,8 +73,8 @@ export class ScreenSizeController {
     // dot size - px
     // grid size - px
 
-    this.update(this.grid())
-    // update invocation to resize canvases, to redraw all staff,
+    this.onresize(this.gridProperties())
+    // onresize invocation to resize canvases, to redraw all staff,
     // to replace map on screen
   }
 

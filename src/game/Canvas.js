@@ -1,7 +1,4 @@
 
-import _ from 'lodash'
-import log from 'loglevel'
-
 export const OBJECT_PLAYER = 0
 export const OBJECT_SNAKE = 1
 export const OBJECT_APPLE = 2
@@ -97,7 +94,7 @@ export class Canvas {
         this._clear(this._contextWalls, dots)
         break
       default:
-        log.error('canvas clear invalid type', type)
+        throw new Error(`Canvas.clear: invalid type ${type}`)
     }
   }
 
@@ -136,7 +133,7 @@ export class Canvas {
         this._draw(this._contextWalls, COLOR_WALL, dots)
         break
       default:
-        log.error('canvas draw invalid type', type)
+        throw new Error(`Canvas.draw: invalid type ${type}`)
     }
   }
 
@@ -160,13 +157,13 @@ export class Canvas {
     const { width, height } = this._canvasSize()
 
     if (this._line > 0) {
-      _.each(_.range(0, width, this._line + this._dot), lineX => {
+      for (let lineX = 0; lineX < width; lineX += this._line + this._dot) {
         this._contextGrid.fillRect(lineX, 0, this._line, height)
-      })
+      }
 
-      _.each(_.range(0, height, this._line + this._dot), lineY => {
+      for (let lineY = 0; lineY < height; lineY += this._line + this._dot) {
         this._contextGrid.fillRect(0, lineY, width, this._line)
-      })
+      }
     }
   }
 

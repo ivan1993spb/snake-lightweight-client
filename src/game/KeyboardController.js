@@ -52,7 +52,9 @@ const KEYS_DISABLE_DEFAULT_BEHAVIOUR = [
 
 export class KeyboardController {
   constructor () {
-    this.oncommand = command => {}
+    this.oncommand = command => {
+      throw new Error('method to be triggered is not specified: oncommand')
+    }
 
     this._listener = event => {
       if (KEYS_DISABLE_DEFAULT_BEHAVIOUR.indexOf(event.keyCode) !== -1) {

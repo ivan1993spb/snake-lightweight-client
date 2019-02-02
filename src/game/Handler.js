@@ -47,7 +47,8 @@ export class Handler {
     if (message.hasOwnProperty('type') && message.hasOwnProperty('payload')) {
       switch (message.type) {
         case SERVER_MESSAGE_PLAYER_TYPE_SIZE:
-          this._playground.setSize(message.payload.width, message.payload.height)
+          // TODO: Handle message type size!
+          // this._playground.setSize(message.payload.width, message.payload.height)
           break
         case SERVER_MESSAGE_PLAYER_TYPE_SNAKE:
           this._playground.setPlayerSnake(message.payload)

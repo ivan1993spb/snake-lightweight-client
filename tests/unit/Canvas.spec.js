@@ -1,14 +1,262 @@
 import CanvasRenderingContext2DMock from '@/mocks/CanvasRenderingContext2DMock'
+import {
+  Canvas,
+  OBJECT_PLAYER,
+  OBJECT_SNAKE,
+  OBJECT_APPLE,
+  OBJECT_CORPSE,
+  OBJECT_WATERMELON,
+  OBJECT_WALL,
+  COLOR_PLAYER,
+  COLOR_SNAKE,
+  COLOR_APPLE,
+  COLOR_CORPSE,
+  COLOR_WATERMELON,
+  COLOR_WALL
+} from '@/game/Canvas'
+
+const CANVAS_WIDTH = 1200
+const CANVAS_HEIGHT = 800
+const DOT_SIZE = 20
+const LINE_SIZE = 0
+const MAP_WIDTH = 100
+const MAP_HEIGHT = 100
 
 describe('game canvas', () => {
-  it('canvas', () => {
-    const mock = new CanvasRenderingContext2DMock()
-    mock.clearRect()
-    mock.clearRect(1, 2, 3, 4)
-    mock.fillRect(1, 2, 3, 4, 5, 6, 7)
-    mock.fillStyle = '#787'
-    mock.fillRect(5, 6, 7)
-    const test = 'ok'
-    expect(test).toBe('ok')
+  it('canvas constructor works correctly', () => {
+    const contextSnakes = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextFood = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextWalls = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextGrid = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const canvas = new Canvas({
+      contexts: {
+        contextSnakes,
+        contextFood,
+        contextWalls,
+        contextGrid
+      },
+      grid: {
+        dot: DOT_SIZE,
+        line: LINE_SIZE,
+        width: MAP_WIDTH,
+        height: MAP_HEIGHT
+      }
+    })
+
+    expect(canvas._contextSnakes).toBe(contextSnakes)
+    expect(canvas._contextFood).toBe(contextFood)
+    expect(canvas._contextWalls).toBe(contextWalls)
+    expect(canvas._contextGrid).toBe(contextGrid)
+    expect(canvas._dot).toBe(DOT_SIZE)
+  })
+
+  it('canvas draws snakes to snakes context', () => {
+    const contextSnakes = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextFood = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextWalls = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextGrid = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const canvas = new Canvas({
+      contexts: {
+        contextSnakes,
+        contextFood,
+        contextWalls,
+        contextGrid
+      },
+      grid: {
+        dot: DOT_SIZE,
+        line: LINE_SIZE,
+        width: MAP_WIDTH,
+        height: MAP_HEIGHT
+      }
+    })
+
+    canvas.draw(OBJECT_SNAKE, [[0, 0]])
+    expect(contextSnakes.popCall()).toEqual({
+      'args': [0, 0, 20, 20],
+      'methodName': 'fillRect',
+      'props': {
+        'canvas': {
+          'height': 800,
+          'width': 1200
+        },
+        'fillStyle': COLOR_SNAKE,
+        'strokeStyle': '#000'
+      }
+    })
+  })
+
+  it('canvas draws apples to food context', () => {
+    const contextSnakes = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextFood = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextWalls = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextGrid = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const canvas = new Canvas({
+      contexts: {
+        contextSnakes,
+        contextFood,
+        contextWalls,
+        contextGrid
+      },
+      grid: {
+        dot: DOT_SIZE,
+        line: LINE_SIZE,
+        width: MAP_WIDTH,
+        height: MAP_HEIGHT
+      }
+    })
+
+    canvas.draw(OBJECT_APPLE, [[0, 0]])
+    expect(contextFood.popCall()).toEqual({
+      'args': [0, 0, 20, 20],
+      'methodName': 'fillRect',
+      'props': {
+        'canvas': {
+          'height': 800,
+          'width': 1200
+        },
+        'fillStyle': COLOR_APPLE,
+        'strokeStyle': '#000'
+      }
+    })
+  })
+
+  it('canvas draws corpses to food context', () => {
+    const contextSnakes = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextFood = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextWalls = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextGrid = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const canvas = new Canvas({
+      contexts: {
+        contextSnakes,
+        contextFood,
+        contextWalls,
+        contextGrid
+      },
+      grid: {
+        dot: DOT_SIZE,
+        line: LINE_SIZE,
+        width: MAP_WIDTH,
+        height: MAP_HEIGHT
+      }
+    })
+
+    canvas.draw(OBJECT_CORPSE, [[0, 0]])
+    expect(contextFood.popCall()).toEqual({
+      'args': [0, 0, 20, 20],
+      'methodName': 'fillRect',
+      'props': {
+        'canvas': {
+          'height': 800,
+          'width': 1200
+        },
+        'fillStyle': COLOR_CORPSE,
+        'strokeStyle': '#000'
+      }
+    })
+  })
+
+  it('canvas draws walls to walls context', () => {
+    const contextSnakes = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextFood = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextWalls = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextGrid = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const canvas = new Canvas({
+      contexts: {
+        contextSnakes,
+        contextFood,
+        contextWalls,
+        contextGrid
+      },
+      grid: {
+        dot: DOT_SIZE,
+        line: LINE_SIZE,
+        width: MAP_WIDTH,
+        height: MAP_HEIGHT
+      }
+    })
+
+    canvas.draw(OBJECT_WALL, [[0, 0]])
+    expect(contextWalls.popCall()).toEqual({
+      'args': [0, 0, 20, 20],
+      'methodName': 'fillRect',
+      'props': {
+        'canvas': {
+          'height': 800,
+          'width': 1200
+        },
+        'fillStyle': COLOR_WALL,
+        'strokeStyle': '#000'
+      }
+    })
+  })
+
+  it('canvas draws player snake to snakes context with special filling color', () => {
+    const contextSnakes = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextFood = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextWalls = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextGrid = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const canvas = new Canvas({
+      contexts: {
+        contextSnakes,
+        contextFood,
+        contextWalls,
+        contextGrid
+      },
+      grid: {
+        dot: DOT_SIZE,
+        line: LINE_SIZE,
+        width: MAP_WIDTH,
+        height: MAP_HEIGHT
+      }
+    })
+
+    canvas.draw(OBJECT_PLAYER, [[0, 0]])
+    expect(contextSnakes.popCall()).toEqual({
+      'args': [0, 0, 20, 20],
+      'methodName': 'fillRect',
+      'props': {
+        'canvas': {
+          'height': 800,
+          'width': 1200
+        },
+        'fillStyle': COLOR_PLAYER,
+        'strokeStyle': '#000'
+      }
+    })
+  })
+
+  it('canvas draws walls to walls context', () => {
+    const contextSnakes = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextFood = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextWalls = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const contextGrid = new CanvasRenderingContext2DMock(CANVAS_WIDTH, CANVAS_HEIGHT)
+    const canvas = new Canvas({
+      contexts: {
+        contextSnakes,
+        contextFood,
+        contextWalls,
+        contextGrid
+      },
+      grid: {
+        dot: DOT_SIZE,
+        line: LINE_SIZE,
+        width: MAP_WIDTH,
+        height: MAP_HEIGHT
+      }
+    })
+
+    canvas.draw(OBJECT_WATERMELON, [[0, 0]])
+    expect(contextFood.popCall()).toEqual({
+      'args': [0, 0, 20, 20],
+      'methodName': 'fillRect',
+      'props': {
+        'canvas': {
+          'height': 800,
+          'width': 1200
+        },
+        'fillStyle': COLOR_WATERMELON,
+        'strokeStyle': '#000'
+      }
+    })
   })
 })

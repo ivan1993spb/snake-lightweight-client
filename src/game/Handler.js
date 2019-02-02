@@ -27,48 +27,44 @@ export class Handler {
     this.objectsDeleteMessages = []
   }
 
-  handleServerMessage (message) {
-    const m = JSON.parse(message)
+  handleServerMessage (rawMessage) {
+    const message = JSON.parse(rawMessage)
 
-    if (m.hasOwnProperty('type') && m.hasOwnProperty('payload')) {
-      if (m.type === SERVER_MESSAGE_TYPE_GAME) {
-        this._handleServerMessageGame(m.payload)
-      } else if (m.type === SERVER_MESSAGE_TYPE_PLAYER) {
-        this._handleServerMessagePlayer(m.payload)
-      } else if (m.type === SERVER_MESSAGE_TYPE_BROADCAST) {
-        this._handleServerMessageBroadcast(m.payload)
-      } else {
-        log.warn('invalid server message type', m.type)
-      }
+    if (message.type === SERVER_MESSAGE_TYPE_GAME) {
+      this._handleServerMessageGame(message.payload)
+    } else if (message.type === SERVER_MESSAGE_TYPE_PLAYER) {
+      this._handleServerMessagePlayer(message.payload)
+    } else if (message.type === SERVER_MESSAGE_TYPE_BROADCAST) {
+      this._handleServerMessageBroadcast(message.payload)
+    } else {
+      log.warn('invalid server message type', message.type)
     }
   }
 
   _handleServerMessagePlayer (message) {
-    if (message.hasOwnProperty('type') && message.hasOwnProperty('payload')) {
-      switch (message.type) {
-        case SERVER_MESSAGE_PLAYER_TYPE_SIZE:
-          // TODO: Handle message type size!
-          // this._playground.setSize(message.payload.width, message.payload.height)
-          break
-        case SERVER_MESSAGE_PLAYER_TYPE_SNAKE:
-          this._playground.setPlayerSnake(message.payload)
-          break
-        case SERVER_MESSAGE_PLAYER_TYPE_NOTICE:
-          log.info('PLAYER NOTICE', message.payload)
-          break
-        case SERVER_MESSAGE_PLAYER_TYPE_ERROR:
-          log.error('PLAYER ERROR', message.payload)
-          break
-        case SERVER_MESSAGE_PLAYER_TYPE_COUNTDOWN:
-          log.info('PLAYER COUNTDOWN', message.payload, 'seconds')
-          break
-        case SERVER_MESSAGE_PLAYER_TYPE_OBJECTS:
-          log.info('received objects to load')
-          this._handleServerMessagePlayerObjects(message)
-          break
-        default:
-          log.error('invalid server message player type:', message.type)
-      }
+    switch (message.type) {
+      case SERVER_MESSAGE_PLAYER_TYPE_SIZE:
+        // TODO: Handle message type size!
+        // this._playground.setSize(message.payload.width, message.payload.height)
+        break
+      case SERVER_MESSAGE_PLAYER_TYPE_SNAKE:
+        this._playground.setPlayerSnake(message.payload)
+        break
+      case SERVER_MESSAGE_PLAYER_TYPE_NOTICE:
+        log.info('PLAYER NOTICE', message.payload)
+        break
+      case SERVER_MESSAGE_PLAYER_TYPE_ERROR:
+        log.error('PLAYER ERROR', message.payload)
+        break
+      case SERVER_MESSAGE_PLAYER_TYPE_COUNTDOWN:
+        log.info('PLAYER COUNTDOWN', message.payload, 'seconds')
+        break
+      case SERVER_MESSAGE_PLAYER_TYPE_OBJECTS:
+        log.info('received objects to load')
+        this._handleServerMessagePlayerObjects(message)
+        break
+      default:
+        log.error('invalid server message player type:', message.type)
     }
   }
 
@@ -96,28 +92,26 @@ export class Handler {
   }
 
   _handleServerMessageGame (message) {
-    if (message.hasOwnProperty('type') && message.hasOwnProperty('payload')) {
-      if (!this.objectsLoaded) {
-        log.warn('game message received before objects loading:', message.type)
+    if (!this.objectsLoaded) {
+      log.warn('game message received before objects loading:', message.type)
 
-        // While objects have not loaded:
-        if (message.type === SERVER_MESSAGE_GAME_TYPE_DELETE) {
-          // Cache deleting
-          this.objectsDeleteMessages.push(message)
-          return
-        } else if (message.type === SERVER_MESSAGE_GAME_TYPE_UPDATE) {
-          // Ignore updating
-          return
-        } else if (message.type === SERVER_MESSAGE_GAME_TYPE_CREATE) {
-          // Pass creating
-        }
+      // While objects have not loaded:
+      if (message.type === SERVER_MESSAGE_GAME_TYPE_DELETE) {
+        // Cache deleting
+        this.objectsDeleteMessages.push(message)
+        return
+      } else if (message.type === SERVER_MESSAGE_GAME_TYPE_UPDATE) {
+        // Ignore updating
+        return
+      } else if (message.type === SERVER_MESSAGE_GAME_TYPE_CREATE) {
+        // Pass creating
       }
+    }
 
-      if (message.type !== SERVER_MESSAGE_GAME_TYPE_ERROR) {
-        this._playground.handleGameEvent(message.type, message.payload)
-      } else {
-        this._handleServerMessageGameError(message.payload)
-      }
+    if (message.type !== SERVER_MESSAGE_GAME_TYPE_ERROR) {
+      this._playground.handleGameEvent(message.type, message.payload)
+    } else {
+      this._handleServerMessageGameError(message.payload)
     }
   }
 

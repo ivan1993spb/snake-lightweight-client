@@ -47,8 +47,8 @@ export class ScreenSizeController {
   gridProperties () {
     // TODO: Implement grid method to initialize Canvas
     return {
-      dot: 10,
-      line: 0,
+      dot: 34,
+      line: 4,
       width: this._mapWidthDots,
       height: this._mapHeightDots
     }

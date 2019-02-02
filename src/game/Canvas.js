@@ -1,4 +1,6 @@
 
+import log from 'loglevel'
+
 export const OBJECT_PLAYER = 0
 export const OBJECT_SNAKE = 1
 export const OBJECT_APPLE = 2
@@ -6,13 +8,13 @@ export const OBJECT_CORPSE = 3
 export const OBJECT_WATERMELON = 4
 export const OBJECT_WALL = 5
 
-export const COLOR_GRID = '#0a0'
+export const COLOR_GRID = '#151'
 export const COLOR_PLAYER = '#900'
 export const COLOR_SNAKE = '#f44'
 export const COLOR_APPLE = '#0f0'
 export const COLOR_CORPSE = '#00f'
 export const COLOR_WATERMELON = '#ff0'
-export const COLOR_WALL = '#eee'
+export const COLOR_WALL = '#115'
 
 const ERROR_INVALID_DOT_SIZE = 'invalid dot size'
 const ERROR_INVALID_LINE_SIZE = 'invalid line size'
@@ -26,6 +28,8 @@ export class Canvas {
   constructor ({ contexts, grid }) {
     this._setupGrid(grid)
     this._setupContexts(contexts)
+    this._resizeContexts()
+    this._drawGrid()
   }
 
   _setupGrid ({ dot, line, width, height }) {
@@ -56,6 +60,8 @@ export class Canvas {
 
   _resizeContexts () {
     const { width, height } = this._canvasSize()
+
+    log.info("RESIZE", width, height)
 
     this._contextSnakes.canvas.width = width
     this._contextSnakes.canvas.height = height
@@ -152,9 +158,9 @@ export class Canvas {
   }
 
   _drawGrid () {
-    this._contextGrid.fillStyle = COLOR_GRID
-
     const { width, height } = this._canvasSize()
+
+    this._contextGrid.fillStyle = COLOR_GRID
 
     if (this._line > 0) {
       for (let lineX = 0; lineX < width; lineX += this._line + this._dot) {

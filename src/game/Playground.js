@@ -10,6 +10,16 @@ import {
   OBJECT_WALL
 } from './Canvas'
 
+const OBJECT_TYPE_SNAKE = 'snake'
+const OBJECT_TYPE_APPLE = 'apple'
+const OBJECT_TYPE_CORPSE = 'corpse'
+const OBJECT_TYPE_WATERMELON = 'watermelon'
+const OBJECT_TYPE_WALL = 'wall'
+
+const GAME_EVENT_TYPE_CREATE = 'create'
+const GAME_EVENT_TYPE_UPDATE = 'update'
+const GAME_EVENT_TYPE_DELETE = 'delete'
+
 const X = 0
 const Y = 1
 
@@ -62,11 +72,11 @@ export class Playground {
     })
 
     this._cacheFood.forEach(food => {
-      if (food.type === 'apple') {
+      if (food.type === OBJECT_TYPE_APPLE) {
         this._canvas.draw(OBJECT_APPLE, [food.dot])
-      } else if (food.type === 'corpse') {
+      } else if (food.type === OBJECT_TYPE_CORPSE) {
         this._canvas.draw(OBJECT_CORPSE, food.dots)
-      } else if (food.type === 'watermelon') {
+      } else if (food.type === OBJECT_WATERMELON) {
         this._canvas.draw(OBJECT_WATERMELON, food.dots)
       }
     })
@@ -77,19 +87,19 @@ export class Playground {
   }
 
   handleGameEvent (type, payload) {
-    if (type === 'update') {
+    if (type === GAME_EVENT_TYPE_UPDATE) {
       if (!this._updateObject(payload)) {
         log.error('cannot update object', payload)
       }
       return
     }
-    if (type === 'delete') {
+    if (type === GAME_EVENT_TYPE_DELETE) {
       if (!this._deleteObject(payload)) {
         log.error('cannot delete object', payload)
       }
       return
     }
-    if (type === 'create') {
+    if (type === GAME_EVENT_TYPE_CREATE) {
       if (!this._createObject(payload)) {
         log.error('cannot create object', payload)
       }
@@ -101,7 +111,7 @@ export class Playground {
 
   _createObject (object) {
     switch (object.type) {
-      case 'snake':
+      case OBJECT_TYPE_SNAKE:
         if (this._snake === object.uuid) {
           this._canvas.draw(OBJECT_PLAYER, object.dots)
         } else {
@@ -109,19 +119,19 @@ export class Playground {
         }
         this._cacheSnakes.set(object.uuid, object)
         break
-      case 'apple':
+      case OBJECT_TYPE_APPLE:
         this._canvas.draw(OBJECT_APPLE, [object.dot])
         this._cacheFood.set(object.uuid, object)
         break
-      case 'corpse':
+      case OBJECT_TYPE_CORPSE:
         this._canvas.draw(OBJECT_CORPSE, object.dots)
         this._cacheFood.set(object.uuid, object)
         break
-      case 'watermelon':
+      case OBJECT_TYPE_WATERMELON:
         this._canvas.draw(OBJECT_WATERMELON, object.dots)
         this._cacheFood.set(object.uuid, object)
         break
-      case 'wall':
+      case OBJECT_TYPE_WALL:
         this._canvas.draw(OBJECT_WALL, object.dots)
         this._cacheWalls.set(object.uuid, object)
         break
@@ -135,7 +145,7 @@ export class Playground {
 
   _updateObject (object) {
     switch (object.type) {
-      case 'snake':
+      case OBJECT_TYPE_SNAKE:
         const snake = this._cacheSnakes.get(object.uuid)
         if (snake) {
           const { clear, draw } = dotListsDifference(object.dots, snake.dots)
@@ -152,11 +162,11 @@ export class Playground {
           log.error('snake to update not found')
         }
         break
-      case 'apple':
+      case OBJECT_TYPE_APPLE:
         // Cannot update apple.
         log.error('cannot update apple')
         break
-      case 'corpse':
+      case OBJECT_TYPE_CORPSE:
         const corpse = this._cacheFood.get(object.uuid)
         if (corpse) {
           const { clear, draw } = dotListsDifference(object.dots, corpse.dots)
@@ -168,7 +178,7 @@ export class Playground {
           log.error('corpse to update not found')
         }
         break
-      case 'watermelon':
+      case OBJECT_TYPE_WATERMELON:
         const watermelon = this._cacheFood.get(object.uuid)
         if (watermelon) {
           const { clear, draw } = dotListsDifference(object.dots, watermelon.dots)
@@ -180,7 +190,7 @@ export class Playground {
           log.error('watermelon to update not found')
         }
         break
-      case 'wall':
+      case OBJECT_TYPE_WALL:
         // Nothing to do here.
         log.error('cannot update wall')
         break
@@ -194,27 +204,27 @@ export class Playground {
   _deleteObject (object) {
     // Objects to be deleted might be without any location.
     switch (object.type) {
-      case 'snake':
+      case OBJECT_TYPE_SNAKE:
         this._canvas.clear(OBJECT_SNAKE, object.dots)
         return this._cacheSnakes.delete(object.uuid)
-      case 'apple':
+      case OBJECT_TYPE_APPLE:
         this._canvas.clear(OBJECT_APPLE, [object.dot])
         return this._cacheFood.delete(object.uuid)
-      case 'corpse':
+      case OBJECT_TYPE_CORPSE:
         const corpse = this._cacheFood.get(object.uuid)
         if (corpse) {
           this._canvas.clear(OBJECT_CORPSE, corpse.dots)
           return this._cacheFood.delete(object.uuid)
         }
         return false
-      case 'watermelon':
+      case OBJECT_TYPE_WATERMELON:
         const watermelon = this._cacheFood.get(object.uuid)
         if (watermelon) {
           this._canvas.clear(OBJECT_WATERMELON, watermelon.dots)
           return this._cacheFood.delete(object.uuid)
         }
         return false
-      case 'wall':
+      case OBJECT_TYPE_WALL:
         const wall = this._cacheWalls.get(object.uuid)
         if (wall) {
           this._canvas.clear(OBJECT_WALL, wall.dots)

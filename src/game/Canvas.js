@@ -1,6 +1,4 @@
 
-import log from 'loglevel'
-
 export const OBJECT_PLAYER = 0
 export const OBJECT_SNAKE = 1
 export const OBJECT_APPLE = 2
@@ -60,8 +58,6 @@ export class Canvas {
 
   _resizeContexts () {
     const { width, height } = this._canvasSize()
-
-    log.info("RESIZE", width, height)
 
     this._contextSnakes.canvas.width = width
     this._contextSnakes.canvas.height = height

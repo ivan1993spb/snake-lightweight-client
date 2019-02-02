@@ -2,9 +2,8 @@
 import log from 'loglevel'
 
 export class SocketController {
-  constructor ({ wsUrl, wsClass, srvMsgCounterEnable, srvMsgCounterPeriodSec }) {
-    this._wsUrl = wsUrl
-    this._wsClass = wsClass
+  constructor ({ webSocketFactory, srvMsgCounterEnable, srvMsgCounterPeriodSec }) {
+    this._webSocketFactory = webSocketFactory
     this._srvMsgCounterEnable = srvMsgCounterEnable
     this._srvMsgCounterPeriodSec = srvMsgCounterPeriodSec
     this._msgCount = 0
@@ -25,7 +24,7 @@ export class SocketController {
   }
 
   _connect () {
-    this._ws = new this._wsClass(this._wsUrl)
+    this._ws = this._webSocketFactory.create()
 
     this._ws.onmessage = (event) => {
       if (this._srvMsgCounterEnable) {

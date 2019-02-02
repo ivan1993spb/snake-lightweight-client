@@ -1,11 +1,47 @@
-import MouseController from '@/game/MouseController'
-
-const DIRECTION_NORTH = 0
-const DIRECTION_EAST = 1
-const DIRECTION_WEST = 2
-const DIRECTION_SOUTH = 3
+import {
+  DIRECTION_NORTH,
+  DIRECTION_EAST,
+  DIRECTION_WEST,
+  DIRECTION_SOUTH,
+  MouseController
+} from '@/game/MouseController'
 
 describe('MouseController test north', () => {
+  it('constructor sets square to listen clicks correctly', () => {
+    const controller = new MouseController({
+      x: 0,
+      y: 2,
+      width: 3,
+      height: 4
+    })
+
+    expect(controller._x).toBe(0)
+    expect(controller._y).toBe(2)
+    expect(controller._width).toBe(3)
+    expect(controller._height).toBe(4)
+  })
+
+  it('setScreen sets square to listen clicks correctly', () => {
+    const controller = new MouseController({
+      x: 0,
+      y: 2,
+      width: 3,
+      height: 4
+    })
+
+    controller.setScreen({
+      x: 20,
+      y: 30,
+      width: 100,
+      height: 300
+    })
+
+    expect(controller._x).toBe(20)
+    expect(controller._y).toBe(30)
+    expect(controller._width).toBe(100)
+    expect(controller._height).toBe(300)
+  })
+
   it('Simple square map find north', () => {
     const controller = new MouseController({
       x: 0,

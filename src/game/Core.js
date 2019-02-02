@@ -1,35 +1,25 @@
 
-import Canvas from './Canvas'
-import Playground from './Playground'
-import Game from './Game'
+import CanvasFactory from './CanvasFactory'
+import SocketControllerFactory from './SocketControllerFactory'
 import KeyboardController from './KeyboardController'
 import ScreenSizeController from './ScreenSizeController'
-import SocketController from './SocketController'
+import MouseController from './MouseController'
+import Handler from './Handler'
+import Playground from './Playground'
 
 export class Core {
-  constructor ({ canvasSnakes, canvasFood, canvasWalls, canvasGrid, id }) {
-    this._canvasSnakes = canvasSnakes
-    this._canvasFood = canvasFood
-    this._canvasWalls = canvasWalls
-    this._canvasGrid = canvasGrid
+  constructor ({ canvases, map, id }) {
+    const canvasFactory = new CanvasFactory(canvases)
+    const socketControllerFactory = new SocketControllerFactory(id)
 
-    this._contextSnakes = canvasSnakes.getContext('2d', { alpha: false })
-    this._contextFood = canvasFood.getContext('2d', { alpha: true })
-    this._contextWalls = canvasWalls.getContext('2d', { alpha: true })
-    this._contextGrid = canvasGrid.getContext('2d', { alpha: true })
-
-    this._canvas = new Canvas(
-      this._contextSnakes,
-      this._contextFood,
-      this._contextWalls,
-      this._contextGrid
-    )
-
-    this._playground = new Playground(this._canvas)
-    this._game = new Game(this._playground)
+    this._socketController = socketControllerFactory.create()
+    this._screenSizeController = new ScreenSizeController(map.width, map.height)
     this._keyboardController = new KeyboardController()
-    this._screenSizeController = new ScreenSizeController(100, 100)
-    this._socketController = new SocketController(id)
+    this._mouseController = new MouseController(this._screenSizeController.mouse())
+
+    this._canvas = canvasFactory.create(this._screenSizeController.grid())
+    this._playground = new Playground(this._canvas)
+    this._handler = new Handler(this._playground)
   }
 
   start () {

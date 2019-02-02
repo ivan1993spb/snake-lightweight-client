@@ -2,8 +2,13 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import _ from 'lodash'
-
-import { API_URL, SNAKE_CLIENT_NAME, MOCK_API } from '@/common/config'
+import {
+  API_URL,
+  SNAKE_CLIENT_NAME,
+  VERSION,
+  BUILD,
+  MOCK_API
+} from '@/common/config'
 import mockApi from '@/mocks/api.service'
 
 const HEADER_SNAKE_CLIENT_NAME = 'X-Snake-Client'
@@ -19,7 +24,7 @@ const ApiService = {
 
   setHeader () {
     Vue.axios.defaults.headers.common[HEADER_SNAKE_CLIENT_NAME] =
-      `${SNAKE_CLIENT_NAME}`
+      `${SNAKE_CLIENT_NAME}/${VERSION} (build ${BUILD})`
   },
 
   query (resource, params) {

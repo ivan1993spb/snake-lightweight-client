@@ -1,19 +1,14 @@
 
 import log from 'loglevel'
-import urljoin from 'url-join'
-import WebSocketMock from '@/mocks/ws.game'
-import {
-  WS_URL, MOCK_WS, SERVER_MESSAGES_COUNTER_PERIOD_SEC
-} from '@/common/config'
-
-const ENABLE_MESSAGE_COUNT_LOGGING = log.getLevel() <= log.levels.DEBUG
 
 export class SocketController {
-  constructor (id) {
-    this._id = id
-    this._socketURL = urljoin(WS_URL, 'games', this._id.toString())
-    this.messagesCount = 0
-    this.messagesCountInterval = 0
+  constructor ({ wsUrl, wsClass, srvMsgCounterEnable, srvMsgCounterPeriodSec }) {
+    this._wsUrl = wsUrl
+    this._wsClass = wsClass
+    this._srvMsgCounterEnable = srvMsgCounterEnable
+    this._srvMsgCounterPeriodSec = srvMsgCounterPeriodSec
+    this._msgCount = 0
+    this._msgCountInterval = 0
 
     this.onmessage = () => {
       throw new Error('method to be triggered is not specified: onmessage')
@@ -30,19 +25,14 @@ export class SocketController {
   }
 
   _connect () {
-    if (MOCK_WS) {
-      this._ws = new WebSocketMock(this._socketURL)
-    } else {
-      this._ws = new WebSocket(this._socketURL)
-    }
+    this._ws = new this._wsClass(this._wsUrl)
 
     this._ws.onmessage = (event) => {
-      if (ENABLE_MESSAGE_COUNT_LOGGING) {
-        this.messagesCount++
+      if (this._srvMsgCounterEnable) {
+        this._msgCount++
       }
 
-      // TODO: Deserialize event.data
-      this.onmessage()
+      this.onmessage(event.data)
     }
 
     this._ws.onclose = (event) => {
@@ -62,43 +52,41 @@ export class SocketController {
   }
 
   send (data) {
-    // TODO: Serialize data to send
     if (typeof data === 'string') {
       try {
         this._ws.send(data)
       } catch (e) {
-        log.error('cannot send controll command:', e)
+        log.error('cannot send a data:', e)
       }
     } else {
-      log.error('invalid game controll command')
+      log.error('invalid data type: string expected')
     }
   }
 
   _disconnect () {
-    // Normal Closure
     this._ws.close(1000, 'Normal Closure')
   }
 
   _startMessageCountLogging () {
-    this.messagesCountInterval = setInterval(() => {
-      const meanMessagesPerSec = this.messagesCount / SERVER_MESSAGES_COUNTER_PERIOD_SEC
+    this._msgCountInterval = setInterval(() => {
+      const meanMessagesPerSec = this._msgCount / this._srvMsgCounterPeriodSec
       log.debug('messages count per second:', meanMessagesPerSec.toFixed(2))
-      this.messagesCount = 0
-    }, SERVER_MESSAGES_COUNTER_PERIOD_SEC * 1000)
+      this._msgCount = 0
+    }, this._srvMsgCounterPeriodSec * 1000)
   }
 
   _stopMessageCountLogging () {
-    clearInterval(this.messagesCountInterval)
+    clearInterval(this._msgCountInterval)
   }
 
   start () {
-    if (ENABLE_MESSAGE_COUNT_LOGGING) {
+    if (this._srvMsgCounterEnable) {
       this._startMessageCountLogging()
     }
   }
 
   stop () {
-    if (ENABLE_MESSAGE_COUNT_LOGGING) {
+    if (this._srvMsgCounterEnable) {
       this._stopMessageCountLogging()
     }
 

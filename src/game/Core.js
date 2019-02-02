@@ -20,14 +20,52 @@ export class Core {
     this._canvas = canvasFactory.create(this._screenSizeController.grid())
     this._playground = new Playground(this._canvas)
     this._handler = new Handler(this._playground)
+
+    this._initSocketController()
+    this._initScreenSizeController()
+    this._initKeyboardController()
+    this._initMouseController()
+  }
+
+  _initSocketController () {
+    this._socketController.onmessage = (serverMessage) => {
+      this._handler.handleServerMessage(serverMessage)
+    }
+    this._socketController.onclose = () => {
+      // TODO: Implement handler.
+    }
+    this._socketController.onerror = () => {
+      // TODO: Implement handler.
+    }
+    this._socketController.onopen = () => {
+      // TODO: Implement handler.
+    }
+  }
+
+  _initScreenSizeController () {
+    // TODO: Implement method.
+  }
+
+  _initKeyboardController () {
+    // TODO: Implement method.
+  }
+
+  _initMouseController () {
+    // TODO: Implement method.
   }
 
   start () {
+    this._socketController.start()
     this._screenSizeController.start()
+    this._keyboardController.start()
+    this._mouseController.start()
   }
 
   stop () {
+    this._socketController.stop()
     this._screenSizeController.stop()
+    this._keyboardController.stop()
+    this._mouseController.stop()
   }
 }
 

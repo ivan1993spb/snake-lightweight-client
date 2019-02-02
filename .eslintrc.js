@@ -5,11 +5,13 @@ module.exports = {
   },
   'extends': [
     'plugin:vue/essential',
-    '@vue/standard'
+    '@vue/standard',
+    'eslint:recommended'
   ],
   rules: {
     'no-console': 'error',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'camelcase': [2, { 'properties': 'always' }]
   },
   parserOptions: {
     parser: 'babel-eslint'

@@ -145,7 +145,7 @@ export class Playground {
 
   _updateObject (object) {
     switch (object.type) {
-      case OBJECT_TYPE_SNAKE:
+      case OBJECT_TYPE_SNAKE: {
         const snake = this._cacheSnakes.get(object.uuid)
         if (snake) {
           const { clear, draw } = dotListsDifference(object.dots, snake.dots)
@@ -162,11 +162,13 @@ export class Playground {
           log.error('snake to update not found')
         }
         break
-      case OBJECT_TYPE_APPLE:
+      }
+      case OBJECT_TYPE_APPLE: {
         // Cannot update apple.
         log.error('cannot update apple')
         break
-      case OBJECT_TYPE_CORPSE:
+      }
+      case OBJECT_TYPE_CORPSE: {
         const corpse = this._cacheFood.get(object.uuid)
         if (corpse) {
           const { clear, draw } = dotListsDifference(object.dots, corpse.dots)
@@ -178,7 +180,8 @@ export class Playground {
           log.error('corpse to update not found')
         }
         break
-      case OBJECT_TYPE_WATERMELON:
+      }
+      case OBJECT_TYPE_WATERMELON: {
         const watermelon = this._cacheFood.get(object.uuid)
         if (watermelon) {
           const { clear, draw } = dotListsDifference(object.dots, watermelon.dots)
@@ -190,12 +193,15 @@ export class Playground {
           log.error('watermelon to update not found')
         }
         break
-      case OBJECT_TYPE_WALL:
+      }
+      case OBJECT_TYPE_WALL: {
         // Nothing to do here.
         log.error('cannot update wall')
         break
-      default:
+      }
+      default: {
         log.error('error cannot update object of invalid type:', object.type)
+      }
     }
 
     return false
@@ -210,27 +216,30 @@ export class Playground {
       case OBJECT_TYPE_APPLE:
         this._canvas.clear(OBJECT_APPLE, [object.dot])
         return this._cacheFood.delete(object.uuid)
-      case OBJECT_TYPE_CORPSE:
+      case OBJECT_TYPE_CORPSE: {
         const corpse = this._cacheFood.get(object.uuid)
         if (corpse) {
           this._canvas.clear(OBJECT_CORPSE, corpse.dots)
           return this._cacheFood.delete(object.uuid)
         }
         return false
-      case OBJECT_TYPE_WATERMELON:
+      }
+      case OBJECT_TYPE_WATERMELON: {
         const watermelon = this._cacheFood.get(object.uuid)
         if (watermelon) {
           this._canvas.clear(OBJECT_WATERMELON, watermelon.dots)
           return this._cacheFood.delete(object.uuid)
         }
         return false
-      case OBJECT_TYPE_WALL:
+      }
+      case OBJECT_TYPE_WALL: {
         const wall = this._cacheWalls.get(object.uuid)
         if (wall) {
           this._canvas.clear(OBJECT_WALL, wall.dots)
           return this._cacheWalls.delete(object.uuid)
         }
         return false
+      }
       default:
         log.error('error cannot delete object of invalid type:', object.type)
     }

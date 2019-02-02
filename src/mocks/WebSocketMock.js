@@ -12,8 +12,8 @@ const MESSAGE_OPEN = {
 const MESSAGE_RECEIVE_DELAY = 500
 
 export class WebSocketMock {
-  constructor (socketUrl, gameReplay) {
-    this._game = gameReplay
+  constructor (socketUrl, game) {
+    this._game = game
 
     this.onmessage = () => {
       throw new Error('method to be triggered is not specified: onmessage')

@@ -1,7 +1,7 @@
 
 import log from 'loglevel'
 
-export class Game {
+export class Handler {
   constructor (playground) {
     this._playground = playground
 
@@ -116,4 +116,4 @@ export class Game {
   }
 }
 
-export default Game
+export default Handler

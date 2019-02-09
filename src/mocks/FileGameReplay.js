@@ -10,7 +10,8 @@ export class FileGameReplay {
   }
 
   start () {
-    import(this._replayFile)
+    import('./replays/' + this._replayFile)
+      .then(module => module.default)
       .then(module => {
         const messages = module.messages
 
@@ -25,7 +26,7 @@ export class FileGameReplay {
           type: 'player',
           payload: {
             type: 'error',
-            payload: errorMessage
+            payload: errorMessage.toString()
           }
         })
       })

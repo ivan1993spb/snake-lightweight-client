@@ -25,7 +25,7 @@
 import { mapGetters } from 'vuex'
 import store from '@/store'
 import { FETCH_INFO } from '@/store/actions.type'
-import { VERSION, BUILD, LICENSE, AUTHOR } from '@/common/config'
+import { AUTHOR, BUILD, LICENSE, VERSION } from '@/common/config'
 
 export default {
   name: 'about',

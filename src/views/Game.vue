@@ -21,9 +21,9 @@ import store from '@/store'
 import router from '@/router'
 
 import {
+  DELETE_GAME,
   FETCH_GAME,
-  UPDATE_GAME,
-  DELETE_GAME
+  UPDATE_GAME
 } from '@/store/actions.type'
 
 export default {

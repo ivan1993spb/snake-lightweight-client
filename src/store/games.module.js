@@ -5,16 +5,16 @@ import {
   GamesService
 } from '@/common/api.service'
 import {
-  FETCH_GAMES,
   DELETE_GAME,
+  FETCH_GAMES,
   UPDATE_GAMES
 } from './actions.type'
 import {
-  RESET_STATE,
-  SET_GAMES,
-  FETCH_START,
+  EXCLUDE_GAME,
   FETCH_END,
-  EXCLUDE_GAME
+  FETCH_START,
+  RESET_STATE,
+  SET_GAMES
 } from './mutations.type'
 
 const initialState = {

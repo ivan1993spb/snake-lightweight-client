@@ -1,7 +1,7 @@
 
 import {
-  COMMAND_NORTH,
   COMMAND_EAST,
+  COMMAND_NORTH,
   COMMAND_SOUTH,
   COMMAND_WEST
 } from './commands'

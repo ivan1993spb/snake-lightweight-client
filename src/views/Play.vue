@@ -20,7 +20,7 @@
 
 import { mapGetters } from 'vuex'
 import Playground from '@/components/Playground'
-import { UPDATE_GAME, FETCH_GAME } from '@/store/actions.type'
+import { FETCH_GAME, UPDATE_GAME } from '@/store/actions.type'
 import store from '@/store'
 
 export default {

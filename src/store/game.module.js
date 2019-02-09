@@ -5,15 +5,15 @@ import {
 } from '@/common/api.service'
 import router from '@/router'
 import {
+  CREATE_GAME,
   FETCH_GAME,
-  UPDATE_GAME,
-  CREATE_GAME
+  UPDATE_GAME
 } from './actions.type'
 import {
-  RESET_STATE,
-  SET_GAME,
+  FETCH_END,
   FETCH_START,
-  FETCH_END
+  RESET_STATE,
+  SET_GAME
 } from './mutations.type'
 
 const initialState = {

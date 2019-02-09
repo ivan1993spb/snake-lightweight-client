@@ -7,10 +7,10 @@ import {
   FETCH_INFO
 } from './actions.type'
 import {
-  RESET_STATE,
-  SET_INFO,
+  FETCH_END,
   FETCH_START,
-  FETCH_END
+  RESET_STATE,
+  SET_INFO
 } from './mutations.type'
 
 const initialState = {

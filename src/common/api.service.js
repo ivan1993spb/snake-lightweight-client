@@ -4,10 +4,10 @@ import VueAxios from 'vue-axios'
 import _ from 'lodash'
 import {
   API_URL,
-  SNAKE_CLIENT_NAME,
-  VERSION,
   BUILD,
-  MOCK_API
+  MOCK_API,
+  SNAKE_CLIENT_NAME,
+  VERSION
 } from '@/common/config'
 import mockApi from '@/mocks/api.service'
 

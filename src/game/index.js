@@ -1,7 +1,9 @@
 
 import Core from './Core'
 
-export default Core
+export default {
+  Core
+}
 
 // Server messages:
 // - game

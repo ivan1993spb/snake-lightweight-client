@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import Game from '@/game'
+
+import log from 'loglevel'
 
 export default {
   name: 'Playground',
@@ -51,21 +52,30 @@ export default {
     const width = this.width
     const height = this.height
 
-    this.game = new Game({
-      canvases: {
-        canvasSnakes,
-        canvasFood,
-        canvasWalls,
-        canvasGrid
-      },
-      map: {
-        width,
-        height
-      },
-      id
-    })
+    import('@/game')
+      .then(module => module.default)
+      .then(game => {
+        this.game = new game.Core({
+          canvases: {
+            canvasSnakes,
+            canvasFood,
+            canvasWalls,
+            canvasGrid
+          },
+          map: {
+            width,
+            height
+          },
+          id
+        })
 
-    this.game.start()
+        this.game.start()
+      })
+      .catch(error => {
+        log.info('err', error)
+
+        // TODO: Catch error
+      })
   },
 
   beforeDestroy () {

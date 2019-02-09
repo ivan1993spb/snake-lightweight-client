@@ -41,12 +41,12 @@ export class SocketController {
 
     this._ws.onerror = (event) => {
       log.error('WS ONERROR', event)
-      this.onerror()
+      this.onerror(event)
     }
 
     this._ws.onopen = (event) => {
       log.info('WS ONOPEN')
-      this.onerror()
+      this.onopen(event)
     }
   }
 

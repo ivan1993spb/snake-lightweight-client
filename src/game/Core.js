@@ -88,6 +88,7 @@ export class Core {
     this._screenSizeController.start()
     this._keyboardController.start()
     this._mouseController.start()
+    this._gameController.start()
   }
 
   stop () {
@@ -95,6 +96,7 @@ export class Core {
     this._screenSizeController.stop()
     this._keyboardController.stop()
     this._mouseController.stop()
+    this._gameController.stop()
   }
 }
 

@@ -47,23 +47,28 @@ export class Core {
   }
 
   _initScreenSizeController () {
-    this._screenSizeController.onresize = () => {
+    this._screenSizeController.onresize = ({ grid, map }) => {
       // TODO: Implement handler.
       log.info('%$ ONRESIZE')
+      this._canvas.setGrid(grid)
+      this._mouseController.setScreen(map)
+      this._playground.redrawFromCaches()
     }
   }
 
   _initKeyboardController () {
-    this._keyboardController.oncommand = () => {
+    this._keyboardController.oncommand = (command) => {
       // TODO: Implement handler.
       log.info('%$ ONCOMMAND KEYBOARD')
+      this._socketController.send(command)
     }
   }
 
   _initMouseController () {
-    this._mouseController.oncommand = () => {
+    this._mouseController.oncommand = (command) => {
       // TODO: Implement handler.
       log.info('%$ ONCOMMAND MOUSE')
+      this._socketController.send(command)
     }
   }
 

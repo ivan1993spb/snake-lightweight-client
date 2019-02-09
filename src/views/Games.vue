@@ -2,32 +2,36 @@
   <div class="games">
     <h1>Games</h1>
 
-    <div v-if="isLoadingGames">Loading</div>
-    <div v-else>
-      <div class="games-page-block">Games count: {{ count }}/{{ limit }}</div>
+    <div class="games-content">
 
-      <div class="games-page-block" v-if="count < limit">
-        <router-link to="/new">create game</router-link>
-      </div>
+      <div v-if="isLoadingGames">Loading</div>
+      <div v-else>
+        <div class="games-page-block">Games count: {{ count }}/{{ limit }}</div>
 
-      <div class="games-page-block" v-if="count > 0">
-        <div
-          class=""
-          v-for="({id, width, height, limit, count, rate}, index) in games"
-          v-bind:key="'game'+index">
-          <GameItem
-            :id="id"
-            :width="width"
-            :height="height"
-            :count="count"
-            :limit="limit"
-            :rate="rate"
-          />
+        <div class="games-page-block" v-if="count < limit">
+          <router-link to="/new">create game</router-link>
+        </div>
+
+        <div class="games-page-block" v-if="count > 0">
+          <div
+            class=""
+            v-for="({id, width, height, limit, count, rate}, index) in games"
+            v-bind:key="'game'+index">
+            <GameItem
+              :id="id"
+              :width="width"
+              :height="height"
+              :count="count"
+              :limit="limit"
+              :rate="rate"
+            />
+          </div>
+        </div>
+        <div v-else>
+          Empty
         </div>
       </div>
-      <div v-else>
-        Empty
-      </div>
+
     </div>
 
   </div>
@@ -71,7 +75,18 @@ export default {
 </script>
 
 <style lang="scss">
-.games-page-block {
-  margin: 10px;
-}
+  .games {
+    font-family: Classic, sans-serif;
+    letter-spacing: 2px;
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+    }
+
+    .games-content {
+      max-width: 790px;
+      margin: 0 auto;
+    }
+  }
 </style>

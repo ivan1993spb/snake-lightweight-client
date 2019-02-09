@@ -1,18 +1,20 @@
 <template>
-  <div>
+  <div class="play">
     <h1>Play game {{ game.id }}</h1>
-    <div>
-      <span><b>Details</b></span>
-      <span>Players: {{ game.count }}/{{ game.limit }}</span>
-      <span>Messages: {{ game.rate }} per sec</span>
+    <div class="play-content">
+      <div>
+        <span><b>Details</b></span>
+        <span>Players: {{ game.count }}/{{ game.limit }}</span>
+        <span>Messages: {{ game.rate }} per sec</span>
+      </div>
+      <div v-if="isLoadingGame">
+        <div>Loading</div>
+      </div>
+      <div v-else>
+        <Playground :width="game.width" :height="game.height" :id="game.id"/>
+      </div>
+      <div>Use arrows, WASD, IJKL or mouse</div>
     </div>
-    <div v-if="isLoadingGame">
-      <div>Loading</div>
-    </div>
-    <div v-else>
-      <Playground :width="game.width" :height="game.height" :id="game.id"/>
-    </div>
-    <div>Use arrows, WASD, IJKL or mouse</div>
   </div>
 </template>
 
@@ -53,3 +55,19 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  .play {
+    font-family: Classic, sans-serif;
+    letter-spacing: 2px;
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+    }
+
+    .play-content {
+      max-width: 790px;
+      margin: 0 auto;
+    }
+  }
+</style>

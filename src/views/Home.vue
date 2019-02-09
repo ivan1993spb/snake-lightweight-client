@@ -20,9 +20,6 @@
     <div>
       <Capacity :capacity="capacity"/>
     </div>
-    <div class="btn-start">
-      <router-link to="/games"><img src="../assets/button.png" alt=""></router-link>
-    </div>
   </div>
 </template>
 
@@ -66,21 +63,22 @@ export default {
   .home {
     font-family: Classic, sans-serif;
     letter-spacing: 2px;
+
     h1 {
-      text-align:center;
+      text-align: center;
+      font-size: 3rem;
     }
+
+    h3 {
+      color: #4283b9;
+      font-size: 2rem;
+    }
+
     .home-content {
       max-width: 790px;
       margin: 0 auto;
       li {
-        padding-bottom:10px;
-      }
-    }
-    .btn-start {
-      max-width:300px;
-      margin: 0 auto;
-      img {
-        width:100%;
+        padding-bottom: 10px;
       }
     }
   }

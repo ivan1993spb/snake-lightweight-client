@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <div id="nav">
-      <div class="logo"><img src="./assets/logo.png" alt=""></div>
       <router-link to="/">Home</router-link>
       <router-link to="/games">Games</router-link>
       <router-link to="/about">About</router-link>
@@ -30,7 +29,6 @@
   justify-content: center;
   padding: 30px;
   font-family: Classic;
-  border-bottom: 3px solid #fff;
   .logo {
     margin-right:50px;
     img {
@@ -38,7 +36,7 @@
     }
   }
   a {
-    font-size:3rem;
+    font-size: 5rem;
     color: #2c3e50;
     padding-left: 30px;
     padding-right: 30px;

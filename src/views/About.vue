@@ -1,22 +1,24 @@
 <template>
   <div class="about">
     <h1>About</h1>
-    <h2>Client info</h2>
-    <div>
-      <div>Client source code: https://github.com/ivan1993spb/snake-lightweight-client</div>
-      <div>Client version: {{ VERSION }}</div>
-      <div>Client build: {{ BUILD }}</div>
-      <div>License: {{ LICENSE }}</div>
-      <div>Author: {{ AUTHOR }}</div>
-    </div>
-    <h2>Server info</h2>
-    <div v-if="isLoadingInfo">Loading</div>
-    <div v-else>
-      <div>Server source code: https://github.com/ivan1993spb/snake-server</div>
-      <div>Server version: {{ info.version }}</div>
-      <div>Server build: {{ info.build }}</div>
-      <div>License: {{ info.license }}</div>
-      <div>Author: {{ info.author }}</div>
+    <div class="about-content">
+      <h3>Client info</h3>
+      <div>
+        <div>Client source code: https://github.com/ivan1993spb/snake-lightweight-client</div>
+        <div>Client version: {{ VERSION }}</div>
+        <div>Client build: {{ BUILD }}</div>
+        <div>License: {{ LICENSE }}</div>
+        <div>Author: {{ AUTHOR }}</div>
+      </div>
+      <h3>Server info</h3>
+      <div v-if="isLoadingInfo">Loading</div>
+      <div v-else>
+        <div>Server source code: https://github.com/ivan1993spb/snake-server</div>
+        <div>Server version: {{ info.version }}</div>
+        <div>Server build: {{ info.build }}</div>
+        <div>License: {{ info.license }}</div>
+        <div>Author: {{ info.author }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,3 +51,30 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  .about {
+    font-family: Classic, sans-serif;
+    letter-spacing: 2px;
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+    }
+
+    h3 {
+      color: #4283b9;
+      font-size: 2rem;
+    }
+
+    // TODO: Use that color: #8342b9?
+
+    .about-content {
+      max-width: 790px;
+      margin: 0 auto;
+
+      li {
+        padding-bottom:10px;
+      }
+    }
+  }
+</style>

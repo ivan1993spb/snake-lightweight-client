@@ -1,7 +1,7 @@
 <template>
   <div class="game-item">
     <div>
-      <router-link :to="{ name: 'game', params: { id } }">Game {{ id }}</router-link>
+      <router-link :to="{ name: 'game', params: { id } }">{{ name }}</router-link>
     </div>
     <div>
       <b>map: {{ width }}x{{ height }}</b>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import converter from 'number-to-words'
 import store from '@/store'
 import { DELETE_GAME } from '@/store/actions.type'
 
@@ -49,6 +50,11 @@ export default {
     rate: {
       type: Number,
       required: true
+    }
+  },
+  computed: {
+    name: function () {
+      return 'Game ' + converter.toWords(this.id)
     }
   },
   methods: {

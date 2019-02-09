@@ -2,14 +2,15 @@
 import log from 'loglevel'
 import urljoin from 'url-join'
 import {
-  WS_URL, MOCK_WS, SERVER_MESSAGES_COUNTER_PERIOD_SEC
+  MOCK_WS, SERVER_MESSAGES_COUNTER_PERIOD_SEC, WS_URL
 } from '@/common/config'
-import WebSocketMock from '@/mocks/WebSocketMock'
+import ReplayWebSocketMock from '@/mocks/ReplayWebSocketMock'
 import LoopGameReplay from '@/mocks/LoopGameReplay'
 import WebSocketFactory from './WebSocketFactory'
 import SocketController from './SocketController'
 
 const ENABLE_MESSAGE_COUNT_LOGGING = log.getLevel() <= log.levels.DEBUG
+const DEFAULT_REPLAY_DELAY = 400
 
 export class SocketControllerFactory {
   constructor (id) {
@@ -21,7 +22,7 @@ export class SocketControllerFactory {
 
   _initWebSocketFactory () {
     if (MOCK_WS) {
-      this._webSocketFactory = new WebSocketFactory(WebSocketMock, this._socketURL, new LoopGameReplay())
+      this._webSocketFactory = new WebSocketFactory(ReplayWebSocketMock, new LoopGameReplay(DEFAULT_REPLAY_DELAY))
     } else {
       this._webSocketFactory = new WebSocketFactory(WebSocket, this._socketURL)
     }

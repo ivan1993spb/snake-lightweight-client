@@ -5,12 +5,12 @@ module.exports = {
   },
   'extends': [
     'plugin:vue/essential',
-    '@vue/standard',
-    'eslint:recommended'
+    '@vue/standard'
   ],
   rules: {
     'no-console': 'error',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-var': 'error',
     'camelcase': [2, { 'properties': 'always' }]
   },
   parserOptions: {

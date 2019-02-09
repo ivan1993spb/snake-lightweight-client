@@ -1,8 +1,9 @@
 
 import _ from 'lodash'
+import log from 'loglevel'
 
 const LISTEN_TO_EVENT = 'resize'
-const THROTTLE_WAIT = 300
+const THROTTLE_WAIT = 1000
 
 const DEFAULT_CLIENT_WIDTH = 1200
 const DEFAULT_CLIENT_HEIGHT = 800
@@ -15,14 +16,10 @@ const DEFAULT_CLIENT_HEIGHT = 800
 
 function clientSizePx () {
   return {
-    width: window.innerWidth ||
-      document.documentElement.clientWidth ||
-      document.body.clientWidth ||
-      DEFAULT_CLIENT_WIDTH,
-    height: window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight ||
-      DEFAULT_CLIENT_HEIGHT
+    width: window.innerWidth || document.documentElement.clientWidth ||
+      document.body.clientWidth || DEFAULT_CLIENT_WIDTH,
+    height: window.innerHeight || document.documentElement.clientHeight ||
+      document.body.clientHeight || DEFAULT_CLIENT_HEIGHT
   }
 }
 
@@ -30,10 +27,6 @@ export class ScreenSizeController {
   constructor (mapWidthDots, mapHeightDots) {
     this._mapWidthDots = mapWidthDots
     this._mapHeightDots = mapHeightDots
-
-    const { width, height } = clientSizePx()
-    this._clientWidthPixel = width
-    this._clientHeightPixel = height
 
     this.onresize = () => {
       throw new Error('method to be triggered is not specified: onresize')
@@ -65,6 +58,35 @@ export class ScreenSizeController {
   }
 
   _handleResize () {
+
+    const { width, height } = clientSizePx()
+
+    let mapWidthPixel = 0
+    let mapHeightPixel = 0
+    let x = 0
+    let y = 0
+
+    if (width > 600) {
+      mapWidthPixel = Math.floor(width*0.7)
+      x = Math.floor((width - mapWidthPixel) / 2)
+    } else {
+      mapWidthPixel = width
+      x = 0
+    }
+
+    if (height > 600) {
+      mapHeightPixel = Math.floor(width*0.7)
+      y = Math.floor((height - mapHeightPixel) / 2)
+    } else {
+      mapHeightPixel = height
+      y = 0
+    }
+
+    const cell = Math.ceil(Math.min(mapWidthPixel, mapHeightPixel) / Math.max(this._mapWidthDots, this._mapHeightDots))
+    const line = Math.floor(cell * 0.10)
+    const dot = cell - line
+
+
     // canvas size px - width and height
     // const mapWidthPixel = (this._mapWidthDots * dotSize) + ((this._mapWidthDots + 1) * gridSize)
     // const mapHeightPixel = (this._mapHeightDots * dotSize) + ((this._mapHeightDots + 1) * gridSize)
@@ -73,7 +95,35 @@ export class ScreenSizeController {
     // dot size - px
     // grid size - px
 
-    this.onresize(this.gridProperties())
+    log.info('RESIZE', {
+      grid: {
+        dot: dot,
+        line: line,
+        width: this._mapWidthDots,
+        height: this._mapHeightDots
+      },
+      map: {
+        x: x,
+        y: y,
+        width: mapWidthPixel,
+        height: mapHeightPixel
+      }
+    })
+
+    this.onresize({
+      grid: {
+        dot: dot,
+        line: line,
+        width: this._mapWidthDots,
+        height: this._mapHeightDots
+      },
+      map: {
+        x: x,
+        y: y,
+        width: mapWidthPixel,
+        height: mapHeightPixel
+      }
+    })
     // onresize invocation to resize canvases, to redraw all staff,
     // to replace map on screen
   }

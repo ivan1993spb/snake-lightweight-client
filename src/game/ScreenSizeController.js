@@ -58,7 +58,6 @@ export class ScreenSizeController {
   }
 
   _handleResize () {
-
     const { width, height } = clientSizePx()
 
     let mapWidthPixel = 0
@@ -67,7 +66,7 @@ export class ScreenSizeController {
     let y = 0
 
     if (width > 600) {
-      mapWidthPixel = Math.floor(width*0.7)
+      mapWidthPixel = Math.floor(width * 0.7)
       x = Math.floor((width - mapWidthPixel) / 2)
     } else {
       mapWidthPixel = width
@@ -75,7 +74,7 @@ export class ScreenSizeController {
     }
 
     if (height > 600) {
-      mapHeightPixel = Math.floor(width*0.7)
+      mapHeightPixel = Math.floor(width * 0.7)
       y = Math.floor((height - mapHeightPixel) / 2)
     } else {
       mapHeightPixel = height
@@ -85,7 +84,6 @@ export class ScreenSizeController {
     const cell = Math.ceil(Math.min(mapWidthPixel, mapHeightPixel) / Math.max(this._mapWidthDots, this._mapHeightDots))
     const line = Math.floor(cell * 0.10)
     const dot = cell - line
-
 
     // canvas size px - width and height
     // const mapWidthPixel = (this._mapWidthDots * dotSize) + ((this._mapWidthDots + 1) * gridSize)

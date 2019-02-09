@@ -3,7 +3,7 @@ const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const packageJson = require('./package.json')
 
 const gitRevisionPlugin = new GitRevisionPlugin({
-  versionCommand: 'describe --tags --abbrev=0',
+  versionCommand: 'describe --tags --abbrev=0 --always',
   commithashCommand: 'rev-parse --short HEAD'
 })
 

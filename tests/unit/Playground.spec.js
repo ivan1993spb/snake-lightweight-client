@@ -14,9 +14,9 @@ describe('Playground common methods', () => {
     expect(pg._canvas).toBe(canvas)
     expect(pg._snake).toBe('')
 
-    expect(pg._cacheSnakes).toBeInstanceOf(Map);
-    expect(pg._cacheFood).toBeInstanceOf(Map);
-    expect(pg._cacheWalls).toBeInstanceOf(Map);
+    expect(pg._cacheSnakes).toBeInstanceOf(Map)
+    expect(pg._cacheFood).toBeInstanceOf(Map)
+    expect(pg._cacheWalls).toBeInstanceOf(Map)
   })
 
   it('Playground setPlayerSnake sets snake', () => {
@@ -28,6 +28,6 @@ describe('Playground common methods', () => {
 
     const pg = new Playground(canvas)
     pg.setPlayerSnake('id')
-    expect(pg._snake).toBe('id');
+    expect(pg._snake).toBe('id')
   })
 })

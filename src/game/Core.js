@@ -22,10 +22,18 @@ export class Core {
     this._playground = new Playground(this._canvas)
     this._handler = new Handler(this._playground)
 
+    this._initHandler()
     this._initSocketController()
     this._initScreenSizeController()
     this._initKeyboardController()
     this._initMouseController()
+  }
+
+  // TODO: Rename into GameController?
+  _initHandler () {
+    this._handler.onMapResize = (width, height) => {
+      this._screenSizeController.mapResize(width, height)
+    }
   }
 
   _initSocketController () {

@@ -1,6 +1,5 @@
 
 import _ from 'lodash'
-import log from 'loglevel'
 
 const LISTEN_TO_EVENT = 'resize'
 const THROTTLE_WAIT = 1000
@@ -37,27 +36,49 @@ export class ScreenSizeController {
     }, THROTTLE_WAIT)
   }
 
-  gridProperties () {
-    // TODO: Implement grid method to initialize Canvas
+  _calcMapSizePixel () {
+    const { width, height } = clientSizePx()
+
+    let mapWidthPixel = 0
+    let mapHeightPixel = 0
+
+    if (width > 600) {
+      mapWidthPixel = Math.floor(width * 0.7)
+    } else {
+      mapWidthPixel = width
+    }
+
+    if (height > 600) {
+      mapHeightPixel = Math.floor(height * 0.7)
+    } else {
+      mapHeightPixel = height
+    }
+
     return {
-      dot: 34,
-      line: 4,
+      width: mapWidthPixel,
+      height: mapHeightPixel
+    }
+  }
+
+  gridProperties () {
+    const {
+      width: mapWidthPixel,
+      height: mapHeightPixel
+    } = this._calcMapSizePixel()
+
+    const cell = Math.ceil(Math.min(mapWidthPixel, mapHeightPixel) / Math.max(this._mapWidthDots, this._mapHeightDots))
+    const line = Math.floor(cell * 0.10)
+    const dot = cell - line
+
+    return {
+      dot: dot,
+      line: line,
       width: this._mapWidthDots,
       height: this._mapHeightDots
     }
   }
 
   mapProperties () {
-    // TODO: Implement grid method to initialize MouseController
-    return {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0
-    }
-  }
-
-  _handleResize () {
     const { width, height } = clientSizePx()
 
     let mapWidthPixel = 0
@@ -74,56 +95,26 @@ export class ScreenSizeController {
     }
 
     if (height > 600) {
-      mapHeightPixel = Math.floor(width * 0.7)
+      mapHeightPixel = Math.floor(height * 0.7)
       y = Math.floor((height - mapHeightPixel) / 2)
     } else {
       mapHeightPixel = height
       y = 0
     }
 
-    const cell = Math.ceil(Math.min(mapWidthPixel, mapHeightPixel) / Math.max(this._mapWidthDots, this._mapHeightDots))
-    const line = Math.floor(cell * 0.10)
-    const dot = cell - line
+    return {
+      x: x,
+      y: y,
+      width: mapWidthPixel,
+      height: mapHeightPixel
+    }
+  }
 
-    // canvas size px - width and height
-    // const mapWidthPixel = (this._mapWidthDots * dotSize) + ((this._mapWidthDots + 1) * gridSize)
-    // const mapHeightPixel = (this._mapHeightDots * dotSize) + ((this._mapHeightDots + 1) * gridSize)
-
-    // canvas x and y
-    // dot size - px
-    // grid size - px
-
-    log.info('RESIZE', {
-      grid: {
-        dot: dot,
-        line: line,
-        width: this._mapWidthDots,
-        height: this._mapHeightDots
-      },
-      map: {
-        x: x,
-        y: y,
-        width: mapWidthPixel,
-        height: mapHeightPixel
-      }
-    })
-
+  _handleResize () {
     this.onresize({
-      grid: {
-        dot: dot,
-        line: line,
-        width: this._mapWidthDots,
-        height: this._mapHeightDots
-      },
-      map: {
-        x: x,
-        y: y,
-        width: mapWidthPixel,
-        height: mapHeightPixel
-      }
+      grid: this.gridProperties(),
+      map: this.mapProperties()
     })
-    // onresize invocation to resize canvases, to redraw all staff,
-    // to replace map on screen
   }
 
   _clientResize () {

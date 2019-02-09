@@ -70,8 +70,6 @@ export class Playground {
   }
 
   redrawFromCaches () {
-    // this._canvas.clearAll()
-
     this._cacheSnakes.forEach(snake => {
       if (this._snake === snake.uuid) {
         this._canvas.draw(OBJECT_PLAYER, snake.dots)

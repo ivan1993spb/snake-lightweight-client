@@ -17,6 +17,8 @@ const SERVER_MESSAGE_GAME_TYPE_CREATE = 'create'
 const SERVER_MESSAGE_GAME_TYPE_UPDATE = 'update'
 const SERVER_MESSAGE_GAME_TYPE_ERROR = 'error'
 
+// TODO: Rename to GameController(?)
+
 export class Handler {
   constructor (playground) {
     this._playground = playground
@@ -25,6 +27,10 @@ export class Handler {
     // after an object update message
     this.objectsLoaded = false
     this.objectsDeleteMessages = []
+
+    this.onMapResize = (width, height) => {
+      throw new Error('method to be triggered is not specified: onMapResize')
+    }
   }
 
   handleServerMessage (rawMessage) {
@@ -44,8 +50,7 @@ export class Handler {
   _handleServerMessagePlayer (message) {
     switch (message.type) {
       case SERVER_MESSAGE_PLAYER_TYPE_SIZE:
-        // TODO: Handle message type size!
-        // this._playground.setSize(message.payload.width, message.payload.height)
+        this.onMapResize(message.payload.width, message.payload.height)
         break
       case SERVER_MESSAGE_PLAYER_TYPE_SNAKE:
         this._playground.setPlayerSnake(message.payload)

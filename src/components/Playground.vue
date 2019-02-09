@@ -66,15 +66,15 @@ export default {
             width,
             height
           },
-          id
+          game: {
+            id
+          }
         })
 
         this.game.start()
       })
       .catch(error => {
-        log.info('err', error)
-
-        // TODO: Catch error
+        log.error('game importing error', error)
       })
   },
 

@@ -9,9 +9,9 @@ import Handler from './Handler'
 import Playground from './Playground'
 
 export class Core {
-  constructor ({ canvases, map, id }) {
+  constructor ({ canvases, map, game }) {
     const canvasFactory = new CanvasFactory(canvases)
-    const socketControllerFactory = new SocketControllerFactory(id)
+    const socketControllerFactory = new SocketControllerFactory(game.id)
 
     this._socketController = socketControllerFactory.create()
     this._screenSizeController = new ScreenSizeController(map.width, map.height)
@@ -29,27 +29,22 @@ export class Core {
   }
 
   _initSocketController () {
-    this._socketController.onmessage = (serverMessage) => {
+    this._socketController.onmessage = serverMessage => {
       this._handler.handleServerMessage(serverMessage)
     }
-    this._socketController.onclose = () => {
-      // TODO: Implement handler.
-      log.info('%$ ONCLOSE')
+    this._socketController.onclose = event => {
+      log.info('Game WebSocket has been closed')
     }
-    this._socketController.onerror = () => {
-      // TODO: Implement handler.
-      log.info('%$ ONERROR')
+    this._socketController.onerror = error => {
+      log.error('Game WebSocket error:', error)
     }
-    this._socketController.onopen = () => {
-      // TODO: Implement handler.
-      log.info('%$ ONOPEN')
+    this._socketController.onopen = event => {
+      log.info('Game WebSocket has been opened')
     }
   }
 
   _initScreenSizeController () {
     this._screenSizeController.onresize = ({ grid, map }) => {
-      // TODO: Implement handler.
-      log.info('%$ ONRESIZE')
       this._canvas.setGrid(grid)
       this._mouseController.setScreen(map)
       this._playground.redrawFromCaches()
@@ -58,16 +53,12 @@ export class Core {
 
   _initKeyboardController () {
     this._keyboardController.oncommand = (command) => {
-      // TODO: Implement handler.
-      log.info('%$ ONCOMMAND KEYBOARD')
       this._socketController.send(command)
     }
   }
 
   _initMouseController () {
     this._mouseController.oncommand = (command) => {
-      // TODO: Implement handler.
-      log.info('%$ ONCOMMAND MOUSE')
       this._socketController.send(command)
     }
   }

@@ -1,26 +1,26 @@
 import CanvasRenderingContext2DMock from '@/mocks/CanvasRenderingContext2DMock'
 import {
-  Canvas,
-  OBJECT_PLAYER,
-  OBJECT_SNAKE,
-  OBJECT_APPLE,
-  OBJECT_CORPSE,
-  OBJECT_WATERMELON,
-  OBJECT_WALL,
-  COLOR_PLAYER,
-  COLOR_SNAKE,
   COLOR_APPLE,
   COLOR_CORPSE,
+  COLOR_PLAYER,
+  COLOR_SNAKE,
+  COLOR_WALL,
   COLOR_WATERMELON,
-  COLOR_WALL
+  Canvas,
+  OBJECT_APPLE,
+  OBJECT_CORPSE,
+  OBJECT_PLAYER,
+  OBJECT_SNAKE,
+  OBJECT_WALL,
+  OBJECT_WATERMELON
 } from '@/game/Canvas'
 
-const CANVAS_WIDTH = 1200
-const CANVAS_HEIGHT = 800
 const DOT_SIZE = 20
 const LINE_SIZE = 0
 const MAP_WIDTH = 100
 const MAP_HEIGHT = 100
+const CANVAS_WIDTH = DOT_SIZE * MAP_WIDTH + LINE_SIZE * (MAP_WIDTH + 1)
+const CANVAS_HEIGHT = DOT_SIZE * MAP_HEIGHT + LINE_SIZE * (MAP_HEIGHT + 1)
 
 describe('game canvas', () => {
   it('canvas constructor works correctly', () => {
@@ -76,8 +76,8 @@ describe('game canvas', () => {
       'methodName': 'fillRect',
       'props': {
         'canvas': {
-          'height': 800,
-          'width': 1200
+          'height': CANVAS_HEIGHT,
+          'width': CANVAS_WIDTH
         },
         'fillStyle': COLOR_SNAKE,
         'strokeStyle': '#000'
@@ -111,8 +111,8 @@ describe('game canvas', () => {
       'methodName': 'fillRect',
       'props': {
         'canvas': {
-          'height': 800,
-          'width': 1200
+          'height': CANVAS_HEIGHT,
+          'width': CANVAS_WIDTH
         },
         'fillStyle': COLOR_APPLE,
         'strokeStyle': '#000'
@@ -146,8 +146,8 @@ describe('game canvas', () => {
       'methodName': 'fillRect',
       'props': {
         'canvas': {
-          'height': 800,
-          'width': 1200
+          'height': CANVAS_HEIGHT,
+          'width': CANVAS_WIDTH
         },
         'fillStyle': COLOR_CORPSE,
         'strokeStyle': '#000'
@@ -181,8 +181,8 @@ describe('game canvas', () => {
       'methodName': 'fillRect',
       'props': {
         'canvas': {
-          'height': 800,
-          'width': 1200
+          'height': CANVAS_HEIGHT,
+          'width': CANVAS_WIDTH
         },
         'fillStyle': COLOR_WALL,
         'strokeStyle': '#000'
@@ -216,8 +216,8 @@ describe('game canvas', () => {
       'methodName': 'fillRect',
       'props': {
         'canvas': {
-          'height': 800,
-          'width': 1200
+          'height': CANVAS_HEIGHT,
+          'width': CANVAS_WIDTH
         },
         'fillStyle': COLOR_PLAYER,
         'strokeStyle': '#000'
@@ -251,8 +251,8 @@ describe('game canvas', () => {
       'methodName': 'fillRect',
       'props': {
         'canvas': {
-          'height': 800,
-          'width': 1200
+          'height': CANVAS_HEIGHT,
+          'width': CANVAS_WIDTH
         },
         'fillStyle': COLOR_WATERMELON,
         'strokeStyle': '#000'

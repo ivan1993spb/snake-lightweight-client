@@ -1,8 +1,8 @@
 import {
-  DIRECTION_NORTH,
   DIRECTION_EAST,
-  DIRECTION_WEST,
+  DIRECTION_NORTH,
   DIRECTION_SOUTH,
+  DIRECTION_WEST,
   MouseController
 } from '@/game/MouseController'
 

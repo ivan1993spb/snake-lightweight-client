@@ -5,7 +5,7 @@ import SocketControllerFactory from './SocketControllerFactory'
 import KeyboardController from './KeyboardController'
 import ScreenSizeController from './ScreenSizeController'
 import MouseController from './MouseController'
-import Handler from './Handler'
+import GameController from './GameController'
 import Playground from './Playground'
 
 export class Core {
@@ -20,25 +20,37 @@ export class Core {
 
     this._canvas = canvasFactory.create(this._screenSizeController.gridProperties())
     this._playground = new Playground(this._canvas)
-    this._handler = new Handler(this._playground)
 
-    this._initHandler()
+    this._gameController = new GameController(this._playground)
+
+    this._initGameController()
     this._initSocketController()
     this._initScreenSizeController()
     this._initKeyboardController()
     this._initMouseController()
   }
 
-  // TODO: Rename into GameController?
-  _initHandler () {
-    this._handler.onMapResize = (width, height) => {
+  _initGameController () {
+    this._gameController.onmapresize = (width, height) => {
       this._screenSizeController.mapResize(width, height)
+    }
+    this._gameController.onplayernotice = (notice) => {
+      // TODO: Implement method.
+      log.info('PLAYER NOTICE', notice)
+    }
+    this._gameController.onplayererror = (error) => {
+      // TODO: Implement method.
+      log.info('PLAYER ERROR', error)
+    }
+    this._gameController.oncountdown = (countdown) => {
+      // TODO: Implement method.
+      log.info('COUNTDOWN', countdown)
     }
   }
 
   _initSocketController () {
     this._socketController.onmessage = serverMessage => {
-      this._handler.handleServerMessage(serverMessage)
+      this._gameController.handleServerMessage(serverMessage)
     }
     this._socketController.onclose = event => {
       log.info('Game WebSocket has been closed')

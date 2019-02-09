@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Welcome to the snake arcade game!</h1>
+    <h1>Welcome to snake online arcade game!</h1>
     <div class="home-content">
       <div class="home-content__block">
         <h3>Game rules</h3>

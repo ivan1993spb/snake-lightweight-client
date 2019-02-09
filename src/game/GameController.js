@@ -17,9 +17,7 @@ const SERVER_MESSAGE_GAME_TYPE_CREATE = 'create'
 const SERVER_MESSAGE_GAME_TYPE_UPDATE = 'update'
 const SERVER_MESSAGE_GAME_TYPE_ERROR = 'error'
 
-// TODO: Rename to GameController(?)
-
-export class Handler {
+export class GameController {
   constructor (playground) {
     this._playground = playground
 
@@ -28,8 +26,17 @@ export class Handler {
     this.objectsLoaded = false
     this.objectsDeleteMessages = []
 
-    this.onMapResize = (width, height) => {
-      throw new Error('method to be triggered is not specified: onMapResize')
+    this.onmapresize = () => {
+      throw new Error('method to be triggered is not specified: onmapresize')
+    }
+    this.onplayernotice = () => {
+      throw new Error('method to be triggered is not specified: onplayernotice')
+    }
+    this.onplayererror = () => {
+      throw new Error('method to be triggered is not specified: onplayererror')
+    }
+    this.oncountdown = () => {
+      throw new Error('method to be triggered is not specified: oncountdown')
     }
   }
 
@@ -43,26 +50,26 @@ export class Handler {
     } else if (message.type === SERVER_MESSAGE_TYPE_BROADCAST) {
       this._handleServerMessageBroadcast(message.payload)
     } else {
-      log.warn('invalid server message type', message.type)
+      throw new Error(`invalid server message type: ${message.type}`)
     }
   }
 
   _handleServerMessagePlayer (message) {
     switch (message.type) {
       case SERVER_MESSAGE_PLAYER_TYPE_SIZE:
-        this.onMapResize(message.payload.width, message.payload.height)
+        this.onmapresize(message.payload.width, message.payload.height)
         break
       case SERVER_MESSAGE_PLAYER_TYPE_SNAKE:
         this._playground.setPlayerSnake(message.payload)
         break
       case SERVER_MESSAGE_PLAYER_TYPE_NOTICE:
-        log.info('PLAYER NOTICE', message.payload)
+        this.onplayernotice(message.payload)
         break
       case SERVER_MESSAGE_PLAYER_TYPE_ERROR:
-        log.error('PLAYER ERROR', message.payload)
+        this.onplayererror(message.payload)
         break
       case SERVER_MESSAGE_PLAYER_TYPE_COUNTDOWN:
-        log.info('PLAYER COUNTDOWN', message.payload, 'seconds')
+        this.oncountdown(message.payload)
         break
       case SERVER_MESSAGE_PLAYER_TYPE_OBJECTS:
         log.info('received objects to load')
@@ -75,8 +82,7 @@ export class Handler {
 
   _handleServerMessagePlayerObjects (message) {
     if (this.objectsLoaded) {
-      log.error('objects have already loaded')
-      return
+      throw new Error('objects have already loaded')
     }
 
     this._playground.loadObjects(message.payload)
@@ -133,4 +139,4 @@ export class Handler {
   }
 }
 
-export default Handler
+export default GameController

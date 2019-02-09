@@ -43,13 +43,13 @@ export class ScreenSizeController {
     let mapHeightPixel = 0
 
     if (width > 600) {
-      mapWidthPixel = Math.floor(width * 0.7)
+      mapWidthPixel = Math.floor(width * 0.85)
     } else {
       mapWidthPixel = width
     }
 
     if (height > 600) {
-      mapHeightPixel = Math.floor(height * 0.7)
+      mapHeightPixel = Math.floor(height * 0.85)
     } else {
       mapHeightPixel = height
     }

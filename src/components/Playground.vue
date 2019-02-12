@@ -68,6 +68,10 @@ export default {
           },
           game: {
             id
+          },
+          elements: {
+            countdown: null,
+            notification: null
           }
         })
 

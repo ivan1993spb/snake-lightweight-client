@@ -7,9 +7,10 @@ import ScreenSizeController from './ScreenSizeController'
 import MouseController from './MouseController'
 import GameController from './GameController'
 import Playground from './Playground'
+import CountdownBar from './CountdownBar'
 
 export class Core {
-  constructor ({ canvases, map, game }) {
+  constructor ({ canvases, map, game, elements }) {
     const canvasFactory = new CanvasFactory(canvases)
     const socketControllerFactory = new SocketControllerFactory(game.id)
 
@@ -22,6 +23,11 @@ export class Core {
     this._playground = new Playground(this._canvas)
 
     this._gameController = new GameController(this._playground)
+
+    this._countdownBar = new CountdownBar({
+      element: elements.countdown,
+      map: this._screenSizeController.mapProperties()
+    })
 
     this._initGameController()
     this._initSocketController()
@@ -43,8 +49,7 @@ export class Core {
       log.info('PLAYER ERROR', error)
     }
     this._gameController.oncountdown = (countdown) => {
-      // TODO: Implement method.
-      log.info('COUNTDOWN', countdown)
+      this._countdownBar.activateCountdown(countdown)
     }
   }
 
@@ -66,8 +71,10 @@ export class Core {
   _initScreenSizeController () {
     this._screenSizeController.onresize = ({ grid, map }) => {
       this._canvas.setGrid(grid)
-      this._mouseController.setScreen(map)
       this._playground.redrawFromCaches()
+
+      this._mouseController.setScreen(map)
+      this._countdownBar.setScreen(map)
     }
   }
 

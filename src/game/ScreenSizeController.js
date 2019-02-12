@@ -7,11 +7,13 @@ const THROTTLE_WAIT = 1000
 const DEFAULT_CLIENT_WIDTH = 1200
 const DEFAULT_CLIENT_HEIGHT = 800
 
-// const DOT_SIZE_MIN = 10
-// const DOT_SIZE_MAX = 100
+const LINE_SIZE_MIN = 1
+const LINE_SIZE_PERCENT = 0.10
+const DOT_SIZE_MIN = 5
+const MAP_SIZE_LIMIT_PERCENT = 0.98
 
-// const GRID_SIZE_MIN = 0
-// const GRID_SIZE_MAX = 10
+const SCREEN_WIDTH_LIMIT = 600
+const SCREEN_HEIGHT_LIMIT = 600
 
 function clientSizePx () {
   return {
@@ -36,20 +38,20 @@ export class ScreenSizeController {
     }, THROTTLE_WAIT)
   }
 
-  _calcMapSizePixel () {
+  _calcMapSizePixelLimits () {
     const { width, height } = clientSizePx()
 
     let mapWidthPixel = 0
     let mapHeightPixel = 0
 
-    if (width > 600) {
-      mapWidthPixel = Math.floor(width * 0.85)
+    if (width > SCREEN_WIDTH_LIMIT) {
+      mapWidthPixel = Math.floor(width * MAP_SIZE_LIMIT_PERCENT)
     } else {
       mapWidthPixel = width
     }
 
-    if (height > 600) {
-      mapHeightPixel = Math.floor(height * 0.85)
+    if (height > SCREEN_HEIGHT_LIMIT) {
+      mapHeightPixel = Math.floor(height * MAP_SIZE_LIMIT_PERCENT)
     } else {
       mapHeightPixel = height
     }
@@ -62,12 +64,19 @@ export class ScreenSizeController {
 
   gridProperties () {
     const {
-      width: mapWidthPixel,
-      height: mapHeightPixel
-    } = this._calcMapSizePixel()
+      width: mapWidthPixelLimit,
+      height: mapHeightPixelLimit
+    } = this._calcMapSizePixelLimits()
 
-    const cell = Math.ceil(Math.min(mapWidthPixel, mapHeightPixel) / Math.max(this._mapWidthDots, this._mapHeightDots))
-    const line = Math.floor(cell * 0.10)
+    const cell = Math.min(
+      Math.floor(mapWidthPixelLimit / this._mapWidthDots),
+      Math.floor(mapHeightPixelLimit / this._mapHeightDots)
+    )
+
+    let line = Math.floor(cell * LINE_SIZE_PERCENT)
+    if (line < LINE_SIZE_MIN && (cell - line) > DOT_SIZE_MIN) {
+      line = LINE_SIZE_MIN
+    }
     const dot = cell - line
 
     return {
@@ -79,26 +88,25 @@ export class ScreenSizeController {
   }
 
   mapProperties () {
+    const { dot, line } = this.gridProperties()
+
+    const mapWidthPixel = dot * this._mapWidthDots + line * (this._mapWidthDots + 1)
+    const mapHeightPixel = dot * this._mapHeightDots + line * (this._mapHeightDots + 1)
+
     const { width, height } = clientSizePx()
 
-    let mapWidthPixel = 0
-    let mapHeightPixel = 0
     let x = 0
     let y = 0
 
-    if (width > 600) {
-      mapWidthPixel = Math.floor(width * 0.7)
+    if (width > SCREEN_WIDTH_LIMIT) {
       x = Math.floor((width - mapWidthPixel) / 2)
     } else {
-      mapWidthPixel = width
       x = 0
     }
 
-    if (height > 600) {
-      mapHeightPixel = Math.floor(height * 0.7)
+    if (height > SCREEN_HEIGHT_LIMIT) {
       y = Math.floor((height - mapHeightPixel) / 2)
     } else {
-      mapHeightPixel = height
       y = 0
     }
 

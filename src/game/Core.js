@@ -19,7 +19,10 @@ export class Core {
     this._keyboardController = new KeyboardController()
     this._mouseController = new MouseController(this._screenSizeController.mapProperties())
 
-    this._canvas = canvasFactory.create(this._screenSizeController.gridProperties())
+    this._canvas = canvasFactory.create({
+      grid: this._screenSizeController.gridProperties(),
+      map: this._screenSizeController.mapProperties()
+    })
     this._playground = new Playground(this._canvas)
 
     this._gameController = new GameController(this._playground)
@@ -70,7 +73,7 @@ export class Core {
 
   _initScreenSizeController () {
     this._screenSizeController.onresize = ({ grid, map }) => {
-      this._canvas.setGrid(grid)
+      this._canvas.setPropertions({ grid, map })
       this._playground.redrawFromCaches()
 
       this._mouseController.setScreen(map)

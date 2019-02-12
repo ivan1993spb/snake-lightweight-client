@@ -18,7 +18,7 @@ export class CanvasFactory {
     this._contextGrid = this._canvasGrid.getContext('2d', { alpha: true })
   }
 
-  create (grid) {
+  create ({ grid, map }) {
     return new Canvas({
       contexts: {
         contextSnakes: this._contextSnakes,
@@ -26,7 +26,8 @@ export class CanvasFactory {
         contextWalls: this._contextWalls,
         contextGrid: this._contextGrid
       },
-      grid
+      grid,
+      map
     })
   }
 }

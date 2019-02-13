@@ -1,6 +1,6 @@
 <template>
   <div class="game">
-    <h1>Game {{ game.id }}</h1>
+    <h1>{{ name }}</h1>
     <div class="game-content">
       <div v-if="!isLoadingGame">
         <div>Game ID: {{ game.id }}</div>
@@ -19,9 +19,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import converter from 'number-to-words'
 import store from '@/store'
 import router from '@/router'
-
 import {
   DELETE_GAME,
   FETCH_GAME,
@@ -31,7 +31,10 @@ import {
 export default {
   name: 'game',
   computed: {
-    ...mapGetters(['game', 'isLoadingGame'])
+    ...mapGetters(['game', 'isLoadingGame']),
+    name: function () {
+      return 'Game ' + converter.toWords(this.game.id)
+    }
   },
   methods: {
     updateGame () {

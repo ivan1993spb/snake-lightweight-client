@@ -1,6 +1,6 @@
 <template>
   <div class="play">
-    <h1>Play game {{ game.id }}</h1>
+    <h1>Play {{ name }}</h1>
     <div class="play-content">
       <div>Use arrows, WASD, IJKL or mouse</div>
       <div>
@@ -21,6 +21,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
+import converter from 'number-to-words'
 import Playground from '@/components/Playground'
 import { FETCH_GAME, UPDATE_GAME } from '@/store/actions.type'
 import store from '@/store'
@@ -28,7 +29,10 @@ import store from '@/store'
 export default {
   name: 'play',
   computed: {
-    ...mapGetters(['game', 'isLoadingGame'])
+    ...mapGetters(['game', 'isLoadingGame']),
+    name: function () {
+      return 'game ' + converter.toWords(this.game.id)
+    }
   },
   components: {
     Playground

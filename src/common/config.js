@@ -3,8 +3,8 @@ const envDev = process.env.NODE_ENV === 'development'
 
 const DEFAULT_SNAKE_SERVER_HOST = location.hostname || 'localhost'
 const DEFAULT_SNAKE_SERVER_PORT = location.port || '8080'
-const DEFAULT_SNAKE_SERVER_WEB_SCHEME = location.protocol || 'http'
-const DEFAULT_SNAKE_SERVER_SOCKET_SCHEME = location.protocol === 'https' ? 'wss' : 'ws'
+const DEFAULT_SNAKE_SERVER_WEB_SCHEME = location.protocol ? location.protocol.replace(/:+$/g, '') : 'http'
+const DEFAULT_SNAKE_SERVER_SOCKET_SCHEME = location.protocol === 'https:' ? 'wss' : 'ws'
 
 export const VERSION = process.env.VERSION
 export const BUILD = process.env.BUILD

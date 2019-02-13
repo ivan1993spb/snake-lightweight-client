@@ -15,6 +15,7 @@ const environmentPlugin = new webpack.EnvironmentPlugin({
 })
 
 module.exports = {
+  baseUrl: '.',
   productionSourceMap: false,
   configureWebpack: {
     plugins: [

@@ -1,6 +1,5 @@
 
 import _ from 'lodash'
-import log from 'loglevel'
 
 const LISTEN_TO_EVENT = 'resize'
 const THROTTLE_WAIT = 1000
@@ -113,7 +112,7 @@ export class ScreenSizeController {
     const mapWidthPixel = dot * this._mapWidthDots + line * (this._mapWidthDots + 1) + border * 2
     const mapHeightPixel = dot * this._mapHeightDots + line * (this._mapHeightDots + 1) + border * 2
 
-    const { width, height } = clientSizePx()
+    const { width } = clientSizePx()
 
     let x = 0
     let y = 0

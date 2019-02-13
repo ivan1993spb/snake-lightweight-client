@@ -6,7 +6,7 @@ export const OBJECT_CORPSE = 3
 export const OBJECT_WATERMELON = 4
 export const OBJECT_WALL = 5
 
-export const COLOR_BORDER = '#333'
+export const COLOR_BORDER = '#121'
 export const COLOR_GRID = '#151'
 export const COLOR_PLAYER = '#900'
 export const COLOR_SNAKE = '#f44'

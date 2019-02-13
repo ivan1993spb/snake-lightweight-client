@@ -2,11 +2,12 @@
 import Canvas from './Canvas'
 
 export class CanvasFactory {
-  constructor ({ canvasSnakes, canvasFood, canvasWalls, canvasGrid }) {
+  constructor ({ canvasSnakes, canvasFood, canvasWalls, canvasGrid }, divCanvasHeight) {
     this._canvasSnakes = canvasSnakes
     this._canvasFood = canvasFood
     this._canvasWalls = canvasWalls
     this._canvasGrid = canvasGrid
+    this._divHeight = divCanvasHeight
 
     this._initContexts()
   }
@@ -26,6 +27,7 @@ export class CanvasFactory {
         contextWalls: this._contextWalls,
         contextGrid: this._contextGrid
       },
+      divHeight: this._divHeight,
       grid,
       map
     })

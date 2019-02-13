@@ -6,6 +6,7 @@ export const OBJECT_CORPSE = 3
 export const OBJECT_WATERMELON = 4
 export const OBJECT_WALL = 5
 
+export const COLOR_BORDER = '#333'
 export const COLOR_GRID = '#151'
 export const COLOR_PLAYER = '#900'
 export const COLOR_SNAKE = '#f44'
@@ -16,23 +17,27 @@ export const COLOR_WALL = '#115'
 
 const ERROR_INVALID_DOT_SIZE = 'invalid dot size'
 const ERROR_INVALID_LINE_SIZE = 'invalid line size'
-const ERROR_INVALID_WIDTH = 'invalid line width'
-const ERROR_INVALID_HEIGHT = 'invalid line height'
+const ERROR_INVALID_WIDTH = 'invalid width'
+const ERROR_INVALID_HEIGHT = 'invalid height'
+const ERROR_INVALID_BORDER = 'invalid border size'
 
 const X = 0
 const Y = 1
 
 export class Canvas {
-  constructor ({ contexts, grid, map }) {
+  constructor ({ contexts, grid, map, divHeight }) {
+    this._divHeight = divHeight
+
     this._setupGrid(grid)
     this._setupMap(map)
     this._setupContexts(contexts)
     this._resizeContexts()
     this._locateContexts()
     this._drawGrid()
+    this._drawBorder()
   }
 
-  _setupGrid ({ dot, line, width, height }) {
+  _setupGrid ({ dot, line, width, height, border }) {
     if (dot < 1) {
       throw new Error(ERROR_INVALID_DOT_SIZE)
     }
@@ -45,10 +50,14 @@ export class Canvas {
     if (height < 1) {
       throw new Error(ERROR_INVALID_HEIGHT)
     }
+    if (border < 0) {
+      throw new Error(ERROR_INVALID_BORDER)
+    }
     this._dot = dot
     this._line = line
     this._width = width
     this._height = height
+    this._border = border
   }
 
   _setupContexts ({ contextSnakes, contextFood, contextWalls, contextGrid }) {
@@ -77,6 +86,8 @@ export class Canvas {
 
     this._contextGrid.canvas.width = this._widthPx
     this._contextGrid.canvas.height = this._heightPx
+
+    this._divHeight.style.height = `${this._heightPx}px`
   }
 
   _locateContexts () {
@@ -100,6 +111,7 @@ export class Canvas {
     this._resizeContexts()
     this._locateContexts()
     this._drawGrid()
+    this._drawBorder()
   }
 
   clear (type, dots) {
@@ -135,11 +147,11 @@ export class Canvas {
   }
 
   _getPxX (dotX) {
-    return this._dot * dotX + this._line * (dotX + 1)
+    return this._border + this._dot * dotX + this._line * (dotX + 1)
   }
 
   _getPxY (dotY) {
-    return this._dot * dotY + this._line * (dotY + 1)
+    return this._border + this._dot * dotY + this._line * (dotY + 1)
   }
 
   draw (type, dots) {
@@ -183,14 +195,31 @@ export class Canvas {
     this._contextGrid.fillStyle = COLOR_GRID
 
     if (this._line > 0) {
-      for (let lineX = 0; lineX < this._widthPx; lineX += this._line + this._dot) {
-        this._contextGrid.fillRect(lineX, 0, this._line, this._heightPx)
+      for (let lineX = this._border; lineX < this._widthPx - this._border; lineX += this._line + this._dot) {
+        this._contextGrid.fillRect(lineX, this._border, this._line, this._heightPx - this._border * 2)
       }
 
-      for (let lineY = 0; lineY < this._heightPx; lineY += this._line + this._dot) {
-        this._contextGrid.fillRect(0, lineY, this._widthPx, this._line)
+      for (let lineY = this._border; lineY < this._heightPx - this._border; lineY += this._line + this._dot) {
+        this._contextGrid.fillRect(this._border, lineY, this._widthPx - this._border * 2, this._line)
       }
     }
+  }
+
+  _drawBorder () {
+    if (this._border < 1) {
+      return
+    }
+
+    this._contextGrid.fillStyle = COLOR_BORDER
+
+    // Western boreder
+    this._contextGrid.fillRect(0, 0, this._border, this._heightPx)
+    // Northern boreder
+    this._contextGrid.fillRect(0, 0, this._widthPx, this._border)
+    // Eastern boreder
+    this._contextGrid.fillRect(this._widthPx - this._border, 0, this._border, this._heightPx)
+    // Southern boreder
+    this._contextGrid.fillRect(0, this._heightPx - this._border, this._widthPx, this._border)
   }
 
   _clearAll () {

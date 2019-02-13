@@ -2,6 +2,7 @@
   <div class="play">
     <h1>Play game {{ game.id }}</h1>
     <div class="play-content">
+      <div>Use arrows, WASD, IJKL or mouse</div>
       <div>
         <span><b>Details</b></span>
         <span>Players: {{ game.count }}/{{ game.limit }}</span>
@@ -13,7 +14,6 @@
       <div v-else>
         <Playground :width="game.width" :height="game.height" :id="game.id"/>
       </div>
-      <div>Use arrows, WASD, IJKL or mouse</div>
     </div>
   </div>
 </template>

@@ -24,8 +24,10 @@ export class MouseController {
     }
 
     this._listener = event => {
+      log.info(event)
       if (event.buttons === MOUSE_BUTTON) {
-        const direction = this._calc(event.clientX, event.clientY)
+        // const direction = this._calc(event.clientX, event.clientY)
+        const direction = this._calc(event.pageX, event.pageY)
 
         if (direction !== DIRECTION_INVALID) {
           if (direction === DIRECTION_NORTH) {

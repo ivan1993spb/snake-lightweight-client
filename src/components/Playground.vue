@@ -16,6 +16,10 @@
       ref="canvas-grid"
       class="game-canvas game-canvas-grid"
     />
+    <div
+      ref="keep-canvas-height"
+      class="game-keep-canvas-height"
+    />
   </div>
 </template>
 
@@ -48,6 +52,7 @@ export default {
     const canvasFood = this.$refs['canvas-food']
     const canvasWalls = this.$refs['canvas-walls']
     const canvasGrid = this.$refs['canvas-grid']
+    const divCanvasHeight = this.$refs['keep-canvas-height']
 
     const width = this.width
     const height = this.height
@@ -62,6 +67,7 @@ export default {
             canvasWalls,
             canvasGrid
           },
+          divCanvasHeight,
           map: {
             width,
             height
@@ -109,6 +115,10 @@ export default {
     &-grid {
       z-index: 4;
     }
+  }
+
+  .game-keep-canvas-height {
+    margin: 20px;
   }
 }
 

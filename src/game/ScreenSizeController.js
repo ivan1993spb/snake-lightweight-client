@@ -1,5 +1,6 @@
 
 import _ from 'lodash'
+import log from 'loglevel'
 
 const LISTEN_TO_EVENT = 'resize'
 const THROTTLE_WAIT = 1000
@@ -11,6 +12,7 @@ const LINE_SIZE_MIN = 1
 const LINE_SIZE_PERCENT = 0.10
 const DOT_SIZE_MIN = 5
 const MAP_SIZE_LIMIT_PERCENT = 0.98
+const BORDER_SIZE = 2
 
 const SCREEN_WIDTH_LIMIT = 600
 const SCREEN_HEIGHT_LIMIT = 600
@@ -24,10 +26,27 @@ function clientSizePx () {
   }
 }
 
+function clientScrollPx () {
+  return {
+    scrollTop: window.pageYOffset || document.documentElement.scrollTop ||
+      document.body.scrollTop,
+    scrollLeft: window.pageXOffset || document.documentElement.scrollLeft ||
+      document.body.scrollLeft
+  }
+}
+
+function clientPx () {
+  return {
+    clientTop: document.documentElement.clientTop || document.body.clientTop || 0,
+    clientLeft: document.documentElement.clientLeft || document.body.clientLeft || 0
+  }
+}
+
 export class ScreenSizeController {
-  constructor (mapWidthDots, mapHeightDots) {
+  constructor (mapWidthDots, mapHeightDots, divCanvasHeight) {
     this._mapWidthDots = mapWidthDots
     this._mapHeightDots = mapHeightDots
+    this._divCanvasHeight = divCanvasHeight
 
     this.onresize = () => {
       throw new Error('method to be triggered is not specified: onresize')
@@ -69,8 +88,8 @@ export class ScreenSizeController {
     } = this._calcMapSizePixelLimits()
 
     const cell = Math.min(
-      Math.floor(mapWidthPixelLimit / this._mapWidthDots),
-      Math.floor(mapHeightPixelLimit / this._mapHeightDots)
+      Math.floor((mapWidthPixelLimit - BORDER_SIZE * 2) / this._mapWidthDots),
+      Math.floor((mapHeightPixelLimit - BORDER_SIZE * 2) / this._mapHeightDots)
     )
 
     let line = Math.floor(cell * LINE_SIZE_PERCENT)
@@ -82,16 +101,17 @@ export class ScreenSizeController {
     return {
       dot: dot,
       line: line,
+      border: BORDER_SIZE,
       width: this._mapWidthDots,
       height: this._mapHeightDots
     }
   }
 
   mapProperties () {
-    const { dot, line } = this.gridProperties()
+    const { dot, line, border } = this.gridProperties()
 
-    const mapWidthPixel = dot * this._mapWidthDots + line * (this._mapWidthDots + 1)
-    const mapHeightPixel = dot * this._mapHeightDots + line * (this._mapHeightDots + 1)
+    const mapWidthPixel = dot * this._mapWidthDots + line * (this._mapWidthDots + 1) + border * 2
+    const mapHeightPixel = dot * this._mapHeightDots + line * (this._mapHeightDots + 1) + border * 2
 
     const { width, height } = clientSizePx()
 
@@ -104,11 +124,12 @@ export class ScreenSizeController {
       x = 0
     }
 
-    if (height > SCREEN_HEIGHT_LIMIT) {
-      y = Math.floor((height - mapHeightPixel) / 2)
-    } else {
-      y = 0
-    }
+    const domRectOffsets = this._divCanvasHeight.getBoundingClientRect()
+    const { scrollTop } = clientScrollPx()
+    const { clientTop } = clientPx()
+    const offsetTop = Math.round(domRectOffsets.top + scrollTop - clientTop)
+
+    y = offsetTop
 
     return {
       x: x,

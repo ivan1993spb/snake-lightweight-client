@@ -10,12 +10,12 @@ import Playground from './Playground'
 import CountdownBar from './CountdownBar'
 
 export class Core {
-  constructor ({ canvases, map, game, elements }) {
-    const canvasFactory = new CanvasFactory(canvases)
+  constructor ({ canvases, map, game, elements, divCanvasHeight }) {
+    const canvasFactory = new CanvasFactory(canvases, divCanvasHeight)
     const socketControllerFactory = new SocketControllerFactory(game.id)
 
     this._socketController = socketControllerFactory.create()
-    this._screenSizeController = new ScreenSizeController(map.width, map.height)
+    this._screenSizeController = new ScreenSizeController(map.width, map.height, divCanvasHeight)
     this._keyboardController = new KeyboardController()
     this._mouseController = new MouseController(this._screenSizeController.mapProperties())
 
@@ -107,6 +107,8 @@ export class Core {
     this._keyboardController.stop()
     this._mouseController.stop()
     this._gameController.stop()
+
+    // TODO: Deactivate countdown if exists.
   }
 }
 

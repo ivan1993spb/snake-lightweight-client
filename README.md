@@ -32,12 +32,6 @@ yarn run lint
 yarn run test:unit
 ```
 
-## TODO
-
-* Make pretty output for errors messages
-* Create pretty design
-* Create unit tests
-
 ## License
 
 See [LICENSE](LICENSE).

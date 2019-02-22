@@ -9,7 +9,7 @@
             <li>The task of the game is to grow the biggest snake.</li>
             <li>In order to achieve the goal players may eat apples, watermelons, small snakes and remains of dead snakes of other players.</li>
             <li>If a snake hits a wall the snake dies and the player starts again with a new small snake.</li>
-            <li>A snake may eat another snake if it's length greater or equals to the square of length of the second one.</li>
+            <li>A snake may eat another snake if it's length greater or equal to the square of length of the second one.</li>
           </ul>
       </div>
       <div class="home-content__block">

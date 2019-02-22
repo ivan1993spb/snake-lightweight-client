@@ -39,7 +39,17 @@ describe('game canvas', () => {
         dot: DOT_SIZE,
         line: LINE_SIZE,
         width: MAP_WIDTH,
-        height: MAP_HEIGHT
+        height: MAP_HEIGHT,
+        border: 0
+      },
+      map: {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+      },
+      divHeight: {
+        style: {}
       }
     })
 
@@ -66,7 +76,17 @@ describe('game canvas', () => {
         dot: DOT_SIZE,
         line: LINE_SIZE,
         width: MAP_WIDTH,
-        height: MAP_HEIGHT
+        height: MAP_HEIGHT,
+        border: 0
+      },
+      map: {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+      },
+      divHeight: {
+        style: {}
       }
     })
 
@@ -77,7 +97,8 @@ describe('game canvas', () => {
       'props': {
         'canvas': {
           'height': CANVAS_HEIGHT,
-          'width': CANVAS_WIDTH
+          'width': CANVAS_WIDTH,
+          'style': { left: '0px', top: '0px' }
         },
         'fillStyle': COLOR_SNAKE,
         'strokeStyle': '#000'
@@ -101,7 +122,17 @@ describe('game canvas', () => {
         dot: DOT_SIZE,
         line: LINE_SIZE,
         width: MAP_WIDTH,
-        height: MAP_HEIGHT
+        height: MAP_HEIGHT,
+        border: 0
+      },
+      map: {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+      },
+      divHeight: {
+        style: {}
       }
     })
 
@@ -112,7 +143,8 @@ describe('game canvas', () => {
       'props': {
         'canvas': {
           'height': CANVAS_HEIGHT,
-          'width': CANVAS_WIDTH
+          'width': CANVAS_WIDTH,
+          'style': { left: '0px', top: '0px' }
         },
         'fillStyle': COLOR_APPLE,
         'strokeStyle': '#000'
@@ -136,7 +168,17 @@ describe('game canvas', () => {
         dot: DOT_SIZE,
         line: LINE_SIZE,
         width: MAP_WIDTH,
-        height: MAP_HEIGHT
+        height: MAP_HEIGHT,
+        border: 0
+      },
+      map: {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+      },
+      divHeight: {
+        style: {}
       }
     })
 
@@ -147,7 +189,8 @@ describe('game canvas', () => {
       'props': {
         'canvas': {
           'height': CANVAS_HEIGHT,
-          'width': CANVAS_WIDTH
+          'width': CANVAS_WIDTH,
+          'style': { left: '0px', top: '0px' }
         },
         'fillStyle': COLOR_CORPSE,
         'strokeStyle': '#000'
@@ -171,7 +214,17 @@ describe('game canvas', () => {
         dot: DOT_SIZE,
         line: LINE_SIZE,
         width: MAP_WIDTH,
-        height: MAP_HEIGHT
+        height: MAP_HEIGHT,
+        border: 0
+      },
+      map: {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+      },
+      divHeight: {
+        style: {}
       }
     })
 
@@ -182,7 +235,8 @@ describe('game canvas', () => {
       'props': {
         'canvas': {
           'height': CANVAS_HEIGHT,
-          'width': CANVAS_WIDTH
+          'width': CANVAS_WIDTH,
+          'style': { left: '0px', top: '0px' }
         },
         'fillStyle': COLOR_WALL,
         'strokeStyle': '#000'
@@ -206,7 +260,17 @@ describe('game canvas', () => {
         dot: DOT_SIZE,
         line: LINE_SIZE,
         width: MAP_WIDTH,
-        height: MAP_HEIGHT
+        height: MAP_HEIGHT,
+        border: 0
+      },
+      map: {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+      },
+      divHeight: {
+        style: {}
       }
     })
 
@@ -217,7 +281,8 @@ describe('game canvas', () => {
       'props': {
         'canvas': {
           'height': CANVAS_HEIGHT,
-          'width': CANVAS_WIDTH
+          'width': CANVAS_WIDTH,
+          'style': { left: '0px', top: '0px' }
         },
         'fillStyle': COLOR_PLAYER,
         'strokeStyle': '#000'
@@ -241,7 +306,17 @@ describe('game canvas', () => {
         dot: DOT_SIZE,
         line: LINE_SIZE,
         width: MAP_WIDTH,
-        height: MAP_HEIGHT
+        height: MAP_HEIGHT,
+        border: 0
+      },
+      map: {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+      },
+      divHeight: {
+        style: {}
       }
     })
 
@@ -252,7 +327,8 @@ describe('game canvas', () => {
       'props': {
         'canvas': {
           'height': CANVAS_HEIGHT,
-          'width': CANVAS_WIDTH
+          'width': CANVAS_WIDTH,
+          'style': { left: '0px', top: '0px' }
         },
         'fillStyle': COLOR_WATERMELON,
         'strokeStyle': '#000'

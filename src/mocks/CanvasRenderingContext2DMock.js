@@ -7,7 +7,14 @@ export class CanvasRenderingContext2DMock {
     this._initProps({
       fillStyle: '#000',
       strokeStyle: '#000',
-      canvas: { width, height }
+      canvas: {
+        style: {
+          left: '0px',
+          top: '0px'
+        },
+        width,
+        height
+      }
     })
     this._initMethods([
       'clearRect',

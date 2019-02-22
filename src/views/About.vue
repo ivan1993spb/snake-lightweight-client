@@ -4,20 +4,22 @@
     <div class="about-content">
       <h3>Client info</h3>
       <div>
-        <div>Client source code: https://github.com/ivan1993spb/snake-lightweight-client</div>
         <div>Client version: {{ VERSION }}</div>
         <div>Client build: {{ BUILD }}</div>
         <div>License: {{ LICENSE }}</div>
         <div>Author: {{ AUTHOR }}</div>
+        <div>Client source code: <a href="https://github.com/ivan1993spb/snake-lightweight-client">here</a></div>
+        <div>Issues: <a href="https://github.com/ivan1993spb/snake-lightweight-client/issues">here</a></div>
       </div>
       <h3>Server info</h3>
       <div v-if="isLoadingInfo">Loading</div>
       <div v-else>
-        <div>Server source code: https://github.com/ivan1993spb/snake-server</div>
         <div>Server version: {{ info.version }}</div>
         <div>Server build: {{ info.build }}</div>
         <div>License: {{ info.license }}</div>
         <div>Author: {{ info.author }}</div>
+        <div>Server source code: <a href="https://github.com/ivan1993spb/snake-server">here</a></div>
+        <div>Issues: <a href="https://github.com/ivan1993spb/snake-server/issues">here</a></div>
       </div>
     </div>
   </div>

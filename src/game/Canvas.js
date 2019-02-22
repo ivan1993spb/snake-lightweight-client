@@ -184,7 +184,7 @@ export class Canvas {
     dots.forEach(dot => {
       context.fillRect(
         this._getPxX(dot[X]),
-        this._getPxX(dot[Y]),
+        this._getPxY(dot[Y]),
         this._dot,
         this._dot
       )

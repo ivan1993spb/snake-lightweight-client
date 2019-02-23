@@ -17,6 +17,10 @@
       class="game-canvas game-canvas-grid"
     />
     <div
+      ref="countdown-bar"
+      class="countdown-bar countdown-bar-inactive"
+    />
+    <div
       ref="keep-canvas-height"
       class="game-keep-canvas-height"
     />
@@ -52,7 +56,9 @@ export default {
     const canvasFood = this.$refs['canvas-food']
     const canvasWalls = this.$refs['canvas-walls']
     const canvasGrid = this.$refs['canvas-grid']
+
     const divCanvasHeight = this.$refs['keep-canvas-height']
+    const divCountdownBar = this.$refs['countdown-bar']
 
     const width = this.width
     const height = this.height
@@ -76,7 +82,7 @@ export default {
             id
           },
           elements: {
-            countdown: null,
+            countdown: divCountdownBar,
             notification: null
           }
         })
@@ -119,6 +125,25 @@ export default {
 
   .game-keep-canvas-height {
     margin: 20px;
+  }
+
+  .countdown-bar {
+    position: absolute;
+    z-index: 5;
+    background: #040;
+    opacity: 0.6;
+
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12rem;
+
+    &-active {
+      display: block;
+    }
+
+    &-inactive {
+      display: none;
+    }
   }
 }
 

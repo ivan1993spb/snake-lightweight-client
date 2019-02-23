@@ -108,7 +108,8 @@ export class Core {
     this._mouseController.stop()
     this._gameController.stop()
 
-    // TODO: Deactivate countdown if exists.
+    // Deactivate countdown if exists.
+    this._countdownBar.stop()
   }
 }
 

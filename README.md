@@ -2,6 +2,10 @@
 
 Server source code: https://github.com/ivan1993spb/snake-server
 
+## Screenshot
+
+![Client screenshot](screenshot-client.png)
+
 ## Project setup
 ```
 yarn install

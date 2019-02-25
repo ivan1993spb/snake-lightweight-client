@@ -6,8 +6,17 @@ import {
   COMMAND_WEST
 } from './commands'
 
-const LISTEN_TO_EVENT = 'mousedown'
 const MOUSE_BUTTON = 1
+let TOUCH_AVAILABLE
+let LISTEN_TO_EVENT
+if ('ontouchstart' in document.documentElement) {
+  LISTEN_TO_EVENT = 'touchstart'
+  TOUCH_AVAILABLE = true
+} else {
+  LISTEN_TO_EVENT = 'mousedown'
+  TOUCH_AVAILABLE = false
+}
+
 
 export const DIRECTION_INVALID = -1
 export const DIRECTION_NORTH = 0
@@ -24,8 +33,12 @@ export class MouseController {
     }
 
     this._listener = event => {
-      if (event.buttons === MOUSE_BUTTON) {
-        const direction = this._calc(event.pageX, event.pageY)
+      if (event.buttons === MOUSE_BUTTON || TOUCH_AVAILABLE) {
+
+        let pageX = TOUCH_AVAILABLE ? event.changedTouches[0].pageX : event.pageX
+        let pageY = TOUCH_AVAILABLE ? event.changedTouches[0].pageY : event.pageY
+
+        const direction = this._calc(pageX, pageY)
 
         if (direction !== DIRECTION_INVALID) {
           if (direction === DIRECTION_NORTH) {
@@ -84,11 +97,11 @@ export class MouseController {
   }
 
   start () {
-    window.addEventListener(LISTEN_TO_EVENT, this._listener)
+    document.addEventListener(LISTEN_TO_EVENT, this._listener)
   }
 
   stop () {
-    window.removeEventListener(LISTEN_TO_EVENT, this._listener)
+    document.removeEventListener(LISTEN_TO_EVENT, this._listener)
   }
 }
 

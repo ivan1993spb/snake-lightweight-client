@@ -17,7 +17,6 @@ if ('ontouchstart' in document.documentElement) {
   TOUCH_AVAILABLE = false
 }
 
-
 export const DIRECTION_INVALID = -1
 export const DIRECTION_NORTH = 0
 export const DIRECTION_EAST = 1
@@ -34,7 +33,6 @@ export class MouseController {
 
     this._listener = event => {
       if (event.buttons === MOUSE_BUTTON || TOUCH_AVAILABLE) {
-
         let pageX = TOUCH_AVAILABLE ? event.changedTouches[0].pageX : event.pageX
         let pageY = TOUCH_AVAILABLE ? event.changedTouches[0].pageY : event.pageY
 

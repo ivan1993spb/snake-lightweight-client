@@ -26,6 +26,9 @@ if (process.env.SNAKE_SERVER_WEB_SCHEME) {
 if (process.env.SNAKE_SERVER_SOCKET_SCHEME) {
   env.SNAKE_SERVER_SOCKET_SCHEME = process.env.SNAKE_SERVER_SOCKET_SCHEME
 }
+if (process.env.SNAKE_SERVER_ENABLE_MOCK) {
+  env.SNAKE_SERVER_ENABLE_MOCK = process.env.SNAKE_SERVER_ENABLE_MOCK
+}
 
 const environmentPlugin = new webpack.EnvironmentPlugin(env)
 

@@ -24,7 +24,8 @@
     "vue": "^2.5.21",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "yn": "3.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",

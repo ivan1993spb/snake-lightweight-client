@@ -1,5 +1,9 @@
 
+import yn from 'yn'
+
 const envDev = process.env.NODE_ENV === 'development'
+
+const enableMock = yn(process.env.SNAKE_SERVER_ENABLE_MOCK, { default: envDev })
 
 const DEFAULT_SNAKE_SERVER_HOST = location.hostname || 'localhost'
 const DEFAULT_SNAKE_SERVER_PORT = location.port || '8080'
@@ -33,8 +37,8 @@ export const WS_URL =
   (skipPort ? '' : ':' + SNAKE_SERVER_PORT) +
   '/ws'
 
-export const MOCK_API = envDev
-export const MOCK_WS = envDev
+export const MOCK_API = enableMock
+export const MOCK_WS = enableMock
 
 export const SNAKE_CLIENT_NAME = 'SnakeLightweightClient'
 

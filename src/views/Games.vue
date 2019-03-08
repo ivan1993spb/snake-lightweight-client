@@ -79,6 +79,10 @@ export default {
     font-family: Classic, sans-serif;
     letter-spacing: 2px;
 
+    .games-page-block {
+      margin: 20px 0px;
+    }
+
     h1 {
       text-align: center;
       font-size: 3rem;

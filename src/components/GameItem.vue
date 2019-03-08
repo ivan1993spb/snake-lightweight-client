@@ -10,10 +10,10 @@
       <b>players: {{ count }}/{{ limit }}</b>
     </div>
     <div>rate: {{ rate }}</div>
-    <div v-if="count===0" @click="deleteGame">
+    <div class="game-item-delete" v-if="count===0" @click="deleteGame">
       <i>delete</i>
     </div>
-    <div v-else>
+    <div class="game-item-delete-disable" v-else>
       <s>delete</s>
     </div>
   </div>
@@ -70,6 +70,20 @@ export default {
   div {
     display: inline-block;
     margin: 10px;
+  }
+
+  .game-item-delete {
+    color: #944;
+    cursor: pointer;
+    font-weight: bolder;
+  }
+
+  .game-item-delete:hover {
+    color: #f77;
+  }
+
+  .game-item-delete-disable {
+    color: #999;
   }
 }
 </style>

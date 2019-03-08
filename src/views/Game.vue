@@ -2,12 +2,12 @@
   <div class="game">
     <h1>{{ name }}</h1>
     <div class="game-content">
-      <div v-if="!isLoadingGame">
+      <div class="game-content-params" v-if="!isLoadingGame">
         <div>Game ID: {{ game.id }}</div>
         <div>Map size: {{ game.width }}x{{ game.height }}</div>
         <div>Players: {{ game.count }}/{{ game.limit }}</div>
         <div>Messages: {{ game.rate }} per sec</div>
-        <div v-if="game.count === 0" @click="deleteGame">delete</div>
+        <div class="game-item-delete" v-if="game.count === 0" @click="deleteGame">delete</div>
         <div v-if="game.limit > game.count">
           <router-link :to="{ name: 'play', params: { id: game.id }}">Play</router-link>
         </div>
@@ -75,6 +75,22 @@ export default {
     .game-content {
       max-width: 790px;
       margin: 0 auto;
+
+      .game-content-params {
+        div {
+          margin: 10px 0px;
+        }
+
+        .game-item-delete {
+          color: #944;
+          cursor: pointer;
+          font-weight: bolder;
+        }
+
+        .game-item-delete:hover {
+          color: #f77;
+        }
+      }
     }
   }
 </style>

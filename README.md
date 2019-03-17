@@ -2,9 +2,9 @@
 
 Server source code: https://github.com/ivan1993spb/snake-server
 
-## Screenshot
+## Demo
 
-![Client screenshot](screenshot-client.png)
+![Client screenshot](demo.gif)
 
 ## Project setup
 

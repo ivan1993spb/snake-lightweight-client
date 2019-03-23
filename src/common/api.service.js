@@ -20,6 +20,7 @@ const ApiService = {
     }
     Vue.use(VueAxios, axios)
     Vue.axios.defaults.baseURL = API_URL
+    this.setHeader()
   },
 
   setHeader () {

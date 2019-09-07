@@ -3,24 +3,24 @@
     <h1>Create new game</h1>
     <div class="new-content">
       <h3>Map size</h3>
-      <div>
+      <div class="new-content-row">
         <label for="width-range">Width</label>
         <input id="width-range" type="range" min="8" max="255" step="1" v-model="width">
         <input id="width-number" type="number" v-model="width"/>
       </div>
-      <div>
+      <div class="new-content-row">
         <label for="height-range">height</label>
         <input id="height-range" type="range" min="8" max="255" step="1" v-model="height">
         <input id="height-number" type="number" v-model="height"/>
       </div>
       <h3>Players limit</h3>
-      <div>
+      <div class="new-content-row">
         <label for="limit-range">Players limit</label>
         <input id="limit-range" type="range" min="1" max="100" step="1" v-model="limit">
         <input id="limit-number" type="number" v-model="limit"/>
       </div>
-      <div>
-        <button @click="create">Create</button>
+      <div class="new-content-row">
+        <div class="new-content-row-button" @click="create">OK</div>
       </div>
     </div>
   </div>
@@ -69,6 +69,41 @@ export default {
     .new-content {
       max-width: 790px;
       margin: 0 auto;
+
+      .new-content-row {
+        margin-bottom: 40px;
+
+        label {
+          width: 200px;
+          font-size: 1.5rem;
+          display:inline-block;
+        }
+
+        input, label {
+          margin: 0px 20px;
+        }
+
+        input[type=number] {
+          width: 100px;
+          font-weight: bold;
+        }
+
+        .new-content-row-button {
+          cursor: pointer;
+          display: inline-block;
+          font-size: 3rem;
+          font-weight: bold;
+          text-decoration: none;
+          padding: 15px 30px;
+          background: #494;
+          color: #fff;
+        }
+
+        .new-content-row-button:hover {
+          background: #fff;
+          color: #494;
+        }
+      }
     }
   }
 </style>

@@ -12,7 +12,7 @@ describe('Playground common methods', () => {
     const pg = new Playground(canvas)
 
     expect(pg._canvas).toBe(canvas)
-    expect(pg._snake).toBe('')
+    expect(pg._snakeID).toBe(null)
 
     expect(pg._cacheSnakes).toBeInstanceOf(Map)
     expect(pg._cacheFood).toBeInstanceOf(Map)
@@ -27,7 +27,7 @@ describe('Playground common methods', () => {
     }
 
     const pg = new Playground(canvas)
-    pg.setPlayerSnake('id')
-    expect(pg._snake).toBe('id')
+    pg.setPlayerSnake(123)
+    expect(pg._snakeID).toBe(123)
   })
 })

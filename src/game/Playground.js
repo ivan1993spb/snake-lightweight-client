@@ -48,13 +48,13 @@ export class Playground {
     this._canvas = canvas
 
     // Player's snake id
-    this._snake = ''
+    this._snakeID = null
 
     this._initCaches()
   }
 
-  setPlayerSnake (snake) {
-    this._snake = snake
+  setPlayerSnake (snakeID) {
+    this._snakeID = snakeID
   }
 
   loadObjects (objects) {
@@ -71,7 +71,7 @@ export class Playground {
 
   redrawFromCaches () {
     this._cacheSnakes.forEach(snake => {
-      if (this._snake === snake.id) {
+      if (this._snakeID === snake.id) {
         this._canvas.draw(OBJECT_PLAYER, snake.dots)
       } else {
         this._canvas.draw(OBJECT_SNAKE, snake.dots)
@@ -127,7 +127,7 @@ export class Playground {
   _createObject (object) {
     switch (object.type) {
       case OBJECT_TYPE_SNAKE:
-        if (this._snake === object.id) {
+        if (this._snakeID === object.id) {
           this._canvas.draw(OBJECT_PLAYER, object.dots)
         } else {
           this._canvas.draw(OBJECT_SNAKE, object.dots)
@@ -163,7 +163,7 @@ export class Playground {
           throw new Error(`Playground: snake to update was not found: ${object.id}`)
         }
         const { clear, draw } = dotListsDifference(object.dots, snake.dots)
-        if (this._snake === object.id) {
+        if (this._snakeID === object.id) {
           this._canvas.draw(OBJECT_PLAYER, draw)
           this._canvas.clear(OBJECT_PLAYER, clear)
         } else {

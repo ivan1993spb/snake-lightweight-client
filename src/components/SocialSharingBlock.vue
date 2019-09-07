@@ -1,6 +1,7 @@
 <template>
   <div class="social-sharing">
     <social-sharing
+                    :url="url"
                     title="Snake Online - Join the game!"
                     description="Join Snake Online Game"
                     hashtags="snake,online,game"
@@ -90,7 +91,12 @@
 <script>
 
 export default {
-  name: 'SocialSharingBlock'
+  name: 'SocialSharingBlock',
+  computed: {
+    url () {
+      return parent.location.href
+    }
+  }
 }
 </script>
 
@@ -103,17 +109,18 @@ export default {
   color: #000;
 
   .social-sharing-list {
-
     b {
       margin-right: 10px;
       font-size: 1.3rem;
     }
+
     div {
-    justify-content: space-between;
+      justify-content: space-between;
       cursor: pointer;
       display: inline-block;
       padding: 3px 6px;
     }
+
     div:hover {
       color: #fff;
       background: #000;

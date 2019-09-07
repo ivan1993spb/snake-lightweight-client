@@ -36,21 +36,25 @@ export class MouseController {
         let pageX = TOUCH_AVAILABLE ? event.changedTouches[0].pageX : event.pageX
         let pageY = TOUCH_AVAILABLE ? event.changedTouches[0].pageY : event.pageY
 
-        const direction = this._calc(pageX, pageY)
+        this._turnCommandByDot(pageX, pageY)
+      }
+    }
+  }
 
-        if (direction !== DIRECTION_INVALID) {
-          if (direction === DIRECTION_NORTH) {
-            this.oncommand(COMMAND_NORTH)
-          } else if (direction === DIRECTION_EAST) {
-            this.oncommand(COMMAND_EAST)
-          } else if (direction === DIRECTION_WEST) {
-            this.oncommand(COMMAND_WEST)
-          } else if (direction === DIRECTION_SOUTH) {
-            this.oncommand(COMMAND_SOUTH)
-          } else {
-            log.error('unknown mouse direction')
-          }
-        }
+  _turnCommandByDot (x, y) {
+    const direction = this._calc(x, y)
+
+    if (direction !== DIRECTION_INVALID) {
+      if (direction === DIRECTION_NORTH) {
+        this.oncommand(COMMAND_NORTH)
+      } else if (direction === DIRECTION_EAST) {
+        this.oncommand(COMMAND_EAST)
+      } else if (direction === DIRECTION_WEST) {
+        this.oncommand(COMMAND_WEST)
+      } else if (direction === DIRECTION_SOUTH) {
+        this.oncommand(COMMAND_SOUTH)
+      } else {
+        log.error('unknown mouse direction')
       }
     }
   }

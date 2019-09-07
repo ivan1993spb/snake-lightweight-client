@@ -6,6 +6,7 @@ export const OBJECT_CORPSE = 3
 export const OBJECT_WATERMELON = 4
 export const OBJECT_WALL = 5
 export const OBJECT_HIGHLIGHTED = 6
+export const OBJECT_MOUSE = 7
 
 export const COLOR_BORDER = '#010'
 export const COLOR_GRID = '#020'
@@ -16,6 +17,7 @@ export const COLOR_CORPSE = '#00f'
 export const COLOR_WATERMELON = '#ff0'
 export const COLOR_WALL = '#115'
 export const COLOR_HIGHLIGHTED = '#f88'
+export const COLOR_MOUSE = '#f00'
 
 const ERROR_INVALID_DOT_SIZE = 'invalid dot size'
 const ERROR_INVALID_LINE_SIZE = 'invalid line size'
@@ -127,6 +129,7 @@ export class Canvas {
       case OBJECT_APPLE:
       case OBJECT_CORPSE:
       case OBJECT_WATERMELON:
+      case OBJECT_MOUSE:
         // Deleting of any food is same operation.
         this._clear(this._contextFood, dots)
         break
@@ -179,6 +182,9 @@ export class Canvas {
         break
       case OBJECT_WALL:
         this._draw(this._contextWalls, COLOR_WALL, dots)
+        break
+      case OBJECT_MOUSE:
+        this._draw(this._contextFood, COLOR_MOUSE, dots)
         break
       default:
         throw new Error(`Canvas.draw: invalid type ${type}`)

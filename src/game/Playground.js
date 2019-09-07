@@ -8,7 +8,8 @@ import {
   OBJECT_SNAKE,
   OBJECT_WALL,
   OBJECT_WATERMELON,
-  OBJECT_HIGHLIGHTED
+  OBJECT_HIGHLIGHTED,
+  OBJECT_MOUSE
 } from './Canvas'
 
 const OBJECT_TYPE_SNAKE = 'snake'
@@ -16,6 +17,7 @@ const OBJECT_TYPE_APPLE = 'apple'
 const OBJECT_TYPE_CORPSE = 'corpse'
 const OBJECT_TYPE_WATERMELON = 'watermelon'
 const OBJECT_TYPE_WALL = 'wall'
+const OBJECT_TYPE_MOUSE = 'mouse'
 
 const GAME_EVENT_TYPE_CREATE = 'create'
 const GAME_EVENT_TYPE_UPDATE = 'update'
@@ -166,6 +168,8 @@ export class Playground {
         this._canvas.draw(OBJECT_CORPSE, food.dots)
       } else if (food.type === OBJECT_TYPE_WATERMELON) {
         this._canvas.draw(OBJECT_WATERMELON, food.dots)
+      } else if (food.type === OBJECT_TYPE_MOUSE) {
+        this._canvas.draw(OBJECT_MOUSE, [food.dot])
       }
     })
 
@@ -235,6 +239,10 @@ export class Playground {
         this._canvas.draw(OBJECT_WALL, object.dots)
         this._cacheWalls.set(object.id, object)
         break
+      case OBJECT_TYPE_MOUSE:
+        this._canvas.draw(OBJECT_MOUSE, [object.dot])
+        this._cacheFood.set(object.id, object)
+        break
       default:
         throw new Error(`Playground: error cannot create object of invalid type: ${object.type}`)
     }
@@ -290,6 +298,16 @@ export class Playground {
         this._cacheFood.set(object.id, object)
         break
       }
+      case OBJECT_TYPE_MOUSE: {
+        const mouse = this._cacheFood.get(object.id)
+        if (mouse === undefined) {
+          throw new Error(`Playground: mouse to update was not found: ${object.id}`)
+        }
+        this._canvas.draw(OBJECT_MOUSE, [object.dot])
+        this._canvas.clear(OBJECT_MOUSE, [mouse.dot])
+        this._cacheFood.set(object.id, object)
+        break
+      }
       case OBJECT_TYPE_WALL: {
         // Nothing to do here.
         throw new Error('Playground: cannot update wall object')
@@ -340,6 +358,15 @@ export class Playground {
         }
         this._canvas.clear(OBJECT_WALL, wall.dots)
         this._cacheWalls.delete(object.id)
+        break
+      }
+      case OBJECT_TYPE_MOUSE: {
+        const mouse = this._cacheFood.get(object.id)
+        if (mouse === undefined) {
+          throw new Error(`Playground: mouse object to delete was not found: ${object.id}`)
+        }
+        this._canvas.clear(OBJECT_MOUSE, [mouse.dot])
+        this._cacheFood.delete(object.id)
         break
       }
       default:

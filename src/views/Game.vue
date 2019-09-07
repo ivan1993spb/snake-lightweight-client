@@ -2,6 +2,9 @@
   <div class="game">
     <h1>{{ name }}</h1>
     <div class="game-content">
+      <div class="game-content-share">
+        <SocialSharingBlock/>
+      </div>
       <div class="game-content-params" v-if="!isLoadingGame">
         <div>Game ID: {{ game.id }}</div>
         <div>Map size: {{ game.width }}x{{ game.height }}</div>
@@ -27,9 +30,13 @@ import {
   FETCH_GAME,
   UPDATE_GAME
 } from '@/store/actions.type'
+import SocialSharingBlock from '@/components/SocialSharingBlock'
 
 export default {
   name: 'game',
+  components: {
+    SocialSharingBlock
+  },
   computed: {
     ...mapGetters(['game', 'isLoadingGame']),
     name: function () {
@@ -75,6 +82,10 @@ export default {
     .game-content {
       max-width: 790px;
       margin: 0 auto;
+
+      .game-content-share {
+        margin: 20px 0px;
+      }
 
       .game-content-params {
         div {

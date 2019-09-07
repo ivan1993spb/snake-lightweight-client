@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import log from 'loglevel'
+import SocialSharing from 'vue-social-sharing'
 
 import router from '@/router'
 import store from '@/store'
@@ -17,6 +18,8 @@ log.setLevel(LOG_LEVEL)
 Vue.config.productionTip = false
 Vue.filter('date', DateFilter)
 Vue.filter('error', ErrorFilter)
+
+Vue.use(SocialSharing)
 
 ApiService.init()
 

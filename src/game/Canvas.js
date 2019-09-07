@@ -5,6 +5,7 @@ export const OBJECT_APPLE = 2
 export const OBJECT_CORPSE = 3
 export const OBJECT_WATERMELON = 4
 export const OBJECT_WALL = 5
+export const OBJECT_HIGHLIGHTED = 6
 
 export const COLOR_BORDER = '#010'
 export const COLOR_GRID = '#020'
@@ -14,6 +15,7 @@ export const COLOR_APPLE = '#0f0'
 export const COLOR_CORPSE = '#00f'
 export const COLOR_WATERMELON = '#ff0'
 export const COLOR_WALL = '#115'
+export const COLOR_HIGHLIGHTED = '#f88'
 
 const ERROR_INVALID_DOT_SIZE = 'invalid dot size'
 const ERROR_INVALID_LINE_SIZE = 'invalid line size'
@@ -118,6 +120,7 @@ export class Canvas {
     switch (type) {
       case OBJECT_PLAYER:
       case OBJECT_SNAKE:
+      case OBJECT_HIGHLIGHTED:
         // That is the same: deleting a snake or delete the snake of a player.
         this._clear(this._contextSnakes, dots)
         break
@@ -161,6 +164,9 @@ export class Canvas {
         break
       case OBJECT_SNAKE:
         this._draw(this._contextSnakes, COLOR_SNAKE, dots)
+        break
+      case OBJECT_HIGHLIGHTED:
+        this._draw(this._contextSnakes, COLOR_HIGHLIGHTED, dots)
         break
       case OBJECT_APPLE:
         this._draw(this._contextFood, COLOR_APPLE, dots)

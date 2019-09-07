@@ -7,7 +7,8 @@ import {
   OBJECT_PLAYER,
   OBJECT_SNAKE,
   OBJECT_WALL,
-  OBJECT_WATERMELON
+  OBJECT_WATERMELON,
+  OBJECT_HIGHLIGHTED
 } from './Canvas'
 
 const OBJECT_TYPE_SNAKE = 'snake'
@@ -19,6 +20,9 @@ const OBJECT_TYPE_WALL = 'wall'
 const GAME_EVENT_TYPE_CREATE = 'create'
 const GAME_EVENT_TYPE_UPDATE = 'update'
 const GAME_EVENT_TYPE_DELETE = 'delete'
+
+const HIGHLIGHT_PLAYER_SNAKE_INTERVAL = 100
+const HIGHLIGHT_PLAYER_SNAKE_TIMEOUT = 5000
 
 const X = 0
 const Y = 1
@@ -55,6 +59,79 @@ export class Playground {
 
   setPlayerSnake (snakeID) {
     this._snakeID = snakeID
+    this._highlightPlayerSnakeInit()
+  }
+
+  _highlightPlayerSnakeInit () {
+    this._highlightCounter = 0
+    this._highlightPlayerSnakeInterval = setInterval(() => {
+      this._highlightPlayerSnakeIter()
+    }, HIGHLIGHT_PLAYER_SNAKE_INTERVAL)
+  }
+
+  _highlightPlayerSnakeIter () {
+    try {
+      this._highlightPlayerSnake()
+    } catch (e) {
+      this._highlightPlayerSnakeStop()
+      log.error('highlighting was interrupted:', e)
+      this._highlightPlayerSnakeReturnOriginalColor()
+    }
+  }
+
+  _highlightPlayerSnakeStop () {
+    clearInterval(this._highlightPlayerSnakeInterval)
+    this._highlightCounter = 0
+  }
+
+  _highlightPlayerSnakeTimeout () {
+    return HIGHLIGHT_PLAYER_SNAKE_TIMEOUT <=
+      HIGHLIGHT_PLAYER_SNAKE_INTERVAL * this._highlightCounter
+  }
+
+  _highlightPlayerSnake () {
+    if (this._highlightPlayerSnakeTimeout()) {
+      throw new Error('cannot highlight snake: highlighting time is out')
+    }
+
+    this._highlightCounter++
+
+    try {
+      this._paintPlayerSnake(this._highlightPlayerSnakeObjectType())
+    } catch (e) {
+      throw new Error('cannot highlight snake:', e)
+    }
+  }
+
+  _highlightPlayerSnakeObjectType () {
+    // eslint-disable-next-line
+    return this._highlightCounter & 1 === 1 ? OBJECT_PLAYER : OBJECT_HIGHLIGHTED
+  }
+
+  _highlightPlayerSnakeIsActive () {
+    return this._highlightCounter > 0
+  }
+
+  _highlightPlayerSnakeReturnOriginalColor () {
+    // Return original player's snake color
+    try {
+      this._paintPlayerSnake(OBJECT_PLAYER)
+    } catch (e) {
+      throw new Error('return original snake color:', e)
+    }
+  }
+
+  _paintPlayerSnake (objectType) {
+    if (!this._snakeID) {
+      throw new Error('cannot paint player snake: id is empty')
+    }
+
+    const snake = this._cacheSnakes.get(this._snakeID)
+    if (snake === undefined) {
+      throw new Error(`cannot paint player snake: snake was not found id=${this._snakeID}`)
+    }
+
+    this._canvas.draw(objectType, snake.dots)
   }
 
   loadObjects (objects) {
@@ -72,7 +149,11 @@ export class Playground {
   redrawFromCaches () {
     this._cacheSnakes.forEach(snake => {
       if (this._snakeID === snake.id) {
-        this._canvas.draw(OBJECT_PLAYER, snake.dots)
+        if (this._highlightPlayerSnakeIsActive()) {
+          this._canvas.draw(this._highlightPlayerSnakeObjectType(), snake.dots)
+        } else {
+          this._canvas.draw(OBJECT_PLAYER, snake.dots)
+        }
       } else {
         this._canvas.draw(OBJECT_SNAKE, snake.dots)
       }
@@ -128,7 +209,11 @@ export class Playground {
     switch (object.type) {
       case OBJECT_TYPE_SNAKE:
         if (this._snakeID === object.id) {
-          this._canvas.draw(OBJECT_PLAYER, object.dots)
+          if (this._highlightPlayerSnakeIsActive()) {
+            this._canvas.draw(this._highlightPlayerSnakeObjectType(), object.dots)
+          } else {
+            this._canvas.draw(OBJECT_PLAYER, object.dots)
+          }
         } else {
           this._canvas.draw(OBJECT_SNAKE, object.dots)
         }
@@ -164,8 +249,14 @@ export class Playground {
         }
         const { clear, draw } = dotListsDifference(object.dots, snake.dots)
         if (this._snakeID === object.id) {
-          this._canvas.draw(OBJECT_PLAYER, draw)
-          this._canvas.clear(OBJECT_PLAYER, clear)
+          if (this._highlightPlayerSnakeIsActive()) {
+            const objectType = this._highlightPlayerSnakeObjectType()
+            this._canvas.draw(objectType, draw)
+            this._canvas.clear(objectType, clear)
+          } else {
+            this._canvas.draw(OBJECT_PLAYER, draw)
+            this._canvas.clear(OBJECT_PLAYER, clear)
+          }
         } else {
           this._canvas.draw(OBJECT_SNAKE, draw)
           this._canvas.clear(OBJECT_SNAKE, clear)
@@ -273,6 +364,7 @@ export class Playground {
 
   stop () {
     this._clearCaches()
+    this._highlightPlayerSnakeStop()
   }
 }
 

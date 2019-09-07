@@ -5,7 +5,7 @@
       <div class="play-content-share">
         <SocialSharingBlock/>
       </div>
-      <div>Use arrows, WASD, IJKL or mouse</div>
+      <div class="play-content-instruction">Use arrows, WASD, IJKL or mouse</div>
       <div>
         <span><b>Details</b></span>
         <span>Players: {{ game.count }}/{{ game.limit }}</span>
@@ -80,6 +80,12 @@ export default {
 
       .play-content-share {
         margin: 20px 0px;
+      }
+
+      .play-content-instruction {
+        margin: 20px 0px;
+        font-size: 1.3rem;
+        font-weight: bold;
       }
     }
   }

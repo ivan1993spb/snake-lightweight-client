@@ -15,7 +15,7 @@ export const COLOR_SNAKE = '#f44'
 export const COLOR_APPLE = '#0f0'
 export const COLOR_CORPSE = '#00f'
 export const COLOR_WATERMELON = '#ff0'
-export const COLOR_WALL = '#115'
+export const COLOR_WALL = '#474'
 export const COLOR_HIGHLIGHTED = '#f88'
 export const COLOR_MOUSE = '#f00'
 

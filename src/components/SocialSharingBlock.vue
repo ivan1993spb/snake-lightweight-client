@@ -34,53 +34,8 @@
           </network>
         </div>
         <div>
-          <network network="googleplus" id="googleplus">
-            <i class="fa fa-fw fa-google-plus"></i> Google +
-          </network>
-        </div>
-        <div>
-          <network network="linkedin" id="linkedin">
-            <i class="fa fa-fw fa-linkedin"></i> LinkedIn
-          </network>
-        </div>
-        <div>
-          <network network="whatsapp" id="whatsapp">
-            <i class="fa fa-fw fa-whatsapp"></i> Whatsapp
-          </network>
-        </div>
-        <div>
           <network network="telegram" id="telegram">
             <i class="fa fa-fw fa-telegram"></i> Telegram
-          </network>
-        </div>
-        <div>
-          <network network="viber" id="viber">
-            <i class="fa fa-fw fa-phone-square"></i> Viber
-          </network>
-        </div>
-        <div>
-          <network network="skype" id="skype">
-            <i class="fa fa-fw fa-skype"></i> Skype
-          </network>
-        </div>
-        <div>
-          <network network="weibo" id="weibo">
-            <i class="fa fa-fw fa-weibo"></i> Weibo
-          </network>
-        </div>
-        <div>
-          <network network="pinterest" id="pinterest">
-            <i class="fa fa-fw fa-pinterest"></i> Pinterest
-          </network>
-        </div>
-        <div>
-          <network network="email" id="email">
-            <i class="fa fa-fw fa-envelope"></i> Email
-          </network>
-        </div>
-        <div>
-          <network network="sms" id="sms">
-            <i class="fa fa-fw fa-comments"></i> SMS
           </network>
         </div>
       </div>

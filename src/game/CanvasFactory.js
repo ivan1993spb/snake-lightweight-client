@@ -2,30 +2,21 @@
 import Canvas from './Canvas'
 
 export class CanvasFactory {
-  constructor ({ canvasSnakes, canvasFood, canvasWalls, canvasGrid }, divCanvasHeight) {
-    this._canvasSnakes = canvasSnakes
-    this._canvasFood = canvasFood
-    this._canvasWalls = canvasWalls
-    this._canvasGrid = canvasGrid
+  constructor ({ canvasGame }, divCanvasHeight) {
+    this._canvasGame = canvasGame
     this._divHeight = divCanvasHeight
 
     this._initContexts()
   }
 
   _initContexts () {
-    this._contextSnakes = this._canvasSnakes.getContext('2d', { alpha: false })
-    this._contextFood = this._canvasFood.getContext('2d', { alpha: true })
-    this._contextWalls = this._canvasWalls.getContext('2d', { alpha: true })
-    this._contextGrid = this._canvasGrid.getContext('2d', { alpha: true })
+    this._contextGame = this._canvasGame.getContext('2d', { alpha: false })
   }
 
   create ({ grid, map }) {
     return new Canvas({
       contexts: {
-        contextSnakes: this._contextSnakes,
-        contextFood: this._contextFood,
-        contextWalls: this._contextWalls,
-        contextGrid: this._contextGrid
+        contextGame: this._contextGame
       },
       divHeight: this._divHeight,
       grid,

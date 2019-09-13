@@ -1,20 +1,8 @@
 <template>
   <div class="game-container">
     <canvas
-      ref="canvas-snakes"
-      class="game-canvas game-canvas-snakes"
-    />
-    <canvas
-      ref="canvas-food"
-      class="game-canvas game-canvas-food"
-    />
-    <canvas
-      ref="canvas-walls"
-      class="game-canvas game-canvas-walls"
-    />
-    <canvas
-      ref="canvas-grid"
-      class="game-canvas game-canvas-grid"
+      ref="canvas-game"
+      class="game-canvas game-canvas-game"
     />
     <div
       ref="countdown-bar"
@@ -52,10 +40,7 @@ export default {
   mounted () {
     const id = this.id
 
-    const canvasSnakes = this.$refs['canvas-snakes']
-    const canvasFood = this.$refs['canvas-food']
-    const canvasWalls = this.$refs['canvas-walls']
-    const canvasGrid = this.$refs['canvas-grid']
+    const canvasGame = this.$refs['canvas-game']
 
     const divCanvasHeight = this.$refs['keep-canvas-height']
     const divCountdownBar = this.$refs['countdown-bar']
@@ -68,10 +53,7 @@ export default {
       .then(game => {
         this.game = new game.Core({
           canvases: {
-            canvasSnakes,
-            canvasFood,
-            canvasWalls,
-            canvasGrid
+            canvasGame
           },
           divCanvasHeight,
           map: {
@@ -106,20 +88,8 @@ export default {
   .game-canvas {
     position: absolute;
 
-    &-snakes {
+    &-game {
       z-index: 1;
-    }
-
-    &-food {
-      z-index: 2;
-    }
-
-    &-walls {
-      z-index: 3;
-    }
-
-    &-grid {
-      z-index: 4;
     }
   }
 

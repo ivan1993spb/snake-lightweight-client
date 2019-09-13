@@ -64,11 +64,8 @@ export class Canvas {
     this._border = border
   }
 
-  _setupContexts ({ contextSnakes, contextFood, contextWalls, contextGrid }) {
-    this._contextSnakes = contextSnakes
-    this._contextFood = contextFood
-    this._contextWalls = contextWalls
-    this._contextGrid = contextGrid
+  _setupContexts ({ contextGame }) {
+    this._contextGame = contextGame
   }
 
   _setupMap ({ x, y, width, height }) {
@@ -79,33 +76,15 @@ export class Canvas {
   }
 
   _resizeContexts () {
-    this._contextSnakes.canvas.width = this._widthPx
-    this._contextSnakes.canvas.height = this._heightPx
-
-    this._contextFood.canvas.width = this._widthPx
-    this._contextFood.canvas.height = this._heightPx
-
-    this._contextWalls.canvas.width = this._widthPx
-    this._contextWalls.canvas.height = this._heightPx
-
-    this._contextGrid.canvas.width = this._widthPx
-    this._contextGrid.canvas.height = this._heightPx
+    this._contextGame.canvas.width = this._widthPx
+    this._contextGame.canvas.height = this._heightPx
 
     this._divHeight.style.height = `${this._heightPx}px`
   }
 
   _locateContexts () {
-    this._contextSnakes.canvas.style.left = `${this._x}px`
-    this._contextSnakes.canvas.style.top = `${this._y}px`
-
-    this._contextFood.canvas.style.left = `${this._x}px`
-    this._contextFood.canvas.style.top = `${this._y}px`
-
-    this._contextWalls.canvas.style.left = `${this._x}px`
-    this._contextWalls.canvas.style.top = `${this._y}px`
-
-    this._contextGrid.canvas.style.left = `${this._x}px`
-    this._contextGrid.canvas.style.top = `${this._y}px`
+    this._contextGame.canvas.style.left = `${this._x}px`
+    this._contextGame.canvas.style.top = `${this._y}px`
   }
 
   setPropertions ({ grid, map }) {
@@ -119,26 +98,7 @@ export class Canvas {
   }
 
   clear (type, dots) {
-    switch (type) {
-      case OBJECT_PLAYER:
-      case OBJECT_SNAKE:
-      case OBJECT_HIGHLIGHTED:
-        // That is the same: deleting a snake or delete the snake of a player.
-        this._clear(this._contextSnakes, dots)
-        break
-      case OBJECT_APPLE:
-      case OBJECT_CORPSE:
-      case OBJECT_WATERMELON:
-      case OBJECT_MOUSE:
-        // Deleting of any food is same operation.
-        this._clear(this._contextFood, dots)
-        break
-      case OBJECT_WALL:
-        this._clear(this._contextWalls, dots)
-        break
-      default:
-        throw new Error(`Canvas.clear: invalid type ${type}`)
-    }
+    this._clear(this._contextGame, dots)
   }
 
   _clear (context, dots) {
@@ -163,28 +123,28 @@ export class Canvas {
   draw (type, dots) {
     switch (type) {
       case OBJECT_PLAYER:
-        this._draw(this._contextSnakes, COLOR_PLAYER, dots)
+        this._draw(this._contextGame, COLOR_PLAYER, dots)
         break
       case OBJECT_SNAKE:
-        this._draw(this._contextSnakes, COLOR_SNAKE, dots)
+        this._draw(this._contextGame, COLOR_SNAKE, dots)
         break
       case OBJECT_HIGHLIGHTED:
-        this._draw(this._contextSnakes, COLOR_HIGHLIGHTED, dots)
+        this._draw(this._contextGame, COLOR_HIGHLIGHTED, dots)
         break
       case OBJECT_APPLE:
-        this._draw(this._contextFood, COLOR_APPLE, dots)
+        this._draw(this._contextGame, COLOR_APPLE, dots)
         break
       case OBJECT_CORPSE:
-        this._draw(this._contextFood, COLOR_CORPSE, dots)
+        this._draw(this._contextGame, COLOR_CORPSE, dots)
         break
       case OBJECT_WATERMELON:
-        this._draw(this._contextFood, COLOR_WATERMELON, dots)
+        this._draw(this._contextGame, COLOR_WATERMELON, dots)
         break
       case OBJECT_WALL:
-        this._draw(this._contextWalls, COLOR_WALL, dots)
+        this._draw(this._contextGame, COLOR_WALL, dots)
         break
       case OBJECT_MOUSE:
-        this._draw(this._contextFood, COLOR_MOUSE, dots)
+        this._draw(this._contextGame, COLOR_MOUSE, dots)
         break
       default:
         throw new Error(`Canvas.draw: invalid type ${type}`)
@@ -204,15 +164,15 @@ export class Canvas {
   }
 
   _drawGrid () {
-    this._contextGrid.fillStyle = COLOR_GRID
+    this._contextGame.fillStyle = COLOR_GRID
 
     if (this._line > 0) {
       for (let lineX = this._border; lineX < this._widthPx - this._border; lineX += this._line + this._dot) {
-        this._contextGrid.fillRect(lineX, this._border, this._line, this._heightPx - this._border * 2)
+        this._contextGame.fillRect(lineX, this._border, this._line, this._heightPx - this._border * 2)
       }
 
       for (let lineY = this._border; lineY < this._heightPx - this._border; lineY += this._line + this._dot) {
-        this._contextGrid.fillRect(this._border, lineY, this._widthPx - this._border * 2, this._line)
+        this._contextGame.fillRect(this._border, lineY, this._widthPx - this._border * 2, this._line)
       }
     }
   }
@@ -222,27 +182,21 @@ export class Canvas {
       return
     }
 
-    this._contextGrid.fillStyle = COLOR_BORDER
+    this._contextGame.fillStyle = COLOR_BORDER
 
     // Western boreder
-    this._contextGrid.fillRect(0, 0, this._border, this._heightPx)
+    this._contextGame.fillRect(0, 0, this._border, this._heightPx)
     // Northern boreder
-    this._contextGrid.fillRect(0, 0, this._widthPx, this._border)
+    this._contextGame.fillRect(0, 0, this._widthPx, this._border)
     // Eastern boreder
-    this._contextGrid.fillRect(this._widthPx - this._border, 0, this._border, this._heightPx)
+    this._contextGame.fillRect(this._widthPx - this._border, 0, this._border, this._heightPx)
     // Southern boreder
-    this._contextGrid.fillRect(0, this._heightPx - this._border, this._widthPx, this._border)
+    this._contextGame.fillRect(0, this._heightPx - this._border, this._widthPx, this._border)
   }
 
   _clearAll () {
-    this._contextSnakes.clearRect(0, 0, this._contextSnakes.canvas.width,
-      this._contextSnakes.canvas.height)
-    this._contextFood.clearRect(0, 0, this._contextFood.canvas.width,
-      this._contextFood.canvas.height)
-    this._contextWalls.clearRect(0, 0, this._contextWalls.canvas.width,
-      this._contextWalls.canvas.height)
-    this._contextGrid.clearRect(0, 0, this._contextGrid.canvas.width,
-      this._contextGrid.canvas.height)
+    this._contextGame.clearRect(0, 0, this._contextGame.canvas.width,
+      this._contextGame.canvas.height)
   }
 }
 

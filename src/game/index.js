@@ -27,10 +27,3 @@ export default {
 // - player notification bar
 // - countdown bar
 // - ignoring
-
-// # TODO:
-// class:
-// * ScreenSizeController.js
-// view:
-// * player notification bar
-// * countdown bar

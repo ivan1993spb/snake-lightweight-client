@@ -77,7 +77,12 @@ export class Playground {
     } catch (e) {
       this._highlightPlayerSnakeStop()
       log.error('highlighting was interrupted:', e)
-      this._highlightPlayerSnakeReturnOriginalColor()
+
+      try {
+        this._highlightPlayerSnakeReturnOriginalColor()
+      } catch (e) {
+        log.error('cannot return original snake color', e)
+      }
     }
   }
 

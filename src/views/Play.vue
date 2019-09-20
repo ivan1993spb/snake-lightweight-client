@@ -2,7 +2,10 @@
   <div class="play">
     <h1>Play {{ name }}</h1>
     <div class="play-content">
-      <div>Use arrows, WASD, IJKL or mouse</div>
+      <div class="play-content-share">
+        <SocialSharingBlock/>
+      </div>
+      <div class="play-content-instruction">Use arrows, WASD, IJKL or mouse</div>
       <div>
         <span><b>Details</b></span>
         <span>Players: {{ game.count }}/{{ game.limit }}</span>
@@ -25,6 +28,7 @@ import converter from 'number-to-words'
 import Playground from '@/components/Playground'
 import { FETCH_GAME, UPDATE_GAME } from '@/store/actions.type'
 import store from '@/store'
+import SocialSharingBlock from '@/components/SocialSharingBlock'
 
 export default {
   name: 'play',
@@ -35,6 +39,7 @@ export default {
     }
   },
   components: {
+    SocialSharingBlock,
     Playground
   },
   methods: {
@@ -72,6 +77,16 @@ export default {
     .play-content {
       max-width: 790px;
       margin: 0 auto;
+
+      .play-content-share {
+        margin: 20px 0px;
+      }
+
+      .play-content-instruction {
+        margin: 20px 0px;
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
     }
   }
 </style>

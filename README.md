@@ -1,10 +1,14 @@
-# Snake-Lightweight-Client [![Build Status](https://travis-ci.org/ivan1993spb/snake-lightweight-client.svg?branch=master)](https://travis-ci.org/ivan1993spb/snake-lightweight-client) [![GitHub release](https://img.shields.io/github/release/ivan1993spb/snake-lightweight-client/all.svg)](https://github.com/ivan1993spb/snake-lightweight-client/releases/latest) [![license](https://img.shields.io/github/license/ivan1993spb/snake-lightweight-client.svg)](LICENSE)
+# Snake-Lightweight-Client [![Build Status](https://travis-ci.org/ivan1993spb/snake-lightweight-client.svg?branch=master)](https://travis-ci.org/ivan1993spb/snake-lightweight-client) [![GitHub release](https://img.shields.io/github/release/ivan1993spb/snake-lightweight-client.svg)](https://github.com/ivan1993spb/snake-lightweight-client/releases/latest) [![license](https://img.shields.io/github/license/ivan1993spb/snake-lightweight-client.svg)](LICENSE)
 
-Server source code: https://github.com/ivan1993spb/snake-server
+Snake-Lightweight-Client is a client for the Snake-Server. See working instance here - http://snakeonline.xyz
+
+Snake-Server source code: https://github.com/ivan1993spb/snake-server
 
 ## Demo
 
-![Client screenshot](demo.gif)
+[![Client screenshot](demo.gif)](http://snakeonline.xyz)
+
+[Try it out!](http://snakeonline.xyz)
 
 ## Project setup
 

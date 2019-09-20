@@ -6,7 +6,7 @@ const envDev = process.env.NODE_ENV === 'development'
 const enableMock = yn(process.env.SNAKE_SERVER_ENABLE_MOCK, { default: envDev })
 
 const DEFAULT_SNAKE_SERVER_HOST = location.hostname || 'localhost'
-const DEFAULT_SNAKE_SERVER_PORT = location.port || '8080'
+const DEFAULT_SNAKE_SERVER_PORT = location.port || (location.protocol === 'https:' ? '443' : '80')
 const DEFAULT_SNAKE_SERVER_WEB_SCHEME = location.protocol ? location.protocol.replace(/:+$/g, '') : 'http'
 const DEFAULT_SNAKE_SERVER_SOCKET_SCHEME = location.protocol === 'https:' ? 'wss' : 'ws'
 

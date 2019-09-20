@@ -7,7 +7,9 @@ import {
   OBJECT_PLAYER,
   OBJECT_SNAKE,
   OBJECT_WALL,
-  OBJECT_WATERMELON
+  OBJECT_WATERMELON,
+  OBJECT_HIGHLIGHTED,
+  OBJECT_MOUSE
 } from './Canvas'
 
 const OBJECT_TYPE_SNAKE = 'snake'
@@ -15,10 +17,14 @@ const OBJECT_TYPE_APPLE = 'apple'
 const OBJECT_TYPE_CORPSE = 'corpse'
 const OBJECT_TYPE_WATERMELON = 'watermelon'
 const OBJECT_TYPE_WALL = 'wall'
+const OBJECT_TYPE_MOUSE = 'mouse'
 
 const GAME_EVENT_TYPE_CREATE = 'create'
 const GAME_EVENT_TYPE_UPDATE = 'update'
 const GAME_EVENT_TYPE_DELETE = 'delete'
+
+const HIGHLIGHT_PLAYER_SNAKE_INTERVAL = 100
+const HIGHLIGHT_PLAYER_SNAKE_TIMEOUT = 5000
 
 const X = 0
 const Y = 1
@@ -48,13 +54,91 @@ export class Playground {
     this._canvas = canvas
 
     // Player's snake id
-    this._snake = ''
+    this._snakeID = null
 
     this._initCaches()
   }
 
-  setPlayerSnake (snake) {
-    this._snake = snake
+  setPlayerSnake (snakeID) {
+    this._snakeID = snakeID
+    this._highlightPlayerSnakeInit()
+  }
+
+  _highlightPlayerSnakeInit () {
+    this._highlightCounter = 0
+    this._highlightPlayerSnakeInterval = setInterval(() => {
+      this._highlightPlayerSnakeIter()
+    }, HIGHLIGHT_PLAYER_SNAKE_INTERVAL)
+  }
+
+  _highlightPlayerSnakeIter () {
+    try {
+      this._highlightPlayerSnake()
+    } catch (e) {
+      this._highlightPlayerSnakeStop()
+      log.error('highlighting was interrupted:', e)
+
+      try {
+        this._highlightPlayerSnakeReturnOriginalColor()
+      } catch (e) {
+        log.error('cannot return original snake color', e)
+      }
+    }
+  }
+
+  _highlightPlayerSnakeStop () {
+    clearInterval(this._highlightPlayerSnakeInterval)
+    this._highlightCounter = 0
+  }
+
+  _highlightPlayerSnakeTimeout () {
+    return HIGHLIGHT_PLAYER_SNAKE_TIMEOUT <=
+      HIGHLIGHT_PLAYER_SNAKE_INTERVAL * this._highlightCounter
+  }
+
+  _highlightPlayerSnake () {
+    if (this._highlightPlayerSnakeTimeout()) {
+      throw new Error('cannot highlight snake: highlighting time is out')
+    }
+
+    this._highlightCounter++
+
+    try {
+      this._paintPlayerSnake(this._highlightPlayerSnakeObjectType())
+    } catch (e) {
+      throw new Error('cannot highlight snake:', e)
+    }
+  }
+
+  _highlightPlayerSnakeObjectType () {
+    // eslint-disable-next-line
+    return this._highlightCounter & 1 === 1 ? OBJECT_PLAYER : OBJECT_HIGHLIGHTED
+  }
+
+  _highlightPlayerSnakeIsActive () {
+    return this._highlightCounter > 0
+  }
+
+  _highlightPlayerSnakeReturnOriginalColor () {
+    // Return original player's snake color
+    try {
+      this._paintPlayerSnake(OBJECT_PLAYER)
+    } catch (e) {
+      throw new Error('return original snake color:', e)
+    }
+  }
+
+  _paintPlayerSnake (objectType) {
+    if (!this._snakeID) {
+      throw new Error('cannot paint player snake: id is empty')
+    }
+
+    const snake = this._cacheSnakes.get(this._snakeID)
+    if (snake === undefined) {
+      throw new Error(`cannot paint player snake: snake was not found id=${this._snakeID}`)
+    }
+
+    this._canvas.draw(objectType, snake.dots)
   }
 
   loadObjects (objects) {
@@ -71,8 +155,12 @@ export class Playground {
 
   redrawFromCaches () {
     this._cacheSnakes.forEach(snake => {
-      if (this._snake === snake.id) {
-        this._canvas.draw(OBJECT_PLAYER, snake.dots)
+      if (this._snakeID === snake.id) {
+        if (this._highlightPlayerSnakeIsActive()) {
+          this._canvas.draw(this._highlightPlayerSnakeObjectType(), snake.dots)
+        } else {
+          this._canvas.draw(OBJECT_PLAYER, snake.dots)
+        }
       } else {
         this._canvas.draw(OBJECT_SNAKE, snake.dots)
       }
@@ -85,6 +173,8 @@ export class Playground {
         this._canvas.draw(OBJECT_CORPSE, food.dots)
       } else if (food.type === OBJECT_TYPE_WATERMELON) {
         this._canvas.draw(OBJECT_WATERMELON, food.dots)
+      } else if (food.type === OBJECT_TYPE_MOUSE) {
+        this._canvas.draw(OBJECT_MOUSE, [food.dot])
       }
     })
 
@@ -127,8 +217,12 @@ export class Playground {
   _createObject (object) {
     switch (object.type) {
       case OBJECT_TYPE_SNAKE:
-        if (this._snake === object.id) {
-          this._canvas.draw(OBJECT_PLAYER, object.dots)
+        if (this._snakeID === object.id) {
+          if (this._highlightPlayerSnakeIsActive()) {
+            this._canvas.draw(this._highlightPlayerSnakeObjectType(), object.dots)
+          } else {
+            this._canvas.draw(OBJECT_PLAYER, object.dots)
+          }
         } else {
           this._canvas.draw(OBJECT_SNAKE, object.dots)
         }
@@ -150,6 +244,10 @@ export class Playground {
         this._canvas.draw(OBJECT_WALL, object.dots)
         this._cacheWalls.set(object.id, object)
         break
+      case OBJECT_TYPE_MOUSE:
+        this._canvas.draw(OBJECT_MOUSE, [object.dot])
+        this._cacheFood.set(object.id, object)
+        break
       default:
         throw new Error(`Playground: error cannot create object of invalid type: ${object.type}`)
     }
@@ -163,9 +261,15 @@ export class Playground {
           throw new Error(`Playground: snake to update was not found: ${object.id}`)
         }
         const { clear, draw } = dotListsDifference(object.dots, snake.dots)
-        if (this._snake === object.id) {
-          this._canvas.draw(OBJECT_PLAYER, draw)
-          this._canvas.clear(OBJECT_PLAYER, clear)
+        if (this._snakeID === object.id) {
+          if (this._highlightPlayerSnakeIsActive()) {
+            const objectType = this._highlightPlayerSnakeObjectType()
+            this._canvas.draw(objectType, draw)
+            this._canvas.clear(objectType, clear)
+          } else {
+            this._canvas.draw(OBJECT_PLAYER, draw)
+            this._canvas.clear(OBJECT_PLAYER, clear)
+          }
         } else {
           this._canvas.draw(OBJECT_SNAKE, draw)
           this._canvas.clear(OBJECT_SNAKE, clear)
@@ -196,6 +300,16 @@ export class Playground {
         const { clear, draw } = dotListsDifference(object.dots, watermelon.dots)
         this._canvas.draw(OBJECT_WATERMELON, draw)
         this._canvas.clear(OBJECT_WATERMELON, clear)
+        this._cacheFood.set(object.id, object)
+        break
+      }
+      case OBJECT_TYPE_MOUSE: {
+        const mouse = this._cacheFood.get(object.id)
+        if (mouse === undefined) {
+          throw new Error(`Playground: mouse to update was not found: ${object.id}`)
+        }
+        this._canvas.draw(OBJECT_MOUSE, [object.dot])
+        this._canvas.clear(OBJECT_MOUSE, [mouse.dot])
         this._cacheFood.set(object.id, object)
         break
       }
@@ -251,6 +365,15 @@ export class Playground {
         this._cacheWalls.delete(object.id)
         break
       }
+      case OBJECT_TYPE_MOUSE: {
+        const mouse = this._cacheFood.get(object.id)
+        if (mouse === undefined) {
+          throw new Error(`Playground: mouse object to delete was not found: ${object.id}`)
+        }
+        this._canvas.clear(OBJECT_MOUSE, [mouse.dot])
+        this._cacheFood.delete(object.id)
+        break
+      }
       default:
         throw new Error(`Playground: error cannot delete object of invalid type: ${object.type}`)
     }
@@ -273,6 +396,7 @@ export class Playground {
 
   stop () {
     this._clearCaches()
+    this._highlightPlayerSnakeStop()
   }
 }
 

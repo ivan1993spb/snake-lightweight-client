@@ -314,8 +314,15 @@ export class Playground {
         break
       }
       case OBJECT_TYPE_WALL: {
-        // Nothing to do here.
-        throw new Error('Playground: cannot update wall object')
+        const wall = this._cacheWalls.get(object.id)
+        if (wall === undefined) {
+          throw new Error(`Playground: wall to update was not found: ${object.id}`)
+        }
+        const { clear, draw } = dotListsDifference(object.dots, wall.dots)
+        this._canvas.draw(OBJECT_WALL, draw)
+        this._canvas.clear(OBJECT_WALL, clear)
+        this._cacheWalls.set(object.id, object)
+        break
       }
       default: {
         throw new Error(`Playground: error cannot update object of invalid type: ${object.type}`)

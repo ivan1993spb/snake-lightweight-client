@@ -1,6 +1,6 @@
 <template>
   <div class="new">
-    <h1>Create new game</h1>
+    <h1>New game</h1>
     <div class="new-content">
       <h3>Map size</h3>
       <div class="new-content-row">

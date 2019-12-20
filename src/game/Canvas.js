@@ -7,6 +7,7 @@ export const OBJECT_WATERMELON = 4
 export const OBJECT_WALL = 5
 export const OBJECT_HIGHLIGHTED = 6
 export const OBJECT_MOUSE = 7
+export const OBJECT_UNKNOWN = 8
 
 export const COLOR_BORDER = '#010'
 export const COLOR_GRID = '#020'
@@ -18,6 +19,7 @@ export const COLOR_WATERMELON = '#ff0'
 export const COLOR_WALL = '#474'
 export const COLOR_HIGHLIGHTED = '#f88'
 export const COLOR_MOUSE = '#f00'
+export const COLOR_UNKNOWN = '#666'
 
 const ERROR_INVALID_DOT_SIZE = 'invalid dot size'
 const ERROR_INVALID_LINE_SIZE = 'invalid line size'
@@ -145,6 +147,9 @@ export class Canvas {
         break
       case OBJECT_MOUSE:
         this._draw(this._contextGame, COLOR_MOUSE, dots)
+        break
+      case OBJECT_UNKNOWN:
+        this._draw(this._contextGame, COLOR_UNKNOWN, dots)
         break
       default:
         throw new Error(`Canvas.draw: invalid type ${type}`)

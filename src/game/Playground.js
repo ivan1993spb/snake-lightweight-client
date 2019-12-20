@@ -9,7 +9,8 @@ import {
   OBJECT_WALL,
   OBJECT_WATERMELON,
   OBJECT_HIGHLIGHTED,
-  OBJECT_MOUSE
+  OBJECT_MOUSE,
+  OBJECT_UNKNOWN
 } from './Canvas'
 
 const OBJECT_TYPE_SNAKE = 'snake'
@@ -249,7 +250,15 @@ export class Playground {
         this._cacheFood.set(object.id, object)
         break
       default:
-        throw new Error(`Playground: error cannot create object of invalid type: ${object.type}`)
+        // Add all unknown objects to the cache map for food
+        if (_.has(object, 'dots')) {
+          this._canvas.draw(OBJECT_UNKNOWN, object.dots)
+        } else if (_.has(object, 'dot')) {
+          this._canvas.draw(OBJECT_UNKNOWN, [object.dot])
+        } else {
+          throw new Error(`Playground: object of unknown type does not have dot/dots field: ${object.type}`)
+        }
+        this._cacheFood.set(object.id, object)
     }
   }
 
@@ -325,7 +334,26 @@ export class Playground {
         break
       }
       default: {
-        throw new Error(`Playground: error cannot update object of invalid type: ${object.type}`)
+        // All unknown objects are stored in the cache map for food
+        const unknown = this._cacheFood.get(object.id)
+        if (unknown === undefined) {
+          throw new Error(`Playground: unknown object to be updated was not found: ${object.id}`)
+        }
+
+        if (_.has(object, 'dots')) {
+          const { clear, draw } = dotListsDifference(object.dots, unknown.dots)
+          this._canvas.draw(OBJECT_UNKNOWN, draw)
+          this._canvas.clear(OBJECT_UNKNOWN, clear)
+        } else if (_.has(object, 'dot')) {
+          if (!dotsEqual(object.dot, unknown.dot)) {
+            this._canvas.draw(OBJECT_UNKNOWN, [object.dot])
+            this._canvas.clear(OBJECT_UNKNOWN, [unknown.dot])
+          }
+        } else {
+          throw new Error(`Playground: object of unknown type does not have dot/dots field: ${object.type}`)
+        }
+
+        this._cacheFood.set(object.id, object)
       }
     }
   }
@@ -382,7 +410,21 @@ export class Playground {
         break
       }
       default:
-        throw new Error(`Playground: error cannot delete object of invalid type: ${object.type}`)
+        // All unknown objects are stored in the cache map for food
+        const unknown = this._cacheFood.get(object.id)
+        if (unknown === undefined) {
+          throw new Error(`Playground: unknown object to be deleted was not found: ${object.id}`)
+        }
+
+        if (_.has(object, 'dots')) {
+          this._canvas.clear(OBJECT_UNKNOWN, unknown.dots)
+        } else if (_.has(object, 'dot')) {
+          this._canvas.clear(OBJECT_UNKNOWN, [unknown.dot])
+        } else {
+          throw new Error(`Playground: object of unknown type does not have dot/dots field: ${object.type}`)
+        }
+
+        this._cacheFood.delete(object.id)
     }
   }
 

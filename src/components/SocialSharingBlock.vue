@@ -24,6 +24,11 @@
           </network>
         </div>
         <div>
+          <network network="whatsapp">
+            <i class="fa fa-whatsapp"></i> Whatsapp
+          </network>
+        </div>
+        <div>
           <network network="telegram" id="telegram">
             <i class="fa fa-fw fa-telegram"></i> Telegram
           </network>

@@ -9,7 +9,7 @@
         <div class="games-page-block">Games count: {{ count }}/{{ limit }}</div>
 
         <div class="games-page-block" v-if="count < limit">
-          <router-link to="/new">create game</router-link>
+          <router-link class="games-page-block-new-game-button" to="/new">New game</router-link>
         </div>
 
         <div class="games-page-block" v-if="count > 0">
@@ -81,6 +81,21 @@ export default {
 
     .games-page-block {
       margin: 20px 0px;
+
+      &-new-game-button {
+        cursor: pointer;
+        display: inline-block;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 7px 20px;
+        background: #494;
+        color: #fff;
+      }
+
+      &-new-game-button:hover {
+        background: #fff;
+        color: #494;
+      }
     }
 
     h1 {

@@ -19,6 +19,11 @@
         <input id="limit-range" type="range" min="1" max="100" step="1" v-model="limit">
         <input id="limit-number" type="number" v-model="limit"/>
       </div>
+      <h3>Gameplay preferences</h3>
+      <div class="new-content-row">
+        <label for="enable-walls">Enable walls</label>
+        <input id="enable-walls" type="checkbox" v-model="enableWalls">
+      </div>
       <div class="new-content-row">
         <div class="new-content-row-button" @click="create">OK</div>
       </div>
@@ -39,7 +44,8 @@ export default {
       store.dispatch(CREATE_GAME, {
         width: this.width,
         height: this.height,
-        limit: this.limit
+        limit: this.limit,
+        'enable_walls': this.enableWalls
       })
     }
   },
@@ -47,7 +53,8 @@ export default {
     return {
       width: 30,
       height: 30,
-      limit: 5
+      limit: 5,
+      enableWalls: true
     }
   }
 }

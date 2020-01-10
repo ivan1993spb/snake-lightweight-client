@@ -176,6 +176,13 @@ export class Playground {
         this._canvas.draw(OBJECT_WATERMELON, food.dots)
       } else if (food.type === OBJECT_TYPE_MOUSE) {
         this._canvas.draw(OBJECT_MOUSE, [food.dot])
+      } else {
+        // Unknown object
+        if (_.has(food, 'dots')) {
+          this._canvas.draw(OBJECT_UNKNOWN, food.dots)
+        } else if (_.has(food, 'dot')) {
+          this._canvas.draw(OBJECT_UNKNOWN, [food.dot])
+        }
       }
     })
 

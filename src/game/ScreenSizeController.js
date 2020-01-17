@@ -1,11 +1,13 @@
 
 import _ from 'lodash'
+import {
+  clientSizePx,
+  clientScrollPx,
+  clientPx
+} from '@/common/helpers'
 
 const LISTEN_TO_EVENT = 'resize'
 const THROTTLE_WAIT = 1000
-
-const DEFAULT_CLIENT_WIDTH = 1200
-const DEFAULT_CLIENT_HEIGHT = 800
 
 const LINE_SIZE_MIN = 1
 const LINE_SIZE_PERCENT = 0.10
@@ -15,31 +17,6 @@ const BORDER_SIZE = 2
 
 const SCREEN_WIDTH_LIMIT = 600
 const SCREEN_HEIGHT_LIMIT = 600
-
-function clientSizePx () {
-  return {
-    width: window.innerWidth || document.documentElement.clientWidth ||
-      document.body.clientWidth || DEFAULT_CLIENT_WIDTH,
-    height: window.innerHeight || document.documentElement.clientHeight ||
-      document.body.clientHeight || DEFAULT_CLIENT_HEIGHT
-  }
-}
-
-function clientScrollPx () {
-  return {
-    scrollTop: window.pageYOffset || document.documentElement.scrollTop ||
-      document.body.scrollTop,
-    scrollLeft: window.pageXOffset || document.documentElement.scrollLeft ||
-      document.body.scrollLeft
-  }
-}
-
-function clientPx () {
-  return {
-    clientTop: document.documentElement.clientTop || document.body.clientTop || 0,
-    clientLeft: document.documentElement.clientLeft || document.body.clientLeft || 0
-  }
-}
 
 export class ScreenSizeController {
   constructor (mapWidthDots, mapHeightDots, divCanvasHeight) {

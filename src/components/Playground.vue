@@ -103,6 +103,7 @@ export default {
     background: #040;
     opacity: 0.6;
     cursor: default;
+    user-select: none;
 
     text-align: center;
     vertical-align: middle;

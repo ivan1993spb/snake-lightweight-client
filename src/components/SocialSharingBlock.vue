@@ -24,13 +24,8 @@
           </network>
         </div>
         <div>
-          <network network="vk" id="vk">
-            <i class="fa fa-fw fa-vk"></i> VK
-          </network>
-        </div>
-        <div>
-          <network network="odnoklassniki" id="odnoklassniki">
-            <i class="fa fa-fw fa-odnoklassniki"></i> Ok
+          <network network="whatsapp">
+            <i class="fa fa-whatsapp"></i> Whatsapp
           </network>
         </div>
         <div>

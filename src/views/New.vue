@@ -1,6 +1,6 @@
 <template>
   <div class="new">
-    <h1>Create new game</h1>
+    <h1>New game</h1>
     <div class="new-content">
       <h3>Map size</h3>
       <div class="new-content-row">
@@ -19,6 +19,11 @@
         <input id="limit-range" type="range" min="1" max="100" step="1" v-model="limit">
         <input id="limit-number" type="number" v-model="limit"/>
       </div>
+      <h3>Gameplay preferences</h3>
+      <div class="new-content-row">
+        <label for="enable-walls">Enable walls</label>
+        <input id="enable-walls" type="checkbox" v-model="enableWalls">
+      </div>
       <div class="new-content-row">
         <div class="new-content-row-button" @click="create">OK</div>
       </div>
@@ -29,6 +34,11 @@
 <script>
 import store from '@/store'
 import { CREATE_GAME } from '@/store/actions.type'
+import { clientSizePx } from '@/common/helpers'
+
+const INITIAL_MAP_WIDTH = 30
+const INITIAL_MINIMUM_LIMIT = 5
+const INITIAL_LIMIT_MAP_FACTOR = 0.01
 
 export default {
   name: 'new',
@@ -39,15 +49,25 @@ export default {
       store.dispatch(CREATE_GAME, {
         width: this.width,
         height: this.height,
-        limit: this.limit
+        limit: this.limit,
+        'enable_walls': this.enableWalls
       })
     }
   },
   data () {
+    const {
+      width: widthPx,
+      height: heightPx
+    } = clientSizePx()
+    const width = INITIAL_MAP_WIDTH
+    const height = Math.ceil(width * heightPx / widthPx)
+    const limit = Math.max(INITIAL_MINIMUM_LIMIT, Math.ceil(width * height * INITIAL_LIMIT_MAP_FACTOR))
+
     return {
-      width: 30,
-      height: 30,
-      limit: 5
+      width,
+      height,
+      limit,
+      enableWalls: true
     }
   }
 }

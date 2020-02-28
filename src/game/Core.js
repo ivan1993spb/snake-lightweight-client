@@ -1,10 +1,12 @@
 
 import log from 'loglevel'
+import { USE_TOUCH } from '@/common/config'
 import CanvasFactory from './CanvasFactory'
 import SocketControllerFactory from './SocketControllerFactory'
 import KeyboardController from './KeyboardController'
 import ScreenSizeController from './ScreenSizeController'
 import MouseController from './MouseController'
+import TouchController from './TouchController'
 import GameController from './GameController'
 import Playground from './Playground'
 import CountdownBar from './CountdownBar'
@@ -17,7 +19,11 @@ export class Core {
     this._socketController = socketControllerFactory.create()
     this._screenSizeController = new ScreenSizeController(map.width, map.height, divCanvasHeight)
     this._keyboardController = new KeyboardController()
-    this._mouseController = new MouseController(this._screenSizeController.mapProperties())
+    if (USE_TOUCH) {
+      this._deviceController = new TouchController(this._screenSizeController.mapProperties())
+    } else {
+      this._deviceController = new MouseController(this._screenSizeController.mapProperties())
+    }
 
     this._canvas = canvasFactory.create({
       grid: this._screenSizeController.gridProperties(),
@@ -36,7 +42,7 @@ export class Core {
     this._initSocketController()
     this._initScreenSizeController()
     this._initKeyboardController()
-    this._initMouseController()
+    this._initDeviceController()
   }
 
   _initGameController () {
@@ -76,7 +82,7 @@ export class Core {
       this._canvas.setPropertions({ grid, map })
       this._playground.redrawFromCaches()
 
-      this._mouseController.setScreen(map)
+      this._deviceController.setScreen(map)
       this._countdownBar.setScreen(map)
     }
   }
@@ -87,8 +93,8 @@ export class Core {
     }
   }
 
-  _initMouseController () {
-    this._mouseController.oncommand = (command) => {
+  _initDeviceController () {
+    this._deviceController.oncommand = (command) => {
       this._socketController.send(command)
     }
   }
@@ -97,7 +103,7 @@ export class Core {
     this._socketController.start()
     this._screenSizeController.start()
     this._keyboardController.start()
-    this._mouseController.start()
+    this._deviceController.start()
     this._gameController.start()
   }
 
@@ -105,7 +111,7 @@ export class Core {
     this._socketController.stop()
     this._screenSizeController.stop()
     this._keyboardController.stop()
-    this._mouseController.stop()
+    this._deviceController.stop()
     this._gameController.stop()
 
     // Deactivate countdown if exists.

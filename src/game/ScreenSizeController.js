@@ -13,7 +13,7 @@ const LINE_SIZE_MIN = 1
 const LINE_SIZE_PERCENT = 0.10
 const DOT_SIZE_MIN = 5
 const MAP_SIZE_LIMIT_PERCENT = 0.98
-const BORDER_SIZE = 4
+const MIN_BORDER_SIZE = 4
 
 const SCREEN_WIDTH_LIMIT = 600
 const SCREEN_HEIGHT_LIMIT = 600
@@ -64,8 +64,8 @@ export class ScreenSizeController {
     } = this._calcMapSizePixelLimits()
 
     const cell = Math.min(
-      Math.floor((mapWidthPixelLimit - BORDER_SIZE * 2) / this._mapWidthDots),
-      Math.floor((mapHeightPixelLimit - BORDER_SIZE * 2) / this._mapHeightDots)
+      Math.floor((mapWidthPixelLimit - MIN_BORDER_SIZE * 2) / this._mapWidthDots),
+      Math.floor((mapHeightPixelLimit - MIN_BORDER_SIZE * 2) / this._mapHeightDots)
     )
 
     let line = Math.floor(cell * LINE_SIZE_PERCENT)
@@ -74,10 +74,12 @@ export class ScreenSizeController {
     }
     const dot = cell - line
 
+    const border = Math.max(MIN_BORDER_SIZE, line)
+
     return {
       dot: dot,
       line: line,
-      border: BORDER_SIZE,
+      border: border,
       width: this._mapWidthDots,
       height: this._mapHeightDots
     }

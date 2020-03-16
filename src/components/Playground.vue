@@ -94,7 +94,7 @@ export default {
   }
 
   .game-keep-canvas-height {
-    margin: 20px;
+    margin-top: 20px;
   }
 
   .countdown-bar {

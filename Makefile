@@ -34,3 +34,9 @@ docker/build: build
 	@docker tag $(DOCKER_IMAGE_TAG):$(VERSION) $(DOCKER_IMAGE_TAG):latest
 	@echo "Build $(BUILD) tagged $(DOCKER_IMAGE_TAG):$(VERSION)"
 	@echo "Build $(BUILD) tagged $(DOCKER_IMAGE_TAG):latest"
+
+docker/push:
+	@echo "Push build $(BUILD) with tag $(DOCKER_IMAGE_TAG):$(VERSION)"
+	@docker push $(DOCKER_IMAGE_TAG):$(VERSION)
+	@echo "Push build $(BUILD) with tag $(DOCKER_IMAGE_TAG):latest"
+	@docker push $(DOCKER_IMAGE_TAG):latest

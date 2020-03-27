@@ -43,3 +43,5 @@ export const MOCK_WS = enableMock
 export const SNAKE_CLIENT_NAME = 'SnakeLightweightClient'
 
 export const SERVER_MESSAGES_COUNTER_PERIOD_SEC = 60
+
+export const USE_TOUCH = 'ontouchstart' in document.documentElement

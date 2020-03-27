@@ -32,11 +32,13 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import store from '@/store'
 import { CREATE_GAME } from '@/store/actions.type'
 import { clientSizePx } from '@/common/helpers'
 
-const INITIAL_MAP_WIDTH = 30
+const INITIAL_MAP_WIDTH_MIN = 30
+const INITIAL_MAP_WIDTH_MAX = 100
 const INITIAL_MINIMUM_LIMIT = 5
 const INITIAL_LIMIT_MAP_FACTOR = 0.01
 
@@ -59,7 +61,7 @@ export default {
       width: widthPx,
       height: heightPx
     } = clientSizePx()
-    const width = INITIAL_MAP_WIDTH
+    const width = _.random(INITIAL_MAP_WIDTH_MIN, INITIAL_MAP_WIDTH_MAX)
     const height = Math.ceil(width * heightPx / widthPx)
     const limit = Math.max(INITIAL_MINIMUM_LIMIT, Math.ceil(width * height * INITIAL_LIMIT_MAP_FACTOR))
 

@@ -37,7 +37,7 @@
   }
   a {
     font-size: 5rem;
-    color: #2c3e50;
+    color: #354759;
     padding-left: 30px;
     padding-right: 30px;
     text-decoration: none;

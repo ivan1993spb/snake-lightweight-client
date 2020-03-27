@@ -9,7 +9,7 @@ export const OBJECT_HIGHLIGHTED = 6
 export const OBJECT_MOUSE = 7
 export const OBJECT_UNKNOWN = 8
 
-export const COLOR_BORDER = '#010'
+export const COLOR_BORDER = '#343'
 export const COLOR_GRID = '#020'
 export const COLOR_PLAYER = '#900'
 export const COLOR_SNAKE = '#f44'

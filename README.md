@@ -4,7 +4,7 @@
 
 Snake-Lightweight-Client is a client for the Snake-Server. See a working instance here - http://snakeonline.xyz
 
-Snake-Server source code: https://github.com/ivan1993spb/snake-server
+Source code of the server: https://github.com/ivan1993spb/snake-server
 
 ## Demo
 

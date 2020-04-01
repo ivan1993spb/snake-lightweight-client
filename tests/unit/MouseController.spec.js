@@ -3,8 +3,8 @@ import {
   DIRECTION_NORTH,
   DIRECTION_SOUTH,
   DIRECTION_WEST,
-  MouseController
-} from '@/game/MouseController'
+} from '@/game/BaseDeviceController'
+import MouseController from '@/game/MouseController'
 
 describe('MouseController test north', () => {
   it('constructor sets square to listen clicks correctly', () => {

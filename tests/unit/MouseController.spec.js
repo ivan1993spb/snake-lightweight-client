@@ -2,7 +2,7 @@ import {
   DIRECTION_EAST,
   DIRECTION_NORTH,
   DIRECTION_SOUTH,
-  DIRECTION_WEST,
+  DIRECTION_WEST
 } from '@/game/BaseDeviceController'
 import MouseController from '@/game/MouseController'
 

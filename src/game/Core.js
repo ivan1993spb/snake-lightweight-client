@@ -80,7 +80,7 @@ export class Core {
   _initScreenSizeController () {
     this._screenSizeController.onresize = ({ grid, map }) => {
       this._canvas.setPropertions({ grid, map })
-      this._playground.redrawFromCaches()
+      this._playground.redrawFromCache()
 
       this._deviceController.setScreen(map)
       this._countdownBar.setScreen(map)

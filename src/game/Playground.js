@@ -57,7 +57,7 @@ export class Playground {
     // Player's snake id
     this._snakeID = null
 
-    this._initCaches()
+    this._initCache()
   }
 
   setPlayerSnake (snakeID) {
@@ -134,7 +134,7 @@ export class Playground {
       throw new Error('cannot paint player snake: id is empty')
     }
 
-    const snake = this._cacheSnakes.get(this._snakeID)
+    const snake = this._cache.get(this._snakeID)
     if (snake === undefined) {
       throw new Error(`cannot paint player snake: snake was not found id=${this._snakeID}`)
     }
@@ -155,39 +155,35 @@ export class Playground {
   }
 
   redrawFromCaches () {
-    this._cacheSnakes.forEach(snake => {
-      if (this._snakeID === snake.id) {
-        if (this._highlightPlayerSnakeIsActive()) {
-          this._canvas.draw(this._highlightPlayerSnakeObjectType(), snake.dots)
+    this._cache.forEach(object => {
+      if (object.type === OBJECT_TYPE_SNAKE) {
+        if (this._snakeID === object.id) {
+          if (this._highlightPlayerSnakeIsActive()) {
+            this._canvas.draw(this._highlightPlayerSnakeObjectType(), object.dots)
+          } else {
+            this._canvas.draw(OBJECT_PLAYER, object.dots)
+          }
         } else {
-          this._canvas.draw(OBJECT_PLAYER, snake.dots)
+          this._canvas.draw(OBJECT_SNAKE, object.dots)
         }
-      } else {
-        this._canvas.draw(OBJECT_SNAKE, snake.dots)
-      }
-    })
-
-    this._cacheFood.forEach(food => {
-      if (food.type === OBJECT_TYPE_APPLE) {
-        this._canvas.draw(OBJECT_APPLE, [food.dot])
-      } else if (food.type === OBJECT_TYPE_CORPSE) {
-        this._canvas.draw(OBJECT_CORPSE, food.dots)
-      } else if (food.type === OBJECT_TYPE_WATERMELON) {
-        this._canvas.draw(OBJECT_WATERMELON, food.dots)
-      } else if (food.type === OBJECT_TYPE_MOUSE) {
-        this._canvas.draw(OBJECT_MOUSE, [food.dot])
+      } else if (object.type === OBJECT_TYPE_APPLE) {
+        this._canvas.draw(OBJECT_APPLE, [object.dot])
+      } else if (object.type === OBJECT_TYPE_CORPSE) {
+        this._canvas.draw(OBJECT_CORPSE, object.dots)
+      } else if (object.type === OBJECT_TYPE_WATERMELON) {
+        this._canvas.draw(OBJECT_WATERMELON, object.dots)
+      } else if (object.type === OBJECT_TYPE_WALL) {
+        this._canvas.draw(OBJECT_WALL, object.dots)
+      } else if (object.type === OBJECT_TYPE_MOUSE) {
+        this._canvas.draw(OBJECT_MOUSE, [object.dot])
       } else {
         // Unknown object
-        if (_.has(food, 'dots')) {
-          this._canvas.draw(OBJECT_UNKNOWN, food.dots)
-        } else if (_.has(food, 'dot')) {
-          this._canvas.draw(OBJECT_UNKNOWN, [food.dot])
+        if (_.has(object, 'dots')) {
+          this._canvas.draw(OBJECT_UNKNOWN, object.dots)
+        } else if (_.has(object, 'dot')) {
+          this._canvas.draw(OBJECT_UNKNOWN, [object.dot])
         }
       }
-    })
-
-    this._cacheWalls.forEach(wall => {
-      this._canvas.draw(OBJECT_WALL, wall.dots)
     })
   }
 
@@ -234,27 +230,27 @@ export class Playground {
         } else {
           this._canvas.draw(OBJECT_SNAKE, object.dots)
         }
-        this._cacheSnakes.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       case OBJECT_TYPE_APPLE:
         this._canvas.draw(OBJECT_APPLE, [object.dot])
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       case OBJECT_TYPE_CORPSE:
         this._canvas.draw(OBJECT_CORPSE, object.dots)
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       case OBJECT_TYPE_WATERMELON:
         this._canvas.draw(OBJECT_WATERMELON, object.dots)
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       case OBJECT_TYPE_WALL:
         this._canvas.draw(OBJECT_WALL, object.dots)
-        this._cacheWalls.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       case OBJECT_TYPE_MOUSE:
         this._canvas.draw(OBJECT_MOUSE, [object.dot])
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       default:
         // Add all unknown objects to the cache map for food
@@ -265,14 +261,14 @@ export class Playground {
         } else {
           throw new Error(`Playground: object of unknown type does not have dot/dots field: ${object.type}`)
         }
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
     }
   }
 
   _updateObject (object) {
     switch (object.type) {
       case OBJECT_TYPE_SNAKE: {
-        const snake = this._cacheSnakes.get(object.id)
+        const snake = this._cache.get(object.id)
         if (snake === undefined) {
           throw new Error(`Playground: snake to update was not found: ${object.id}`)
         }
@@ -290,7 +286,7 @@ export class Playground {
           this._canvas.draw(OBJECT_SNAKE, draw)
           this._canvas.clear(clear)
         }
-        this._cacheSnakes.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       }
       case OBJECT_TYPE_APPLE: {
@@ -298,51 +294,51 @@ export class Playground {
         throw new Error('Playground: cannot update apple')
       }
       case OBJECT_TYPE_CORPSE: {
-        const corpse = this._cacheFood.get(object.id)
+        const corpse = this._cache.get(object.id)
         if (corpse === undefined) {
           throw new Error(`Playground: corpse to update was not found: ${object.id}`)
         }
         const { clear, draw } = dotListsDifference(object.dots, corpse.dots)
         this._canvas.draw(OBJECT_CORPSE, draw)
         this._canvas.clear(clear)
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       }
       case OBJECT_TYPE_WATERMELON: {
-        const watermelon = this._cacheFood.get(object.id)
+        const watermelon = this._cache.get(object.id)
         if (watermelon === undefined) {
           throw new Error(`Playground: watermelon to update was not found: ${object.id}`)
         }
         const { clear, draw } = dotListsDifference(object.dots, watermelon.dots)
         this._canvas.draw(OBJECT_WATERMELON, draw)
         this._canvas.clear(clear)
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       }
       case OBJECT_TYPE_MOUSE: {
-        const mouse = this._cacheFood.get(object.id)
+        const mouse = this._cache.get(object.id)
         if (mouse === undefined) {
           throw new Error(`Playground: mouse to update was not found: ${object.id}`)
         }
         this._canvas.draw(OBJECT_MOUSE, [object.dot])
         this._canvas.clear([mouse.dot])
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       }
       case OBJECT_TYPE_WALL: {
-        const wall = this._cacheWalls.get(object.id)
+        const wall = this._cache.get(object.id)
         if (wall === undefined) {
           throw new Error(`Playground: wall to update was not found: ${object.id}`)
         }
         const { clear, draw } = dotListsDifference(object.dots, wall.dots)
         this._canvas.draw(OBJECT_WALL, draw)
         this._canvas.clear(clear)
-        this._cacheWalls.set(object.id, object)
+        this._cache.set(object.id, object)
         break
       }
       default: {
         // All unknown objects are stored in the cache map for food
-        const unknown = this._cacheFood.get(object.id)
+        const unknown = this._cache.get(object.id)
         if (unknown === undefined) {
           throw new Error(`Playground: unknown object to be updated was not found: ${object.id}`)
         }
@@ -360,7 +356,7 @@ export class Playground {
           throw new Error(`Playground: object of unknown type does not have dot/dots field: ${object.type}`)
         }
 
-        this._cacheFood.set(object.id, object)
+        this._cache.set(object.id, object)
       }
     }
   }
@@ -369,56 +365,56 @@ export class Playground {
     // Objects to be deleted might be without any location.
     switch (object.type) {
       case OBJECT_TYPE_SNAKE:
-        if (!this._cacheSnakes.delete(object.id)) {
+        if (!this._cache.delete(object.id)) {
           throw new Error(`Playground: snake object to delete was not found: ${object.id}`)
         }
         this._canvas.clear(object.dots)
         break
       case OBJECT_TYPE_APPLE:
-        if (!this._cacheFood.delete(object.id)) {
+        if (!this._cache.delete(object.id)) {
           throw new Error(`Playground: apple object to delete was not found: ${object.id}`)
         }
         this._canvas.clear([object.dot])
         break
       case OBJECT_TYPE_CORPSE: {
-        const corpse = this._cacheFood.get(object.id)
+        const corpse = this._cache.get(object.id)
         if (corpse === undefined) {
           throw new Error(`Playground: corpse object to delete was not found: ${object.id}`)
         }
         this._canvas.clear(corpse.dots)
-        this._cacheFood.delete(object.id)
+        this._cache.delete(object.id)
         break
       }
       case OBJECT_TYPE_WATERMELON: {
-        const watermelon = this._cacheFood.get(object.id)
+        const watermelon = this._cache.get(object.id)
         if (watermelon === undefined) {
           throw new Error(`Playground: watermelon object to delete was not found: ${object.id}`)
         }
         this._canvas.clear(watermelon.dots)
-        this._cacheFood.delete(object.id)
+        this._cache.delete(object.id)
         break
       }
       case OBJECT_TYPE_WALL: {
-        const wall = this._cacheWalls.get(object.id)
+        const wall = this._cache.get(object.id)
         if (wall === undefined) {
           throw new Error(`Playground: wall object to delete was not found: ${object.id}`)
         }
         this._canvas.clear(wall.dots)
-        this._cacheWalls.delete(object.id)
+        this._cache.delete(object.id)
         break
       }
       case OBJECT_TYPE_MOUSE: {
-        const mouse = this._cacheFood.get(object.id)
+        const mouse = this._cache.get(object.id)
         if (mouse === undefined) {
           throw new Error(`Playground: mouse object to delete was not found: ${object.id}`)
         }
         this._canvas.clear([mouse.dot])
-        this._cacheFood.delete(object.id)
+        this._cache.delete(object.id)
         break
       }
       default:
         // All unknown objects are stored in the cache map for food
-        const unknown = this._cacheFood.get(object.id)
+        const unknown = this._cache.get(object.id)
         if (unknown === undefined) {
           throw new Error(`Playground: unknown object to be deleted was not found: ${object.id}`)
         }
@@ -431,27 +427,23 @@ export class Playground {
           throw new Error(`Playground: object of unknown type does not have dot/dots field: ${object.type}`)
         }
 
-        this._cacheFood.delete(object.id)
+        this._cache.delete(object.id)
     }
   }
 
-  _initCaches () {
-    this._cacheSnakes = new Map()
-    this._cacheFood = new Map()
-    this._cacheWalls = new Map()
+  _initCache () {
+    this._cache = new Map()
   }
 
-  _clearCaches () {
-    this._cacheSnakes.clear()
-    this._cacheFood.clear()
-    this._cacheWalls.clear()
+  _clearCache () {
+    this._cache.clear()
   }
 
   start () {
   }
 
   stop () {
-    this._clearCaches()
+    this._clearCache()
     this._highlightPlayerSnakeStop()
   }
 }

@@ -99,7 +99,7 @@ export class Canvas {
     this._drawBorder()
   }
 
-  clear (type, dots) {
+  clear (dots) {
     this._clear(this._contextGame, dots)
   }
 

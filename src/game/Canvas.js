@@ -9,6 +9,7 @@ export const OBJECT_HIGHLIGHTED = 6
 export const OBJECT_MOUSE = 7
 export const OBJECT_UNKNOWN = 8
 
+export const COLOR_BACKGROUND = '#000'
 export const COLOR_BORDER = '#343'
 export const COLOR_GRID = '#020'
 export const COLOR_PLAYER = '#900'
@@ -104,8 +105,9 @@ export class Canvas {
   }
 
   _clear (context, dots) {
+    this._contextGame.fillStyle = COLOR_BACKGROUND
     dots.forEach(dot => {
-      context.clearRect(
+      context.fillRect(
         this._getPxX(dot[X]),
         this._getPxY(dot[Y]),
         this._dot,
@@ -200,7 +202,8 @@ export class Canvas {
   }
 
   _clearAll () {
-    this._contextGame.clearRect(0, 0, this._contextGame.canvas.width,
+    this._contextGame.fillStyle = COLOR_BACKGROUND
+    this._contextGame.fillRect(0, 0, this._contextGame.canvas.width,
       this._contextGame.canvas.height)
   }
 }

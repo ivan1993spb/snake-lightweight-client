@@ -35,13 +35,9 @@ export class Canvas {
   constructor ({ contexts, grid, map, divHeight }) {
     this._divHeight = divHeight
 
-    this._setupGrid(grid)
-    this._setupMap(map)
     this._setupContexts(contexts)
-    this._resizeContexts()
-    this._locateContexts()
-    this._drawGrid()
-    this._drawBorder()
+
+    this.setPropertions({ grid, map })
   }
 
   _setupGrid ({ dot, line, width, height, border }) {

@@ -5,11 +5,10 @@
       <div class="home-content__block">
         <h3>Game rules</h3>
           <ul>
-            <li>A player controls a snake.</li>
-            <li>The task of the game is to grow the biggest snake and dominate.</li>
-            <li>In order to achieve the goal players may eat apples, mouses, watermelons, small snakes and remains of dead snakes of other players.</li>
-            <li>If a snake hits a wall the snake dies and the player starts again with a new small snake.</li>
-            <li>A snake may eat another snake if it's length greater or equal to the square of length of the second one.</li>
+            <li>You control a snake</li>
+            <li>You need to grow the biggest snake</li>
+            <li>You can eat apples, mice, watermelons, small and dead snakes</li>
+            <li>If you hit a wall, your snake will die and you will start over</li>
           </ul>
       </div>
       <div class="home-content__block">

@@ -88,6 +88,10 @@ export default {
   .game-canvas {
     position: absolute;
 
+    /* Without explicitly specifed background color
+       on MacOS there is an issue */
+    background: #000;
+
     &-game {
       z-index: 1;
     }

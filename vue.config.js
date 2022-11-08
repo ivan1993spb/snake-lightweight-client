@@ -33,7 +33,7 @@ if (process.env.SNAKE_SERVER_ENABLE_MOCK) {
 const environmentPlugin = new webpack.EnvironmentPlugin(env)
 
 module.exports = {
-  baseUrl: '.',
+  publicPath: '.',
   productionSourceMap: false,
   configureWebpack: {
     plugins: [

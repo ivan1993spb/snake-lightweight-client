@@ -22,6 +22,7 @@ const OBJECT_TYPE_MOUSE = 'mouse'
 
 const GAME_EVENT_TYPE_CREATE = 'create'
 const GAME_EVENT_TYPE_UPDATE = 'update'
+const GAME_EVENT_TYPE_UPDATE_V2 = 'update_v2'
 const GAME_EVENT_TYPE_DELETE = 'delete'
 
 const HIGHLIGHT_PLAYER_SNAKE_INTERVAL = 100
@@ -39,6 +40,16 @@ function dotListsDifference (firstDots, secondDots) {
     draw: _.differenceWith(firstDots, secondDots, dotsEqual),
     clear: _.differenceWith(secondDots, firstDots, dotsEqual)
   }
+}
+
+function removeLastDotMatch (dots, dot) {
+  for (let i = dots.length - 1; i >= 0; i--) {
+    if (dotsEqual(dots[i], dot)) {
+      dots.splice(i, 1)
+      return true
+    }
+  }
+  return false
 }
 
 class HandleGameEventError extends Error {
@@ -202,6 +213,9 @@ export class Playground {
         case GAME_EVENT_TYPE_UPDATE:
           this._updateObject(payload)
           break
+        case GAME_EVENT_TYPE_UPDATE_V2:
+          this._updateObjectV2(payload)
+          break
         case GAME_EVENT_TYPE_DELETE:
           this._deleteObject(payload)
           break
@@ -233,6 +247,26 @@ export class Playground {
     this._canvas.draw(this._objectColor(updatedObject), draw)
     this._canvas.clear(clear)
     this._cache.set(updatedObject.id, updatedObject)
+  }
+
+  _updateObjectV2 (update) {
+    const object = this._cache.get(update.id)
+    if (object === undefined) {
+      throw new Error(`Playground: object to update was not found in cache: ${update.id}`)
+    }
+    if (object.type === OBJECT_TYPE_SNAKE && _.has(update, 'add')) {
+      object.dots.unshift(update.add)
+      this._canvas.drawDot(this._snakeObjectColor(object), update.add)
+    } else if (object.type === OBJECT_TYPE_MOUSE && _.has(update, 'dot')) {
+      this._canvas.drawDot(OBJECT_MOUSE, update.dot)
+      this._canvas.clearDot(object.dot)
+      object.dot = update.dot
+    }
+    if (_.has(update, 'del')) {
+      if (removeLastDotMatch(object.dots, update.del)) {
+        this._canvas.clearDot(update.del)
+      }
+    }
   }
 
   _deleteObject (object) {

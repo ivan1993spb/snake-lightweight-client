@@ -29,7 +29,7 @@ test:
 lint:
 	@yarn lint
 
-docker/build: build
+docker/build:
 	@docker build -t $(DOCKER_IMAGE_TAG):$(VERSION) .
 	@docker tag $(DOCKER_IMAGE_TAG):$(VERSION) $(DOCKER_IMAGE_TAG):latest
 	@echo "Build $(BUILD) tagged $(DOCKER_IMAGE_TAG):$(VERSION)"

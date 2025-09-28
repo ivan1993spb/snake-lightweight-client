@@ -2,10 +2,13 @@ FROM node:14.20 AS builder
 
 WORKDIR /usr/local/app
 
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
 COPY . .
 
-RUN yarn install \
- && yarn test:unit \
+RUN yarn test:unit \
  && yarn run lint \
  && yarn build
 

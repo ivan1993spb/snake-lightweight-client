@@ -1,14 +1,14 @@
 <template>
   <div class="home">
-    <h1>Welcome to snake online arcade game!</h1>
+    <h1>Welcome to Snake Online!</h1>
     <div class="home-content">
       <div class="home-content__block">
-        <h3>Game rules</h3>
+        <h3>Rules</h3>
           <ul>
-            <li>You control a snake</li>
-            <li>You need to grow the biggest snake</li>
-            <li>You can eat apples, mice, watermelons, small and dead snakes</li>
-            <li>If you hit a wall, your snake will die and you will start over</li>
+            <li>You are a snake</li>
+            <li>You have to eat and grow</li>
+            <li>You can eat apples, mice, watermelons, smaller and dead snakes</li>
+            <li>If your snake dies, you start over</li>
           </ul>
       </div>
       <div class="home-content__block">

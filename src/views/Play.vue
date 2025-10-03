@@ -9,7 +9,7 @@
         <span>Messages: {{ game.rate }} per sec</span>
       </div>
       <div v-if="isLoadingGame">
-        <div>Loading</div>
+        <div>Loading...</div>
       </div>
       <div v-else>
         <Playground :width="game.width" :height="game.height" :id="game.id"/>

@@ -12,7 +12,7 @@
         <div>Issues: <a href="https://github.com/ivan1993spb/snake-lightweight-client/issues" target="_blank">here</a></div>
       </div>
       <h3>Server info</h3>
-      <div v-if="isLoadingInfo">Loading</div>
+      <div v-if="isLoadingInfo">Loading...</div>
       <div v-else>
         <div>Version: <a :href="'https://github.com/ivan1993spb/snake-server/tree/' + info.version" target="_blank">{{ info.version }}</a></div>
         <div>Build: <a :href="'https://github.com/ivan1993spb/snake-server/commit/' + info.build" target="_blank">{{ info.build }}</a></div>

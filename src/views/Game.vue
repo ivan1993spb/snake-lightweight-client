@@ -17,7 +17,7 @@
           <router-link class="game-item-play-link" :to="{ name: 'play', params: { id: game.id }}">Play</router-link>
         </div>
       </div>
-      <div v-else>Loading</div>
+      <div v-else>Loading...</div>
     </div>
   </div>
 </template>

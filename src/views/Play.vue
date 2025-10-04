@@ -4,9 +4,8 @@
     <div class="play-content">
       <div class="play-content-instruction">Use arrows, WASD, IJKL or mouse</div>
       <div class="play-content-details">
-        <span><b>Details</b></span>
         <span>Players: {{ game.count }}/{{ game.limit }}</span>
-        <span>Messages: {{ game.rate }} per sec</span>
+        <span>Rate: {{ game.rate }}/sec</span>
       </div>
       <div v-if="isLoadingGame">
         <div>Loading...</div>

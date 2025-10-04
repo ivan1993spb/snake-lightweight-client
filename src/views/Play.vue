@@ -2,17 +2,13 @@
   <div class="play">
     <h1>Play {{ name }}</h1>
     <div class="play-content">
-      <div class="play-content-share">
-        <SocialSharingBlock/>
-      </div>
       <div class="play-content-instruction">Use arrows, WASD, IJKL or mouse</div>
       <div class="play-content-details">
-        <span><b>Details</b></span>
         <span>Players: {{ game.count }}/{{ game.limit }}</span>
-        <span>Messages: {{ game.rate }} per sec</span>
+        <span>Rate: {{ game.rate }}/sec</span>
       </div>
       <div v-if="isLoadingGame">
-        <div>Loading</div>
+        <div>Loading...</div>
       </div>
       <div v-else>
         <Playground :width="game.width" :height="game.height" :id="game.id"/>
@@ -28,7 +24,6 @@ import converter from 'number-to-words'
 import Playground from '@/components/Playground'
 import { FETCH_GAME, UPDATE_GAME } from '@/store/actions.type'
 import store from '@/store'
-import SocialSharingBlock from '@/components/SocialSharingBlock'
 
 export default {
   name: 'play',
@@ -39,7 +34,6 @@ export default {
     }
   },
   components: {
-    SocialSharingBlock,
     Playground
   },
   methods: {

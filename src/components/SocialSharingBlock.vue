@@ -7,7 +7,7 @@
                     hashtags="snake,online,game"
                     v-cloak inline-template>
       <div class="social-sharing-list">
-        <b>Invite your friends in the game:</b>
+        <b>Share game:</b>
         <div>
           <network network="facebook" id="facebook">
             <i class="fa fa-fw fa-facebook"></i> Facebook

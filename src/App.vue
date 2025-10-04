@@ -37,9 +37,20 @@
   }
   a {
     font-size: 5rem;
+    padding: 0px 30px;
+    @media (max-width: 800px) {
+      font-size: 4rem;
+      padding: 0px 25px;
+    }
+    @media (max-width: 650px) {
+      font-size: 3.5rem;
+      padding: 0px 20px;
+    }
+    @media (max-width: 550px) {
+      font-size: 2.5rem;
+      padding: 0px 15px;
+    }
     color: #354759;
-    padding-left: 30px;
-    padding-right: 30px;
     text-decoration: none;
     &.router-link-exact-active {
       color: #42b983;

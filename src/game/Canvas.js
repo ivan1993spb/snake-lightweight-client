@@ -14,12 +14,12 @@ export const COLOR_BORDER = '#343'
 export const COLOR_GRID = '#020'
 export const COLOR_PLAYER = '#900'
 export const COLOR_SNAKE = '#f44'
-export const COLOR_APPLE = '#0f0'
-export const COLOR_CORPSE = '#00f'
-export const COLOR_WATERMELON = '#ff0'
+export const COLOR_APPLE = '#fc2'
+export const COLOR_CORPSE = '#36f'
+export const COLOR_WATERMELON = '#0c0'
 export const COLOR_WALL = '#474'
 export const COLOR_HIGHLIGHTED = '#f88'
-export const COLOR_MOUSE = '#f00'
+export const COLOR_MOUSE = '#888'
 export const COLOR_UNKNOWN = '#666'
 
 const ERROR_INVALID_DOT_SIZE = 'invalid dot size'
@@ -120,38 +120,33 @@ export class Canvas {
     return this._border + this._dot * dotY + this._line * (dotY + 1)
   }
 
-  draw (type, dots) {
+  _getObjectColor (type) {
     switch (type) {
       case OBJECT_PLAYER:
-        this._draw(this._contextGame, COLOR_PLAYER, dots)
-        break
+        return COLOR_PLAYER
       case OBJECT_SNAKE:
-        this._draw(this._contextGame, COLOR_SNAKE, dots)
-        break
+        return COLOR_SNAKE
       case OBJECT_HIGHLIGHTED:
-        this._draw(this._contextGame, COLOR_HIGHLIGHTED, dots)
-        break
+        return COLOR_HIGHLIGHTED
       case OBJECT_APPLE:
-        this._draw(this._contextGame, COLOR_APPLE, dots)
-        break
+        return COLOR_APPLE
       case OBJECT_CORPSE:
-        this._draw(this._contextGame, COLOR_CORPSE, dots)
-        break
+        return COLOR_CORPSE
       case OBJECT_WATERMELON:
-        this._draw(this._contextGame, COLOR_WATERMELON, dots)
-        break
+        return COLOR_WATERMELON
       case OBJECT_WALL:
-        this._draw(this._contextGame, COLOR_WALL, dots)
-        break
+        return COLOR_WALL
       case OBJECT_MOUSE:
-        this._draw(this._contextGame, COLOR_MOUSE, dots)
-        break
+        return COLOR_MOUSE
       case OBJECT_UNKNOWN:
-        this._draw(this._contextGame, COLOR_UNKNOWN, dots)
-        break
+        return COLOR_UNKNOWN
       default:
-        throw new Error(`Canvas.draw: invalid type ${type}`)
+        throw new Error(`Canvas._getObjectColor: invalid type ${type}`)
     }
+  }
+
+  draw (type, dots) {
+    this._draw(this._contextGame, this._getObjectColor(type), dots)
   }
 
   _draw (context, color, dots) {

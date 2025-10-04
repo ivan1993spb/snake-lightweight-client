@@ -4,9 +4,9 @@
 
     <div class="games-content">
 
-      <div v-if="isLoadingGames">Loading</div>
+      <div v-if="isLoadingGames">Loading...</div>
       <div v-else>
-        <div class="games-page-block">Games count: {{ count }}/{{ limit }}</div>
+        <div class="games-page-block">Games: {{ count }}/{{ limit }}</div>
 
         <div class="games-page-block" v-if="count < limit">
           <router-link class="games-page-block-new-game-button" to="/new">New game</router-link>

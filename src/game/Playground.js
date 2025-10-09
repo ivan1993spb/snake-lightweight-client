@@ -24,6 +24,7 @@ const GAME_EVENT_TYPE_CREATE = 'create'
 const GAME_EVENT_TYPE_UPDATE = 'update'
 const GAME_EVENT_TYPE_UPDATE_V2 = 'update_v2'
 const GAME_EVENT_TYPE_DELETE = 'delete'
+const GAME_EVENT_TYPE_DELETE_V2 = 'delete_v2'
 
 const HIGHLIGHT_PLAYER_SNAKE_INTERVAL = 100
 const HIGHLIGHT_PLAYER_SNAKE_TIMEOUT = 5000
@@ -219,6 +220,9 @@ export class Playground {
         case GAME_EVENT_TYPE_DELETE:
           this._deleteObject(payload)
           break
+        case GAME_EVENT_TYPE_DELETE_V2:
+          this._deleteObjectV2(payload)
+          break
         default:
           throw new Error(`invalid game event type: ${type}`)
       }
@@ -283,6 +287,19 @@ export class Playground {
       this._canvas.clear(dots)
     }
     this._cache.delete(object.id)
+  }
+
+  _deleteObjectV2 (id) {
+    const existing = this._cache.get(id)
+    if (existing === undefined) {
+      throw new Error(`Playground: object to delete was not found in cache: ${id}`)
+    }
+    if (_.has(existing, 'dots') && existing.dots.length > 0) {
+      this._canvas.clear(existing.dots)
+    } else if (_.has(existing, 'dot')) {
+      this._canvas.clearDot(existing.dot)
+    }
+    this._cache.delete(id)
   }
 
   _initCache () {

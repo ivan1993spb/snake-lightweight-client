@@ -100,6 +100,16 @@ export class Canvas {
     this._clear(this._contextGame, dots)
   }
 
+  clearDot (dot) {
+    this._contextGame.fillStyle = COLOR_BACKGROUND
+    this._contextGame.fillRect(
+      this._getPxX(dot[X]),
+      this._getPxY(dot[Y]),
+      this._dot,
+      this._dot
+    )
+  }
+
   _clear (context, dots) {
     this._contextGame.fillStyle = COLOR_BACKGROUND
     dots.forEach(dot => {
@@ -147,6 +157,16 @@ export class Canvas {
 
   draw (type, dots) {
     this._draw(this._contextGame, this._getObjectColor(type), dots)
+  }
+
+  drawDot (type, dot) {
+    this._contextGame.fillStyle = this._getObjectColor(type)
+    this._contextGame.fillRect(
+      this._getPxX(dot[X]),
+      this._getPxY(dot[Y]),
+      this._dot,
+      this._dot
+    )
   }
 
   _draw (context, color, dots) {
